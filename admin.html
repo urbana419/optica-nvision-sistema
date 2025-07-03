@@ -34,6 +34,40 @@
             background-clip: text;
         }
         
+        .header p {
+            opacity: 0.9;
+            margin-bottom: 15px;
+        }
+        
+        .header-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .header-btn {
+            padding: 8px 15px;
+            border-radius: 10px;
+            font-size: 12px;
+            cursor: pointer;
+            border: 1px solid;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-home {
+            background: rgba(34, 211, 238, 0.2);
+            color: #22d3ee;
+            border-color: rgba(34, 211, 238, 0.3);
+        }
+        
+        .btn-pos {
+            background: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+            border-color: rgba(16, 185, 129, 0.3);
+        }
+        
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -114,6 +148,7 @@
             box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.1);
         }
         
+        /* CORREGIDO: Camera Upload con vista completa */
         .camera-upload {
             background: rgba(255, 255, 255, 0.1);
             border: 2px dashed rgba(255, 255, 255, 0.3);
@@ -123,6 +158,7 @@
             cursor: pointer;
             margin-bottom: 20px;
             transition: all 0.3s ease;
+            position: relative;
         }
         
         .camera-upload:hover {
@@ -136,12 +172,75 @@
             display: block;
         }
         
+        /* CORREGIDO: Preview de imagen en pantalla completa */
         .preview-image {
             max-width: 100%;
-            max-height: 250px;
+            width: 100%;
+            height: auto;
+            max-height: 400px;
             border-radius: 15px;
             margin-top: 20px;
             border: 3px solid rgba(255, 255, 255, 0.2);
+            object-fit: cover;
+        }
+        
+        /* NUEVO: Modal para vista completa de cámara */
+        .camera-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .camera-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .camera-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .camera-controls {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+        }
+        
+        .camera-btn {
+            padding: 15px 25px;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-capture {
+            background: #10b981;
+            color: white;
+        }
+        
+        .btn-close {
+            background: #ef4444;
+            color: white;
         }
         
         .button-group {
@@ -181,11 +280,6 @@
         
         .btn-secondary:hover {
             background: rgba(255, 255, 255, 0.3);
-        }
-        
-        .btn-danger {
-            background: linear-gradient(45deg, #ef4444, #dc2626);
-            color: white;
         }
         
         .btn-success {
@@ -282,6 +376,54 @@
             border-color: rgba(239, 68, 68, 0.3);
             color: #ef4444;
         }
+
+        /* NUEVO: Botones de compartir */
+        .share-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .btn-share {
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-whatsapp {
+            background: #25d366;
+            color: white;
+        }
+
+        .btn-copy {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        /* Scrollbar personalizado */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.5);
+        }
     </style>
 </head>
 <body>
@@ -289,6 +431,14 @@
         <div class="header">
             <h1>📊 Panel de Administración</h1>
             <p>Gestión completa de Óptica Nvisión</p>
+            <div class="header-buttons">
+                <button onclick="goToMainSite()" class="header-btn btn-home">
+                    🏠 Sitio Principal
+                </button>
+                <button onclick="abrirPOS()" class="header-btn btn-pos">
+                    💼 Sistema POS
+                </button>
+            </div>
         </div>
         
         <div class="stats-grid">
@@ -330,13 +480,23 @@
             <form id="productForm">
                 <div class="form-group">
                     <label class="form-label">📸 Foto del Producto</label>
-                    <div class="camera-upload" onclick="document.getElementById('photoInput').click()">
+                    <div class="camera-upload" onclick="openCamera()">
                         <span class="camera-icon">📷</span>
                         <div style="font-size: 18px; font-weight: 600; margin-bottom: 8px;">Tomar/Subir Foto</div>
                         <div style="font-size: 14px; opacity: 0.8;">Toque para activar cámara</div>
                         <img id="photoPreview" class="preview-image" style="display: none;">
                     </div>
                     <input type="file" id="photoInput" accept="image/*" capture="environment" style="display: none;">
+                    
+                    <!-- NUEVO: Botones de compartir para productos guardados -->
+                    <div id="shareButtons" class="share-buttons" style="display: none;">
+                        <button type="button" onclick="copyProductLink()" class="btn-share btn-copy">
+                            📋 Copiar Enlace
+                        </button>
+                        <button type="button" onclick="shareWhatsApp()" class="btn-share btn-whatsapp">
+                            💬 Enviar WhatsApp
+                        </button>
+                    </div>
                 </div>
 
                 <div class="form-group">
@@ -386,12 +546,36 @@
                 </div>
             </div>
         </div>
+
+        <div style="margin-top: 30px; text-align: center;">
+            <button onclick="exportData()" style="padding: 15px 30px; background: rgba(34, 211, 238, 0.2); color: #22d3ee; border: 1px solid rgba(34, 211, 238, 0.3); border-radius: 15px; cursor: pointer; margin-right: 10px;">
+                📤 Exportar Datos
+            </button>
+            <button onclick="resetStats()" style="padding: 15px 30px; background: rgba(239, 68, 68, 0.2); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 15px; cursor: pointer;">
+                🗑️ Reset Stats
+            </button>
+        </div>
+    </div>
+
+    <!-- NUEVO: Modal de cámara en pantalla completa -->
+    <div id="cameraModal" class="camera-modal">
+        <div class="camera-container">
+            <video id="cameraVideo" class="camera-video" autoplay playsinline></video>
+            <canvas id="cameraCanvas" style="display: none;"></canvas>
+            <div class="camera-controls">
+                <button onclick="capturePhoto()" class="camera-btn btn-capture">📷 Capturar</button>
+                <button onclick="closeCamera()" class="camera-btn btn-close">❌ Cerrar</button>
+            </div>
+        </div>
     </div>
 
     <script>
+        // VARIABLES GLOBALES - CORREGIDO para Nvisión
         var WHATSAPP_NUMBER = '18497972424';
         var BASE_URL = window.location.origin + window.location.pathname.replace(/[^/]*$/, '');
         var currentPhoto = null;
+        var currentProductCode = null;
+        var stream = null;
 
         // Funciones de utilidad para almacenamiento
         function safeGetStorage(key) {
@@ -429,11 +613,68 @@
             }, 5000);
         }
 
-        // Manejo de fotos
+        // CORREGIDO: Nueva función para abrir cámara en pantalla completa
+        function openCamera() {
+            document.getElementById('photoInput').click();
+            
+            if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                navigator.mediaDevices.getUserMedia({
+                    video: { 
+                        facingMode: 'environment',
+                        width: { ideal: 1920 },
+                        height: { ideal: 1080 }
+                    }
+                })
+                .then(function(mediaStream) {
+                    stream = mediaStream;
+                    var video = document.getElementById('cameraVideo');
+                    video.srcObject = mediaStream;
+                    document.getElementById('cameraModal').style.display = 'flex';
+                })
+                .catch(function(error) {
+                    console.log('Camera error:', error);
+                    document.getElementById('photoInput').click();
+                });
+            }
+        }
+
+        // NUEVO: Capturar foto desde cámara
+        function capturePhoto() {
+            var video = document.getElementById('cameraVideo');
+            var canvas = document.getElementById('cameraCanvas');
+            var context = canvas.getContext('2d');
+            
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+            
+            canvas.toBlob(function(blob) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    currentPhoto = e.target.result;
+                    var preview = document.getElementById('photoPreview');
+                    preview.src = currentPhoto;
+                    preview.style.display = 'block';
+                    closeCamera();
+                };
+                reader.readAsDataURL(blob);
+            }, 'image/jpeg', 0.8);
+        }
+
+        // NUEVO: Cerrar cámara
+        function closeCamera() {
+            if (stream) {
+                stream.getTracks().forEach(track => track.stop());
+                stream = null;
+            }
+            document.getElementById('cameraModal').style.display = 'none';
+        }
+
+        // Manejo de fotos desde input file
         document.getElementById('photoInput').addEventListener('change', function(e) {
             var file = e.target.files[0];
             if (file) {
-                // Verificar tamaño del archivo (max 5MB)
                 if (file.size > 5 * 1024 * 1024) {
                     showAlert('⚠️ La imagen es muy grande. Use una imagen menor a 5MB.', 'error');
                     return;
@@ -450,14 +691,13 @@
             }
         });
 
-        // Gestión de productos
+        // CORREGIDO: Gestión de productos para Nvisión
         function saveProduct() {
             var codigo = document.getElementById('productCode').value.trim().toUpperCase();
             var categoria = document.getElementById('productCategory').value;
             var precio = document.getElementById('productPrice').value.trim();
             var nombre = document.getElementById('productName').value.trim();
 
-            // Validaciones
             if (!currentPhoto) {
                 showAlert('⚠️ Debe agregar una foto del producto', 'error');
                 return;
@@ -486,7 +726,6 @@
             try {
                 var monturas = safeGetStorage('nvision_monturas');
                 
-                // Verificar si el código ya existe
                 if (monturas[codigo]) {
                     if (!confirm('⚠️ El código ' + codigo + ' ya existe. ¿Desea reemplazarlo?')) {
                         return;
@@ -500,13 +739,16 @@
                     nombre: nombre,
                     foto: currentPhoto,
                     fechaCreacion: new Date().toISOString(),
-                    enlace: BASE_URL + '?codigo=' + codigo,
+                    enlace: window.location.origin + window.location.pathname.replace('admin.html', '') + '?codigo=' + codigo,
                     whatsapp: 'https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent('Hola, me interesa la montura ' + codigo + ' "' + nombre + '" por ' + precio + '. ¿Está disponible?')
                 };
 
                 if (safeSetStorage('nvision_monturas', monturas)) {
+                    currentProductCode = codigo;
                     showAlert('✅ Producto guardado exitosamente: ' + codigo, 'success');
-                    clearForm();
+                    
+                    document.getElementById('shareButtons').style.display = 'grid';
+                    
                     updateStats();
                     loadProductsList();
                 } else {
@@ -518,15 +760,79 @@
             }
         }
 
+        // NUEVO: Función para copiar enlace del producto
+        function copyProductLink() {
+            if (!currentProductCode) {
+                showAlert('⚠️ Primero debe guardar un producto', 'error');
+                return;
+            }
+            
+            var enlace = window.location.origin + window.location.pathname.replace('admin.html', '') + '?codigo=' + currentProductCode;
+            
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(enlace)
+                    .then(() => showAlert('✅ Enlace copiado al portapapeles', 'success'))
+                    .catch(() => fallbackCopyText(enlace));
+            } else {
+                fallbackCopyText(enlace);
+            }
+        }
+
+        // NUEVO: Función fallback para copiar texto
+        function fallbackCopyText(text) {
+            var textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.style.position = "fixed";
+            textArea.style.left = "-999999px";
+            textArea.style.top = "-999999px";
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            
+            try {
+                document.execCommand('copy');
+                showAlert('✅ Enlace copiado al portapapeles', 'success');
+            } catch (err) {
+                showAlert('❌ No se pudo copiar. Enlace: ' + text, 'error');
+            }
+            
+            document.body.removeChild(textArea);
+        }
+
+        // NUEVO: Función para compartir por WhatsApp
+        function shareWhatsApp() {
+            if (!currentProductCode) {
+                showAlert('⚠️ Primero debe guardar un producto', 'error');
+                return;
+            }
+            
+            var monturas = safeGetStorage('nvision_monturas');
+            var montura = monturas[currentProductCode];
+            
+            if (montura) {
+                var mensaje = '👁️ *ÓPTICA NVISIÓN* 👁️\n\n';
+                mensaje += '📸 Nueva montura disponible:\n';
+                mensaje += '🔢 Código: ' + montura.codigo + '\n';
+                mensaje += '💰 Precio: ' + montura.precio + '\n';
+                mensaje += '📂 Categoría: ' + montura.categoria + '\n';
+                mensaje += '📝 Descripción: ' + montura.nombre + '\n\n';
+                mensaje += '🔗 Ver detalles: ' + montura.enlace + '\n\n';
+                mensaje += '👁️ Vea mejor, viva mejor ✨';
+                
+                window.open('https://wa.me/?text=' + encodeURIComponent(mensaje), '_blank');
+                showAlert('✅ Compartiendo por WhatsApp', 'success');
+            }
+        }
+
         function clearForm() {
             document.getElementById('productCode').value = '';
             document.getElementById('productPrice').value = '';
             document.getElementById('productName').value = '';
             document.getElementById('productCategory').value = 'hombre';
             document.getElementById('photoPreview').style.display = 'none';
+            document.getElementById('shareButtons').style.display = 'none';
             currentPhoto = null;
-            
-            // Limpiar input file
+            currentProductCode = null;
             document.getElementById('photoInput').value = '';
         }
 
@@ -550,7 +856,7 @@
             }
         }
 
-        // Estadísticas
+        // CORREGIDO: Estadísticas para Nvisión
         function updateStats() {
             try {
                 var monturas = safeGetStorage('nvision_monturas');
@@ -594,7 +900,7 @@
             }
         }
 
-        // Lista de productos
+        // CORREGIDO: Lista de productos para Nvisión
         function loadProductsList() {
             try {
                 var monturas = safeGetStorage('nvision_monturas');
@@ -616,6 +922,7 @@
                     html += '<div class="product-info">';
                     html += '<div class="product-code">' + product.codigo + '</div>';
                     html += '<div class="product-price">' + product.precio + '</div>';
+                    html += '<div style="font-size: 12px; opacity: 0.8;">' + product.categoria + '</div>';
                     html += '</div>';
                     html += '<button onclick="deleteProduct(\'' + product.codigo + '\')" class="delete-btn">🗑️</button>';
                     html += '</div>';
@@ -627,7 +934,7 @@
             }
         }
 
-        // Exportar datos
+        // CORREGIDO: Exportar datos para Nvisión
         function exportData() {
             try {
                 var monturas = safeGetStorage('nvision_monturas');
@@ -649,7 +956,8 @@
                     productos: monturas,
                     estadisticas: stats,
                     exportado: new Date().toISOString(),
-                    total_productos: Object.keys(monturas).length
+                    total_productos: Object.keys(monturas).length,
+                    empresa: 'Óptica Nvisión'
                 };
                 
                 var blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
@@ -674,25 +982,8 @@
             window.location.href = BASE_URL;
         }
 
-        // Abrir sistema POS
         function abrirPOS() {
             window.location.href = BASE_URL + 'pos.html';
-        }
-
-        // Resetear estadísticas
-        function resetStats() {
-            if (confirm('⚠️ ¿Está seguro de resetear todas las estadísticas?')) {
-                try {
-                    if (typeof(Storage) !== "undefined" && localStorage) {
-                        localStorage.setItem('nvision_views', '0');
-                        localStorage.setItem('nvision_whatsapp_clicks', '0');
-                    }
-                    updateStats();
-                    showAlert('✅ Estadísticas reseteadas', 'success');
-                } catch (e) {
-                    showAlert('❌ Error al resetear estadísticas', 'error');
-                }
-            }
         }
 
         // Inicialización
@@ -701,7 +992,6 @@
                 updateStats();
                 loadProductsList();
                 
-                // Auto-generar código sugerido
                 var monturas = safeGetStorage('nvision_monturas');
                 var keys = Object.keys(monturas);
                 var nextNumber = keys.length + 1;
@@ -720,6 +1010,13 @@
         } else {
             initAdmin();
         }
+
+        // Cleanup al cerrar página
+        window.addEventListener('beforeunload', function() {
+            if (stream) {
+                stream.getTracks().forEach(track => track.stop());
+            }
+        });
     </script>
 </body>
 </html>
