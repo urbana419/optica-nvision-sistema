@@ -276,6 +276,43 @@
             border-color: rgba(239, 68, 68, 0.3);
             color: #ef4444;
         }
+
+        /* NUEVO: Modo Rural/Humanitario */
+        .modo-rural-toggle {
+            background: rgba(16, 185, 129, 0.2);
+            border: 2px solid rgba(16, 185, 129, 0.3);
+            color: #10b981;
+            padding: 10px 15px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .modo-rural-toggle.active {
+            background: rgba(16, 185, 129, 0.4);
+            border-color: #10b981;
+        }
+
+        .modo-rural-toggle:hover {
+            background: rgba(16, 185, 129, 0.3);
+        }
+
+        /* NCF Config */
+        .ncf-config {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .ncf-range {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
@@ -283,6 +320,11 @@
         <div class="header">
             <h1>💼 POS Óptica Nvisión</h1>
             <p>Sistema Punto de Venta Completo</p>
+            
+            <!-- NUEVO: Toggle Modo Rural -->
+            <div class="modo-rural-toggle" onclick="toggleModoRural()" id="modoRuralToggle">
+                🌾 Modo Rural/Humanitario: <span id="modoRuralStatus">Desactivado</span>
+            </div>
         </div>
         
         <div class="tabs">
@@ -307,7 +349,7 @@
                 <div class="row">
                     <div class="form-group">
                         <label class="form-label">📱 Teléfono</label>
-                        <input type="tel" id="clienteTelefono" class="form-input" placeholder="809-000-0000">
+                        <input type="tel" id="clienteTelefono" class="form-input" placeholder="849-000-0000">
                     </div>
                     <div class="form-group">
                         <label class="form-label">🆔 Cédula/RNC</label>
@@ -462,9 +504,11 @@
                 </select>
             </div>
             
-            <div class="form-group">
+            <!-- CORREGIDO: Comprobante fiscal con opción Sin NCF -->
+            <div class="form-group" id="tipoComprobanteGroup">
                 <label class="form-label">📋 Tipo de Comprobante</label>
                 <select id="facturaComprobante" class="form-select">
+                    <option value="sin_ncf">🌾 Sin NCF (Zona Rural/Humanitario)</option>
                     <option value="consumidor">🧾 Consumidor Final</option>
                     <option value="empresarial">🏢 Empresarial</option>
                     <option value="gubernamental">🏛️ Gubernamental</option>
@@ -526,26 +570,48 @@
     
     <script>
         // Variables globales
+        var WHATSAPP_NUMBER = '18497972424';
+        var BASE_URL = window.location.origin + window.location.pathname.replace(/[^/]*$/, '');
         var currentTab = 'clientes';
         var carritoActual = [];
         var clienteSeleccionado = null;
+        var modoRuralActivo = false; // NUEVO: Variable para modo rural
+        
+        // NUEVO: Toggle Modo Rural
+        function toggleModoRural() {
+            modoRuralActivo = !modoRuralActivo;
+            var toggle = document.getElementById('modoRuralToggle');
+            var status = document.getElementById('modoRuralStatus');
+            var comprobanteSelect = document.getElementById('facturaComprobante');
+            
+            if (modoRuralActivo) {
+                toggle.classList.add('active');
+                status.textContent = 'Activado (Sin NCF)';
+                // Forzar Sin NCF cuando está en modo rural
+                comprobanteSelect.value = 'sin_ncf';
+                comprobanteSelect.disabled = true;
+                showAlert('✅ Modo Rural activado - Las facturas no tendrán NCF', 'success');
+            } else {
+                toggle.classList.remove('active');
+                status.textContent = 'Desactivado';
+                comprobanteSelect.disabled = false;
+                showAlert('ℹ️ Modo Rural desactivado - NCF disponibles', 'success');
+            }
+        }
         
         // Gestión de pestañas
         function showTab(tabName) {
-            // Ocultar todas las pestañas
             var contents = document.querySelectorAll('.tab-content');
             var buttons = document.querySelectorAll('.tab-btn');
             
             contents.forEach(content => content.classList.remove('active'));
             buttons.forEach(btn => btn.classList.remove('active'));
             
-            // Mostrar pestaña seleccionada
             document.getElementById(tabName).classList.add('active');
             event.target.classList.add('active');
             
             currentTab = tabName;
             
-            // Actualizar datos específicos de cada pestaña
             if (tabName === 'facturacion') {
                 cargarClientesSelect();
                 cargarProductosSelect();
@@ -556,7 +622,6 @@
             }
         }
         
-        // Funciones de utilidad para almacenamiento
         function safeGetStorage(key) {
             try {
                 if (typeof(Storage) !== "undefined" && localStorage) {
@@ -592,7 +657,6 @@
             }, 4000);
         }
         
-        // GESTIÓN DE CLIENTES
         function guardarCliente() {
             var cliente = {
                 id: Date.now().toString(),
@@ -649,6 +713,9 @@
                 if (cliente.fechaExamen) {
                     html += '<br>👁️ Último examen: ' + cliente.fechaExamen;
                 }
+                if (cliente.ojoDerecho || cliente.ojoIzquierdo) {
+                    html += '<br>👓 Graduación: OD: ' + (cliente.ojoDerecho || 'N/A') + ' | OI: ' + (cliente.ojoIzquierdo || 'N/A');
+                }
                 html += '</div></div>';
             });
             
@@ -673,7 +740,6 @@
             }
         }
         
-        // GESTIÓN DE INVENTARIO
         function sincronizarInventario() {
             var monturas = safeGetStorage('nvision_monturas');
             var productos = safeGetStorage('nvision_productos');
@@ -762,17 +828,22 @@
             container.innerHTML = html;
         }
         
-        // GESTIÓN DE COMPROBANTES FISCALES
+        // CORREGIDO: Comprobantes con opción Sin NCF
         function obtenerSiguienteComprobante(tipo) {
+            // Si es Sin NCF, devolver null
+            if (tipo === 'sin_ncf') {
+                return null;
+            }
+            
             var comprobantes = safeGetStorage('nvision_comprobantes');
             if (!comprobantes[tipo]) {
                 var prefijos = {
-                    'consumidor': 'B010000000001',
-                    'empresarial': 'B020000000001', 
-                    'gubernamental': 'B030000000001',
-                    'zona_franca': 'B040000000001'
+                    'consumidor': 1,
+                    'empresarial': 1, 
+                    'gubernamental': 1,
+                    'zona_franca': 1
                 };
-                comprobantes[tipo] = parseInt(prefijos[tipo].substr(1));
+                comprobantes[tipo] = prefijos[tipo];
             }
             
             var siguiente = comprobantes[tipo];
@@ -797,22 +868,25 @@
         function actualizarVistaComprobantes() {
             var comprobantes = safeGetStorage('nvision_comprobantes');
             
-            var tipos = ['consumidor', 'empresarial', 'gubernamental', 'zona_franca'];
-            tipos.forEach(function(tipo) {
-                var elemento = document.getElementById('siguiente' + tipo.charAt(0).toUpperCase() + tipo.slice(1).replace('_', ''));
+            var tipos = [
+                { tipo: 'consumidor', elemento: 'siguienteConsumidor' },
+                { tipo: 'empresarial', elemento: 'siguienteEmpresarial' },
+                { tipo: 'gubernamental', elemento: 'siguienteGubernamental' },
+                { tipo: 'zona_franca', elemento: 'siguienteZonaFranca' }
+            ];
+            
+            tipos.forEach(function(item) {
+                var elemento = document.getElementById(item.elemento);
                 if (elemento) {
-                    var numero = comprobantes[tipo] || (tipo === 'consumidor' ? 1 :
-                                                      tipo === 'empresarial' ? 1 :
-                                                      tipo === 'gubernamental' ? 1 : 1);
-                    var prefijo = tipo === 'consumidor' ? 'B01' :
-                                 tipo === 'empresarial' ? 'B02' :
-                                 tipo === 'gubernamental' ? 'B03' : 'B04';
+                    var numero = comprobantes[item.tipo] || 1;
+                    var prefijo = item.tipo === 'consumidor' ? 'B01' :
+                                 item.tipo === 'empresarial' ? 'B02' :
+                                 item.tipo === 'gubernamental' ? 'B03' : 'B04';
                     elemento.textContent = prefijo + String(numero).padStart(11, '0');
                 }
             });
         }
         
-        // GESTIÓN DE FACTURACIÓN
         function cargarClientesSelect() {
             var clientes = safeGetStorage('nvision_clientes');
             var select = document.getElementById('facturaCliente');
@@ -853,7 +927,6 @@
             var productos = safeGetStorage('nvision_productos');
             var producto = productos[productoId];
             
-            // Verificar si ya está en el carrito
             var itemExistente = carritoActual.find(item => item.id === productoId);
             if (itemExistente) {
                 itemExistente.cantidad++;
@@ -901,7 +974,6 @@
             
             container.innerHTML = html;
             
-            // Actualizar resumen
             var itbis = subtotal * 0.18;
             var total = subtotal + itbis;
             
@@ -923,7 +995,12 @@
         function limpiarFactura() {
             carritoActual = [];
             document.getElementById('facturaCliente').value = '';
-            document.getElementById('facturaComprobante').value = 'consumidor';
+            // Solo resetear a sin_ncf si está en modo rural
+            if (modoRuralActivo) {
+                document.getElementById('facturaComprobante').value = 'sin_ncf';
+            } else {
+                document.getElementById('facturaComprobante').value = 'consumidor';
+            }
             document.getElementById('facturaFormaPago').value = 'efectivo';
             actualizarCarritoFactura();
         }
@@ -940,11 +1017,17 @@
             
             var clientes = safeGetStorage('nvision_clientes');
             var cliente = clientes[clienteId];
-            var numeroComprobante = obtenerSiguienteComprobante(tipoComprobante);
+            
+            // CORREGIDO: Manejar Sin NCF
+            var numeroComprobante = null;
+            if (tipoComprobante !== 'sin_ncf') {
+                numeroComprobante = obtenerSiguienteComprobante(tipoComprobante);
+            }
             
             var factura = {
                 id: 'FACT-' + Date.now(),
                 numeroComprobante: numeroComprobante,
+                sinNCF: tipoComprobante === 'sin_ncf',
                 fecha: new Date().toLocaleDateString('es-DO'),
                 cliente: cliente,
                 productos: [...carritoActual],
@@ -957,12 +1040,15 @@
             
             generarPDF(factura);
             
-            // Guardar factura en historial
             var facturas = safeGetStorage('nvision_facturas');
             facturas[factura.id] = factura;
             safeSetStorage('nvision_facturas', facturas);
             
-            showAlert('✅ Factura generada: ' + numeroComprobante);
+            if (factura.sinNCF) {
+                showAlert('✅ Factura generada SIN NCF (Zona Rural)');
+            } else {
+                showAlert('✅ Factura generada: ' + numeroComprobante);
+            }
             limpiarFactura();
         }
         
@@ -971,28 +1057,31 @@
                 var { jsPDF } = window.jspdf;
                 var doc = new jsPDF();
                 
-                // Header
                 doc.setFontSize(20);
                 doc.text('ÓPTICA NVISIÓN', 105, 20, { align: 'center' });
                 doc.setFontSize(12);
                 doc.text('Vea mejor, viva mejor - Especialistas en salud visual', 105, 30, { align: 'center' });
                 doc.text('Tel: 849-797-2424', 105, 40, { align: 'center' });
                 
-                // Información de factura
                 doc.setFontSize(14);
                 doc.text('FACTURA', 20, 60);
                 doc.setFontSize(10);
-                doc.text('Número: ' + factura.numeroComprobante, 20, 70);
+                
+                // CORREGIDO: Mostrar Sin NCF si aplica
+                if (factura.sinNCF) {
+                    doc.text('SIN NCF (Zona Rural/Humanitario)', 20, 70);
+                } else {
+                    doc.text('Número: ' + factura.numeroComprobante, 20, 70);
+                }
+                
                 doc.text('Fecha: ' + factura.fecha, 20, 80);
                 doc.text('Forma de Pago: ' + factura.formaPago.toUpperCase(), 20, 90);
                 
-                // Información del cliente
                 doc.text('CLIENTE:', 20, 110);
                 doc.text('Nombre: ' + factura.cliente.nombre, 20, 120);
                 doc.text('Teléfono: ' + factura.cliente.telefono, 20, 130);
                 if (factura.cliente.cedula) doc.text('Cédula/RNC: ' + factura.cliente.cedula, 20, 140);
                 
-                // Examen optométrico (si existe)
                 if (factura.cliente.fechaExamen) {
                     doc.text('ÚLTIMO EXAMEN OPTOMÉTRICO:', 20, 160);
                     doc.text('Fecha: ' + factura.cliente.fechaExamen, 20, 170);
@@ -1001,7 +1090,6 @@
                     if (factura.cliente.diagnostico) doc.text('Diagnóstico: ' + factura.cliente.diagnostico, 20, 190);
                 }
                 
-                // Productos
                 var startY = factura.cliente.fechaExamen ? 210 : 160;
                 doc.text('PRODUCTOS:', 20, startY);
                 
@@ -1015,17 +1103,21 @@
                     currentY += 25;
                 });
                 
-                // Totales
                 currentY += 10;
                 doc.text('Subtotal: RD$' + factura.subtotal.toFixed(2), 150, currentY);
                 doc.text('ITBIS (18%): RD$' + factura.itbis.toFixed(2), 150, currentY + 10);
                 doc.setFontSize(12);
                 doc.text('TOTAL: RD$' + factura.total.toFixed(2), 150, currentY + 25);
                 
-                // Descargar PDF
-                doc.save('Factura_' + factura.numeroComprobante + '.pdf');
+                doc.setFontSize(8);
+                doc.text('Gracias por confiar en Óptica Nvisión', 105, currentY + 45, { align: 'center' });
                 
-                // Enviar por WhatsApp
+                // CORREGIDO: Nombre de archivo con indicador Sin NCF
+                var fileName = factura.sinNCF ? 
+                    'Factura_Nvision_SinNCF_' + factura.id + '.pdf' :
+                    'Factura_Nvision_' + factura.numeroComprobante + '.pdf';
+                doc.save(fileName);
+                
                 setTimeout(function() {
                     enviarFacturaPorWhatsApp(factura);
                 }, 1000);
@@ -1037,8 +1129,15 @@
         }
         
         function enviarFacturaPorWhatsApp(factura) {
-            var mensaje = '📄 *FACTURA ÓPTICA NVISIÓN*\n\n';
-            mensaje += '🧾 Número: ' + factura.numeroComprobante + '\n';
+            var mensaje = '📄 *FACTURA ÓPTICA NVISIÓN* 📄\n\n';
+            
+            // CORREGIDO: Mensaje diferente para Sin NCF
+            if (factura.sinNCF) {
+                mensaje += '🌾 SIN NCF (Zona Rural/Humanitario)\n';
+            } else {
+                mensaje += '🧾 Número: ' + factura.numeroComprobante + '\n';
+            }
+            
             mensaje += '📅 Fecha: ' + factura.fecha + '\n';
             mensaje += '👤 Cliente: ' + factura.cliente.nombre + '\n\n';
             
@@ -1060,18 +1159,25 @@
                 if (factura.cliente.ojoIzquierdo) mensaje += 'OI: ' + factura.cliente.ojoIzquierdo + '\n';
             }
             
-            mensaje += '\n¡Gracias por confiar en Óptica Nvisión! 👓✨';
+            mensaje += '\n👁️ ¡Gracias por confiar en Óptica Nvisión! ✨\n';
+            mensaje += 'Vea mejor, viva mejor 🌟';
             
             var whatsappUrl = 'https://wa.me/' + factura.cliente.telefono.replace(/[^0-9]/g, '') + '?text=' + encodeURIComponent(mensaje);
             window.open(whatsappUrl, '_blank');
         }
         
-        // Inicialización
+        function goToMainSite() {
+            window.location.href = BASE_URL;
+        }
+
+        function goToAdmin() {
+            window.location.href = BASE_URL + 'admin.html';
+        }
+        
         function inicializarPOS() {
             cargarListaClientes();
             actualizarVistaComprobantes();
             
-            // Auto-generar algunos datos de prueba si no existen
             var comprobantes = safeGetStorage('nvision_comprobantes');
             if (Object.keys(comprobantes).length === 0) {
                 safeSetStorage('nvision_comprobantes', {
@@ -1084,7 +1190,6 @@
             }
         }
         
-        // Inicializar cuando la página carga
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', inicializarPOS);
         } else {
