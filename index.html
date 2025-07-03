@@ -424,10 +424,211 @@
         .state-icon { font-size: 64px; margin-bottom: 20px; }
         .state-title { font-size: 22px; font-weight: 700; margin-bottom: 15px; }
 
+        /* CORREGIDO: Estilos mejorados para productos */
+        .product-card { 
+            background: rgba(255, 255, 255, 0.15); 
+            backdrop-filter: blur(10px);
+            border-radius: 25px; 
+            padding: 25px; 
+            margin-bottom: 20px; 
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .product-image { 
+            width: 100%; 
+            max-width: 350px; 
+            height: 350px; 
+            border-radius: 20px; 
+            margin: 0 auto 25px; 
+            display: block; 
+            object-fit: cover; 
+        }
+        .product-info { text-align: center; }
+        .product-code { 
+            background: linear-gradient(45deg, #4f46e5, #7c3aed); 
+            color: white; 
+            padding: 15px 25px; 
+            border-radius: 25px; 
+            font-size: 18px; 
+            font-weight: 700; 
+            display: inline-block; 
+            margin-bottom: 15px; 
+            text-transform: uppercase; 
+            box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3);
+        }
+        .product-category { 
+            background: rgba(251, 146, 60, 0.2); 
+            color: #fb923c; 
+            padding: 10px 18px; 
+            border-radius: 20px; 
+            font-size: 14px; 
+            font-weight: 600; 
+            display: inline-block; 
+            margin-bottom: 15px; 
+        }
+        .product-name { font-size: 22px; font-weight: 700; margin-bottom: 15px; }
+        .product-price { 
+            font-size: 36px; 
+            font-weight: 800; 
+            color: #22d3ee; 
+            margin-bottom: 30px; 
+        }
+
+        /* CORREGIDO: Botones mejorados */
+        .whatsapp-button { 
+            background: #25d366; 
+            color: white; 
+            padding: 25px 20px; 
+            border: none; 
+            border-radius: 25px; 
+            font-size: 22px; 
+            font-weight: 800; 
+            cursor: pointer; 
+            width: 100%; 
+            text-decoration: none; 
+            display: block; 
+            text-align: center;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+        }
+
+        .whatsapp-button:hover {
+            background: #128c7e;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+        }
+
+        /* NUEVO: Botones de compartir */
+        .share-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .share-btn {
+            padding: 18px;
+            border: none;
+            border-radius: 20px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+        }
+
+        .btn-copy-link {
+            background: rgba(99, 102, 241, 0.2);
+            color: #6366f1;
+            border: 2px solid rgba(99, 102, 241, 0.3);
+        }
+
+        .btn-copy-link:hover {
+            background: #6366f1;
+            color: white;
+        }
+
+        .btn-send-message {
+            background: rgba(34, 211, 238, 0.2);
+            color: #22d3ee;
+            border: 2px solid rgba(34, 211, 238, 0.3);
+        }
+
+        .btn-send-message:hover {
+            background: #22d3ee;
+            color: white;
+        }
+
+        .catalog-button { 
+            background: rgba(99, 102, 241, 0.2); 
+            color: #a5b4fc; 
+            padding: 18px; 
+            border: 1px solid rgba(99, 102, 241, 0.3); 
+            border-radius: 18px; 
+            font-size: 16px; 
+            font-weight: 600; 
+            cursor: pointer; 
+            width: 100%; 
+            text-align: center;
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+        .catalog-button:hover {
+            background: rgba(99, 102, 241, 0.3);
+        }
+
+        /* CORREGIDO: Catálogo mejorado */
+        .catalog-grid { 
+            display: grid; 
+            grid-template-columns: repeat(2, 1fr); 
+            gap: 18px; 
+            margin-bottom: 25px; 
+        }
+        .catalog-item { 
+            background: rgba(255, 255, 255, 0.15); 
+            backdrop-filter: blur(10px);
+            border-radius: 18px; 
+            padding: 18px; 
+            text-align: center; 
+            cursor: pointer; 
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .catalog-item:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+        
+        .catalog-item-image { 
+            width: 100%; 
+            height: 140px; 
+            border-radius: 12px; 
+            object-fit: cover; 
+            margin-bottom: 12px; 
+        }
+        .catalog-item-code { 
+            font-size: 14px; 
+            font-weight: 700; 
+            color: #60a5fa; 
+            margin-bottom: 8px; 
+        }
+        .catalog-item-price { 
+            font-size: 18px; 
+            font-weight: 700; 
+            color: #22d3ee; 
+        }
+
         /* Ocultar elementos en modo humanitario */
         .modo-humanitario .analytics-badge,
         .modo-humanitario .admin-access {
             display: none;
+        }
+
+        /* NUEVO: Notificación de éxito */
+        .success-notification {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(34, 211, 238, 0.95);
+            color: white;
+            padding: 20px 30px;
+            border-radius: 20px;
+            font-size: 18px;
+            font-weight: 700;
+            z-index: 2000;
+            display: none;
+            animation: fadeInOut 3s ease-in-out;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+            10%, 90% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
         }
     </style>
 </head>
@@ -582,8 +783,13 @@
 
     <div class="admin-access" onclick="adminAccess()">⚙️</div>
 
+    <!-- NUEVO: Notificación de éxito -->
+    <div id="successNotification" class="success-notification">
+        ✅ ¡Enlace copiado!
+    </div>
+
     <script>
-        // VARIABLES GLOBALES
+        // VARIABLES GLOBALES - CORREGIDO para Nvisión
         var WHATSAPP_NUMBER = '18497972424';
         var BASE_URL = window.location.origin + window.location.pathname.replace(/[^/]*$/, '');
         var isAudioEnabled = false;
@@ -718,6 +924,69 @@
             }
         }
 
+        // NUEVO: Función para mostrar notificación
+        function showNotification(message) {
+            var notification = document.getElementById('successNotification');
+            notification.textContent = message;
+            notification.style.display = 'block';
+            
+            setTimeout(function() {
+                notification.style.display = 'none';
+            }, 3000);
+        }
+
+        // NUEVO: Función para copiar enlace
+        function copyProductLink(codigo) {
+            var enlace = window.location.origin + window.location.pathname + '?codigo=' + codigo;
+            
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(enlace)
+                    .then(() => showNotification('✅ Enlace copiado al portapapeles'))
+                    .catch(() => fallbackCopyText(enlace));
+            } else {
+                fallbackCopyText(enlace);
+            }
+        }
+
+        // NUEVO: Función fallback para copiar
+        function fallbackCopyText(text) {
+            var textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.style.position = "fixed";
+            textArea.style.left = "-999999px";
+            document.body.appendChild(textArea);
+            textArea.select();
+            
+            try {
+                document.execCommand('copy');
+                showNotification('✅ Enlace copiado');
+            } catch (err) {
+                showNotification('❌ No se pudo copiar');
+            }
+            
+            document.body.removeChild(textArea);
+        }
+
+        // NUEVO: Función para enviar mensaje
+        function sendProductMessage(codigo) {
+            var monturas = safeGetStorage('nvision_monturas');
+            var montura = monturas[codigo];
+            
+            if (montura) {
+                var mensaje = '🏥 *ÓPTICA NVISIÓN* 🏥\n\n';
+                mensaje += '📸 Te comparto esta montura:\n';
+                mensaje += '🔢 Código: ' + montura.codigo + '\n';
+                mensaje += '💰 Precio: ' + montura.precio + '\n';
+                mensaje += '📝 Descripción: ' + montura.nombre + '\n\n';
+                mensaje += '🔗 Ver más detalles: ' + montura.enlace + '\n\n';
+                mensaje += '👁️ ¡Vea mejor, viva mejor! ✨';
+                
+                window.open('https://wa.me/?text=' + encodeURIComponent(mensaje), '_blank');
+                addWhatsAppClick();
+                showNotification('✅ Compartiendo por WhatsApp');
+            }
+        }
+
         // SISTEMA DE AUDIO
         function toggleAudio() {
             isAudioEnabled = !isAudioEnabled;
@@ -736,7 +1005,6 @@
         function speakText(text) {
             if (!isAudioEnabled || !audioSupported) return;
             
-            // Detener cualquier audio anterior
             window.speechSynthesis.cancel();
             
             var utterance = new SpeechSynthesisUtterance(text);
@@ -763,7 +1031,6 @@
             document.getElementById('modoHumanitario').style.display = 'block';
             document.getElementById('modoSelector').textContent = '🌾 Modo: Simple';
             
-            // Activar audio automáticamente
             if (!isAudioEnabled && audioSupported) {
                 toggleAudio();
             }
@@ -777,7 +1044,6 @@
             document.getElementById('modoNormal').style.display = 'block';
             document.getElementById('modoSelector').textContent = '👁️ Modo: Normal';
             
-            // Cerrar test si está abierto
             cerrarTestHumanitario();
             
             speakText("Modo normal activado");
@@ -789,10 +1055,8 @@
             addWhatsAppClick();
             
             if (confirm("🚨 ¿Tiene una EMERGENCIA en los ojos? ¿Llamar INMEDIATAMENTE?")) {
-                // Llamada telefónica directa
                 window.open('tel:' + WHATSAPP_NUMBER.replace(/^1/, ''), '_self');
                 
-                // También abrir WhatsApp como respaldo
                 setTimeout(function() {
                     var emergencyMessage = "🚨 EMERGENCIA EN LOS OJOS 🚨\n\nNecesito atención médica URGENTE. Tengo un problema grave en la vista.\n\n⏰ Es una EMERGENCIA ⏰";
                     window.open('https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(emergencyMessage), '_blank');
@@ -828,7 +1092,6 @@
             document.getElementById('btnSi').textContent = step.yesText;
             document.getElementById('btnNo').textContent = step.noText;
             
-            // Mostrar/ocultar tabla visual
             var chart = document.getElementById('visualChart');
             if (step.showChart) {
                 chart.style.display = 'block';
@@ -836,11 +1099,9 @@
                 chart.style.display = 'none';
             }
             
-            // Actualizar barra de progreso
             var progress = ((currentTestStep + 1) / testSteps.length) * 100;
             document.getElementById('progressBar').style.width = progress + '%';
             
-            // Reproducir audio
             setTimeout(function() {
                 speakText(step.audio);
             }, 500);
@@ -849,30 +1110,26 @@
         function responderTest(respuesta) {
             var currentStep = testSteps[currentTestStep];
             
-            // Si es un paso de verificación (no entiendo), repetir
             if (!respuesta && (currentTestStep === 1 || currentTestStep === 2 || currentTestStep === 4)) {
                 speakText("No se preocupe. " + currentStep.audio);
                 return;
             }
             
-            // Si quiere salir en el primer paso
             if (!respuesta && currentTestStep === 0) {
                 cerrarTestHumanitario();
                 return;
             }
             
-            // Guardar resultados de vista
-            if (currentTestStep === 3) { // Ojo izquierdo
+            if (currentTestStep === 3) {
                 testResults.ojoIzquierdo = respuesta;
                 speakText(respuesta ? "Perfecto, ve bien con el ojo izquierdo" : "Entiendo, tiene dificultades con el ojo izquierdo");
             }
             
-            if (currentTestStep === 5) { // Ojo derecho
+            if (currentTestStep === 5) {
                 testResults.ojoDerecho = respuesta;
                 speakText(respuesta ? "Perfecto, ve bien con el ojo derecho" : "Entiendo, tiene dificultades con el ojo derecho");
             }
             
-            // Avanzar al siguiente paso
             currentTestStep++;
             setTimeout(function() {
                 actualizarTestStep();
@@ -882,7 +1139,7 @@
         function completarTest() {
             addWhatsAppClick();
             
-            var mensaje = "🔍 TEST DE VISTA COMPLETADO 🔍\n\n";
+            var mensaje = "🔍 TEST DE VISTA COMPLETADO - ÓPTICA NVISIÓN 🔍\n\n";
             mensaje += "👁️ Ojo Izquierdo: " + (testResults.ojoIzquierdo ? "Ve bien ✅" : "Dificultades ❌") + "\n";
             mensaje += "👁️ Ojo Derecho: " + (testResults.ojoDerecho ? "Ve bien ✅" : "Dificultades ❌") + "\n\n";
             
@@ -896,7 +1153,7 @@
                 speakText("Test completado. Su vista parece normal. Contactando para mostrar monturas.");
             }
             
-            mensaje += "Completé el test en su página web.";
+            mensaje += "Completé el test en su página web de Óptica Nvisión.";
             
             window.open('https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(mensaje), '_blank');
             
@@ -909,16 +1166,14 @@
         function verLentesSimple() {
             speakText("Mostrando monturas disponibles");
             addView();
-            // Implementar vista simplificada de productos
-            alert("👓 Cargando monturas de manera simple...");
-            // Aquí integraríamos con el catálogo simplificado
+            showCatalogView();
         }
 
         function pedirAyuda() {
             speakText("Contactando con especialista para ayuda personal");
             addWhatsAppClick();
             
-            var mensaje = "🤝 SOLICITUD DE AYUDA 🤝\n\n";
+            var mensaje = "🤝 SOLICITUD DE AYUDA - ÓPTICA NVISIÓN 🤝\n\n";
             mensaje += "Hola, necesito ayuda para revisar mi vista. ";
             mensaje += "¿Pueden explicarme paso a paso cómo usar su sistema? ";
             mensaje += "Prefiero hablar por teléfono.\n\n";
@@ -976,6 +1231,47 @@
             window.open(whatsappUrl, '_blank');
         }
 
+        // CORREGIDO: Catálogo de productos mejorado
+        function showProduct(montura) {
+            var categories = {
+                'hombre': '👨 Hombres',
+                'mujer': '👩 Mujeres', 
+                'deportivo': '🏃 Deportivos',
+                'niños': '👶 Niños',
+                'lectura': '📖 Lectura',
+                'sol': '🕶️ Sol'
+            };
+
+            addView();
+
+            var message = '¡Hola! Me interesa la montura ' + montura.codigo + ' "' + montura.nombre + '" por ' + montura.precio + '. ¿Está disponible y puedo agendar una cita para probármela? 👓✨';
+            var whatsappUrl = 'https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(message);
+
+            var html = '';
+            html += '<div class="product-card">';
+            html += '<img src="' + montura.foto + '" alt="Montura ' + montura.codigo + '" class="product-image">';
+            html += '<div class="product-info">';
+            html += '<div class="product-code">' + montura.codigo + '</div>';
+            html += '<div class="product-category">' + (categories[montura.categoria] || '👓 Monturas') + '</div>';
+            html += '<h2 class="product-name">' + montura.nombre + '</h2>';
+            html += '<div class="product-price">' + montura.precio + '</div>';
+            
+            // NUEVO: Botones de compartir mejorados
+            html += '<div class="share-buttons">';
+            html += '<button onclick="copyProductLink(\'' + montura.codigo + '\')" class="share-btn btn-copy-link">📋 Copiar Enlace</button>';
+            html += '<button onclick="sendProductMessage(\'' + montura.codigo + '\')" class="share-btn btn-send-message">💬 Enviar Mensaje</button>';
+            html += '</div>';
+            
+            html += '<a href="' + whatsappUrl + '" target="_blank" class="whatsapp-button" onclick="addWhatsAppClick()">';
+            html += '💬 CONSULTAR DISPONIBILIDAD</a>';
+            html += '<button onclick="showCatalogView()" class="catalog-button">';
+            html += '👁️ Ver todas las monturas</button>';
+            html += '</div></div>';
+
+            return html;
+        }
+
+        // CORREGIDO: Vista de catálogo mejorada
         function showCatalogView() {
             var monturas = safeGetStorage('nvision_monturas');
             var keys = Object.keys(monturas);
@@ -1019,38 +1315,6 @@
             document.getElementById('mainContent').innerHTML = html;
         }
 
-        function showProduct(montura) {
-            var categories = {
-                'hombre': '👨 Hombres',
-                'mujer': '👩 Mujeres', 
-                'deportivo': '🏃 Deportivos',
-                'niños': '👶 Niños',
-                'lectura': '📖 Lectura',
-                'sol': '🕶️ Sol'
-            };
-
-            addView();
-
-            var message = '¡Hola! Me interesa la montura ' + montura.codigo + ' "' + montura.nombre + '" por ' + montura.precio + '. ¿Está disponible y puedo agendar una cita para probármela? 👓✨';
-            var whatsappUrl = 'https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(message);
-
-            var html = '';
-            html += '<div class="product-card">';
-            html += '<img src="' + montura.foto + '" alt="Montura ' + montura.codigo + '" class="product-image">';
-            html += '<div class="product-info">';
-            html += '<div class="product-code">' + montura.codigo + '</div>';
-            html += '<div class="product-category">' + (categories[montura.categoria] || '👓 Monturas') + '</div>';
-            html += '<h2 class="product-name">' + montura.nombre + '</h2>';
-            html += '<div class="product-price">' + montura.precio + '</div>';
-            html += '<a href="' + whatsappUrl + '" target="_blank" class="whatsapp-button" onclick="addWhatsAppClick()">';
-            html += '💬 CONSULTAR DISPONIBILIDAD</a>';
-            html += '<button onclick="showCatalogView()" class="catalog-button">';
-            html += '👁️ Ver todas las monturas</button>';
-            html += '</div></div>';
-
-            return html;
-        }
-
         function goToProduct(codigo) {
             var currentUrl = window.location.href.split('?')[0];
             window.location.href = currentUrl + '?codigo=' + codigo;
@@ -1082,7 +1346,6 @@
                 var isSlowConnection = connection && connection.effectiveType && (connection.effectiveType === 'slow-2g' || connection.effectiveType === '2g');
                 var isOldDevice = userAgent.includes('android 4') || userAgent.includes('ios 8') || userAgent.includes('opera mini');
                 
-                // Si detecta indicadores de usuario rural/básico
                 if (isSlowConnection || isOldDevice) {
                     setTimeout(function() {
                         if (confirm("¿Quiere usar el MODO SIMPLE con voz para revisar su vista?")) {
@@ -1095,10 +1358,9 @@
             }
         }
 
-        // INICIALIZACIÓN
+        // INICIALIZACIÓN CORREGIDA
         function initApp() {
             try {
-                // Inicializar analytics
                 var views = '0';
                 var clicks = '0';
                 
@@ -1116,10 +1378,39 @@
                 if (viewElement) viewElement.innerHTML = views;
                 if (clickElement) clickElement.innerHTML = clicks;
 
-                // Detectar modo apropiado
+                // CORREGIDO: Verificar si hay un código de producto en la URL
+                var productCode = getUrlParam('codigo');
+                
+                if (productCode) {
+                    var monturas = safeGetStorage('nvision_monturas');
+                    var montura = monturas[productCode.toUpperCase()];
+                    
+                    if (montura) {
+                        document.getElementById('mainContent').innerHTML = showProduct(montura);
+                        document.title = montura.codigo + ' - ' + montura.nombre + ' | Óptica Nvisión';
+                    } else {
+                        var html = '';
+                        html += '<div class="empty-state">';
+                        html += '<span class="state-icon">🔍</span>';
+                        html += '<div class="state-title">Montura no encontrada</div>';
+                        html += '<div>El código <strong>' + productCode + '</strong> no existe</div><br>';
+                        html += '<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">';
+                        html += '<button onclick="showCatalogView()" style="padding: 15px; background: linear-gradient(45deg, #22d3ee, #0891b2); color: white; border: none; border-radius: 15px; cursor: pointer; font-weight: 700;">👓 Ver Catálogo</button>';
+                        html += '<button onclick="activarModoHumanitario()" style="padding: 15px; background: linear-gradient(45deg, #10b981, #059669); color: white; border: none; border-radius: 15px; cursor: pointer; font-weight: 700;">🌾 Modo Simple</button>';
+                        html += '</div></div>';
+                        
+                        document.getElementById('mainContent').innerHTML = html;
+                    }
+                } else {
+                    // CORREGIDO: Mostrar catálogo automáticamente si hay productos
+                    var monturas = safeGetStorage('nvision_monturas');
+                    if (Object.keys(monturas).length > 0) {
+                        showCatalogView();
+                    }
+                }
+
                 detectarModoApropiado();
                 
-                // Mensaje de bienvenida
                 setTimeout(function() {
                     if (audioSupported) {
                         speakText("Bienvenido a Óptica Nvisión. Toque el botón naranja para activar la ayuda por voz.");
@@ -1128,6 +1419,15 @@
                 
             } catch (e) {
                 console.error('Error initializing app:', e);
+                var html = '';
+                html += '<div class="empty-state">';
+                html += '<span class="state-icon">⚠️</span>';
+                html += '<div class="state-title">Error de carga</div>';
+                html += '<div>Intente recargar la página</div><br>';
+                html += '<button onclick="window.location.reload()" style="padding: 15px; background: #ef4444; color: white; border: none; border-radius: 15px; cursor: pointer; font-weight: 700;">🔄 Recargar</button>';
+                html += '</div>';
+                
+                document.getElementById('mainContent').innerHTML = html;
             }
         }
 
@@ -1138,7 +1438,6 @@
             initApp();
         }
         
-        // Manejo de errores offline
         window.addEventListener('offline', function() {
             speakText("Sin conexión a internet. El sistema funciona sin conexión.");
         });
@@ -1147,7 +1446,6 @@
             speakText("Conexión a internet restaurada.");
         });
 
-        // Prevenir zoom accidental en móviles
         document.addEventListener('touchstart', function(event) {
             if (event.touches.length > 1) {
                 event.preventDefault();
