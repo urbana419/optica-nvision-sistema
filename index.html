@@ -3,27 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Óptica Nvisión - Sistema WhatsApp</title>
+    <title>Óptica Nvisión - Sistema Híbrido</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            font-family: Arial, sans-serif; 
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
             min-height: 100vh; 
             color: white; 
-            font-size: 16px;
-            overflow-x: hidden;
+            padding: 20px;
         }
-        .container { max-width: 430px; margin: 0 auto; padding: 15px; }
-        
-        /* MODO NORMAL - Sistema Original */
-        .modo-normal { display: block; }
+        .container { max-width: 430px; margin: 0 auto; }
         
         .header { 
             background: rgba(255, 255, 255, 0.15); 
             backdrop-filter: blur(10px);
             border-radius: 25px; 
-            padding: 30px 25px; 
+            padding: 30px; 
             text-align: center; 
             margin-bottom: 25px; 
             border: 1px solid rgba(255, 255, 255, 0.2);
@@ -50,6 +46,12 @@
             background-clip: text;
         }
         .tagline { font-size: 15px; opacity: 0.95; margin-bottom: 20px; font-weight: 500; }
+        .by-line {
+            font-size: 11px;
+            opacity: 0.7;
+            margin-top: 10px;
+            color: #e2e8f0;
+        }
         .contact-info { 
             display: flex; 
             justify-content: center; 
@@ -90,448 +92,11 @@
             display: block;
         }
         
-        .feature-btn:hover {
+        .feature-btn:hover, .feature-btn:active {
             background: rgba(255, 255, 255, 0.25);
             transform: translateY(-2px);
         }
 
-        /* MODO HUMANITARIO - Sistema WhatsApp Enfocado */
-        .modo-humanitario {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1000;
-            background: linear-gradient(135deg, #1e3a8a 0%, #7c2d12 100%);
-            padding: 20px;
-        }
-        
-        .humanitario-container {
-            max-width: 400px;
-            margin: 0 auto;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-        
-        .humanitario-header {
-            background: rgba(255, 255, 255, 0.95);
-            color: #1e293b;
-            border-radius: 30px;
-            padding: 40px 30px;
-            text-align: center;
-            margin-bottom: 30px;
-            border: 4px solid #fbbf24;
-            animation: pulse-header 3s infinite;
-        }
-        
-        @keyframes pulse-header {
-            0%, 100% { transform: scale(1); box-shadow: 0 0 20px rgba(251, 191, 36, 0.3); }
-            50% { transform: scale(1.02); box-shadow: 0 0 30px rgba(251, 191, 36, 0.5); }
-        }
-        
-        .humanitario-logo {
-            width: 120px;
-            height: 120px;
-            background: linear-gradient(45deg, #4f46e5, #7c3aed);
-            border-radius: 50%;
-            margin: 0 auto 25px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 60px;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
-            animation: float 4s ease-in-out infinite;
-        }
-        
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-        }
-        
-        .humanitario-title {
-            font-size: 36px;
-            font-weight: 900;
-            margin-bottom: 15px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-            animation: glow-text 2s ease-in-out infinite alternate;
-        }
-        
-        @keyframes glow-text {
-            from { text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
-            to { text-shadow: 2px 2px 20px rgba(251, 191, 36, 0.8); }
-        }
-        
-        .humanitario-subtitle {
-            font-size: 20px;
-            margin-bottom: 25px;
-            font-weight: 700;
-        }
-
-        .whatsapp-viral-section {
-            background: linear-gradient(45deg, #25d366, #128c7e);
-            border-radius: 30px;
-            padding: 30px;
-            text-align: center;
-            margin-bottom: 30px;
-            border: 4px solid rgba(255, 255, 255, 0.3);
-            animation: pulse-whatsapp 2s infinite;
-            box-shadow: 0 15px 40px rgba(37, 211, 102, 0.4);
-            cursor: pointer;
-        }
-        
-        @keyframes pulse-whatsapp {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-        
-        .whatsapp-icon {
-            font-size: 70px;
-            margin-bottom: 20px;
-            animation: shake 1s infinite;
-        }
-        
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-5px); }
-            75% { transform: translateX(5px); }
-        }
-        
-        .whatsapp-text {
-            font-size: 24px;
-            font-weight: 900;
-            margin-bottom: 12px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
-
-        .main-actions-humanitario {
-            display: grid;
-            gap: 25px;
-            margin-bottom: 30px;
-        }
-        
-        .action-btn-humanitario {
-            background: rgba(255, 255, 255, 0.98);
-            color: #1e293b;
-            border: 5px solid #fbbf24;
-            padding: 40px 25px;
-            border-radius: 30px;
-            font-size: 22px;
-            font-weight: 900;
-            cursor: pointer;
-            text-align: center;
-            transition: all 0.4s ease;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
-            text-transform: uppercase;
-        }
-        
-        .action-btn-humanitario:hover {
-            background: #fbbf24;
-            color: white;
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 25px 50px rgba(0,0,0,0.4);
-        }
-        
-        .action-icon-humanitario {
-            font-size: 80px;
-            display: block;
-            margin-bottom: 20px;
-            animation: bounce-icon 2s infinite;
-        }
-        
-        @keyframes bounce-icon {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-        
-        .action-text-humanitario {
-            font-size: 24px;
-            margin-bottom: 12px;
-            line-height: 1.2;
-        }
-        
-        .action-subtitle-humanitario {
-            font-size: 16px;
-            opacity: 0.8;
-            font-weight: 600;
-        }
-
-        .emergency-section {
-            background: linear-gradient(45deg, #ef4444, #dc2626);
-            border-radius: 30px;
-            padding: 30px;
-            text-align: center;
-            margin-bottom: 30px;
-            border: 4px solid rgba(255, 255, 255, 0.3);
-            animation: pulse-emergency 1.5s infinite;
-            box-shadow: 0 15px 40px rgba(239, 68, 68, 0.4);
-            cursor: pointer;
-        }
-        
-        @keyframes pulse-emergency {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-        
-        .emergency-icon {
-            font-size: 70px;
-            margin-bottom: 20px;
-            animation: shake 1s infinite;
-        }
-        
-        .emergency-text {
-            font-size: 24px;
-            font-weight: 900;
-            margin-bottom: 12px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
-
-        /* Sistema de Test Visual Humanitario MEJORADO */
-        .test-visual-humanitario {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1001;
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-        }
-        
-        .test-container {
-            max-width: 400px;
-            margin: 0 auto;
-            padding: 20px;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-        
-        .test-step {
-            background: rgba(255, 255, 255, 0.98);
-            color: #1e293b;
-            border-radius: 35px;
-            padding: 60px 40px;
-            text-align: center;
-            margin-bottom: 30px;
-            border: 5px solid #22d3ee;
-            animation: test-glow 3s ease-in-out infinite alternate;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
-        }
-        
-        @keyframes test-glow {
-            from { box-shadow: 0 20px 50px rgba(34, 211, 238, 0.3); }
-            to { box-shadow: 0 20px 50px rgba(34, 211, 238, 0.6); }
-        }
-        
-        .test-icon {
-            font-size: 120px;
-            margin-bottom: 30px;
-            animation: icon-pulse 2s infinite;
-        }
-        
-        @keyframes icon-pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-        }
-        
-        .test-text {
-            font-size: 28px;
-            font-weight: 900;
-            margin-bottom: 25px;
-            line-height: 1.3;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
-        }
-        
-        .test-buttons {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 25px;
-            margin-top: 40px;
-        }
-        
-        .test-btn {
-            padding: 25px;
-            font-size: 22px;
-            font-weight: 900;
-            border: none;
-            border-radius: 25px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
-        }
-        
-        .btn-yes {
-            background: linear-gradient(45deg, #22c55e, #16a34a);
-            color: white;
-        }
-        
-        .btn-no {
-            background: linear-gradient(45deg, #ef4444, #dc2626);
-            color: white;
-        }
-        
-        .btn-yes:hover, .btn-no:hover {
-            transform: scale(1.05) translateY(-3px);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
-        }
-
-        /* Tabla Visual para Test MEJORADA */
-        .vision-chart {
-            background: white;
-            color: black;
-            border-radius: 25px;
-            padding: 40px;
-            margin: 30px 0;
-            font-family: 'Courier New', monospace;
-            font-weight: bold;
-            border: 5px solid #22d3ee;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
-        }
-        
-        .chart-line {
-            margin: 20px 0;
-            letter-spacing: 3px;
-            text-align: center;
-            transition: all 0.3s ease;
-        }
-        
-        .chart-line:hover {
-            transform: scale(1.1);
-            color: #22d3ee;
-        }
-
-        /* Controles de Audio MEJORADOS */
-        .audio-controls {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            z-index: 1002;
-        }
-        
-        .audio-btn {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            background: linear-gradient(45deg, #f59e0b, #d97706);
-            border: 4px solid rgba(255, 255, 255, 0.3);
-            color: white;
-            font-size: 35px;
-            cursor: pointer;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            animation: audio-pulse 2s infinite;
-            transition: all 0.3s ease;
-        }
-        
-        @keyframes audio-pulse {
-            0%, 100% { transform: translateY(0) scale(1); }
-            50% { transform: translateY(-5px) scale(1.05); }
-        }
-        
-        .audio-btn:hover {
-            transform: scale(1.1);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
-        }
-
-        /* Barra de Progreso MEJORADA */
-        .progress-indicator {
-            position: fixed;
-            top: 25px;
-            left: 25px;
-            right: 25px;
-            height: 12px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 15px;
-            overflow: hidden;
-            z-index: 1003;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-        }
-        
-        .progress-bar {
-            height: 100%;
-            background: linear-gradient(45deg, #22c55e, #16a34a);
-            width: 0%;
-            transition: width 0.5s ease;
-            box-shadow: 0 0 20px rgba(34, 197, 94, 0.5);
-        }
-
-        /* Detector de Modo MEJORADO */
-        .modo-selector {
-            position: fixed;
-            top: 25px;
-            left: 25px;
-            z-index: 999;
-            background: rgba(0,0,0,0.9);
-            color: white;
-            padding: 12px 20px;
-            border-radius: 25px;
-            font-size: 14px;
-            cursor: pointer;
-            font-weight: 700;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            backdrop-filter: blur(10px);
-        }
-
-        /* Estilos del sistema original que se mantienen */
-        .analytics-badge {
-            position: fixed;
-            top: 25px;
-            right: 25px;
-            background: rgba(0,0,0,0.9);
-            color: white;
-            padding: 10px 15px;
-            border-radius: 25px;
-            font-size: 12px;
-            z-index: 1000;
-            backdrop-filter: blur(10px);
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            font-weight: 600;
-        }
-
-        .admin-access {
-            position: fixed;
-            bottom: 25px;
-            left: 25px;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background: rgba(0,0,0,0.9);
-            backdrop-filter: blur(10px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            color: #888;
-            font-size: 24px;
-            z-index: 1000;
-            transition: all 0.3s ease;
-            border: 2px solid rgba(255, 255, 255, 0.2);
-        }
-        
-        .admin-access:hover {
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            transform: scale(1.1);
-        }
-
-        .empty-state { 
-            text-align: center; 
-            padding: 60px 20px; 
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 25px;
-            backdrop-filter: blur(10px);
-        }
-        .state-icon { font-size: 64px; margin-bottom: 20px; }
-        .state-title { font-size: 22px; font-weight: 700; margin-bottom: 15px; }
-
-        /* CORREGIDO: Estilos mejorados para productos */
         .product-card { 
             background: rgba(255, 255, 255, 0.15); 
             backdrop-filter: blur(10px);
@@ -580,7 +145,6 @@
             margin-bottom: 30px; 
         }
 
-        /* CORREGIDO: Botones mejorados */
         .whatsapp-button { 
             background: #25d366; 
             color: white; 
@@ -600,21 +164,20 @@
             box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
         }
 
-        .whatsapp-button:hover {
+        .whatsapp-button:hover, .whatsapp-button:active {
             background: #128c7e;
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
         }
 
-        /* NUEVO: Botones de compartir viral */
-        .viral-share-buttons {
+        .share-buttons {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 15px;
             margin-bottom: 20px;
         }
 
-        .viral-btn {
+        .share-btn {
             padding: 18px;
             border: none;
             border-radius: 20px;
@@ -631,19 +194,19 @@
             border: 2px solid rgba(99, 102, 241, 0.3);
         }
 
-        .btn-copy-link:hover {
+        .btn-copy-link:hover, .btn-copy-link:active {
             background: #6366f1;
             color: white;
         }
 
-        .btn-viral-whatsapp {
-            background: rgba(37, 211, 102, 0.2);
-            color: #25d366;
-            border: 2px solid rgba(37, 211, 102, 0.3);
+        .btn-send-message {
+            background: rgba(34, 211, 238, 0.2);
+            color: #22d3ee;
+            border: 2px solid rgba(34, 211, 238, 0.3);
         }
 
-        .btn-viral-whatsapp:hover {
-            background: #25d366;
+        .btn-send-message:hover, .btn-send-message:active {
+            background: #22d3ee;
             color: white;
         }
 
@@ -662,11 +225,10 @@
             transition: all 0.3s ease;
         }
 
-        .catalog-button:hover {
+        .catalog-button:hover, .catalog-button:active {
             background: rgba(99, 102, 241, 0.3);
         }
 
-        /* CORREGIDO: Catálogo mejorado */
         .catalog-grid { 
             display: grid; 
             grid-template-columns: repeat(2, 1fr); 
@@ -684,7 +246,7 @@
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
         
-        .catalog-item:hover {
+        .catalog-item:hover, .catalog-item:active {
             background: rgba(255, 255, 255, 0.25);
             transform: translateY(-5px);
             box-shadow: 0 8px 25px rgba(0,0,0,0.3);
@@ -709,13 +271,82 @@
             color: #22d3ee; 
         }
 
-        /* Ocultar elementos en modo humanitario */
-        .modo-humanitario .analytics-badge,
-        .modo-humanitario .admin-access {
-            display: none;
+        .empty-state { 
+            text-align: center; 
+            padding: 60px 20px; 
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 25px;
+            backdrop-filter: blur(10px);
+        }
+        .state-icon { font-size: 64px; margin-bottom: 20px; }
+        .state-title { font-size: 22px; font-weight: 700; margin-bottom: 15px; }
+
+        .analytics-badge {
+            position: fixed;
+            top: 25px;
+            right: 25px;
+            background: rgba(0,0,0,0.9);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 25px;
+            font-size: 12px;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            font-weight: 600;
         }
 
-        /* NUEVO: Notificación de éxito */
+        .admin-access {
+            position: fixed;
+            bottom: 25px;
+            left: 25px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: rgba(0,0,0,0.9);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: #888;
+            font-size: 24px;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .admin-access:hover, .admin-access:active {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .central-access {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #22d3ee, #0891b2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: white;
+            font-size: 24px;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 15px rgba(34, 211, 238, 0.3);
+        }
+        
+        .central-access:hover, .central-access:active {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(34, 211, 238, 0.4);
+        }
+
         .success-notification {
             position: fixed;
             top: 50%;
@@ -738,1040 +369,281 @@
             10%, 90% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
         }
 
-        /* BACKUP Status Indicator */
-        .backup-status {
-            position: fixed;
-            top: 80px;
-            right: 25px;
-            background: rgba(16, 185, 129, 0.9);
-            color: white;
-            padding: 8px 12px;
-            border-radius: 20px;
-            font-size: 11px;
-            z-index: 1000;
-            font-weight: 600;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .backup-status.show {
-            opacity: 1;
-        }
-
-        /* Creditos */
-        .credits {
-            position: fixed;
-            bottom: 5px;
-            right: 5px;
-            font-size: 10px;
-            opacity: 0.6;
-            background: rgba(0,0,0,0.5);
-            padding: 5px 10px;
-            border-radius: 10px;
-            z-index: 999;
+        /* Específico para móviles */
+        @media (max-width: 480px) {
+            .container { padding: 10px; }
+            .header { padding: 20px; }
+            .brand-name { font-size: 24px; }
+            .feature-btn { padding: 15px 10px; font-size: 13px; }
+            .whatsapp-button { padding: 20px 15px; font-size: 18px; }
+            .product-image { height: 280px; }
+            .product-price { font-size: 28px; }
         }
     </style>
 </head>
 <body>
-    <!-- Selector de Modo -->
-    <div class="modo-selector" onclick="toggleModo()" id="modoSelector">
-        👁️ Modo: Normal
-    </div>
-
-    <!-- BACKUP Status -->
-    <div class="backup-status" id="backupStatus">
-        ☁️ Backup automático activo
-    </div>
-
-    <!-- Créditos -->
-    <div class="credits">
-        by fbrugal jrubinstein consultores
-    </div>
-
-    <!-- MODO NORMAL - Sistema Original -->
-    <div id="modoNormal" class="modo-normal">
-        <div class="container">
-            <div class="header">
-                <div class="logo">👁️</div>
-                <h1 class="brand-name">Óptica Nvisión</h1>
-                <p class="tagline">Vea mejor, viva mejor - Especialistas en salud visual</p>
-                <div class="contact-info">
-                    <div class="contact-item"><span>📱</span><span>849-797-2424</span></div>
-                    <div class="contact-item"><span>🎁</span><span>Garantía premium</span></div>
-                    <div class="contact-item"><span>🚚</span><span>Entrega gratis</span></div>
-                </div>
+    <div class="container">
+        <div class="header">
+            <div class="logo">👁️</div>
+            <h1 class="brand-name">Óptica Nvisión</h1>
+            <p class="tagline">Vea mejor, viva mejor - Especialistas en salud visual</p>
+            <div class="contact-info">
+                <div class="contact-item"><span>📱</span><span>849-797-2424</span></div>
+                <div class="contact-item"><span>🎁</span><span>Garantía premium</span></div>
+                <div class="contact-item"><span>🚚</span><span>Entrega gratis</span></div>
             </div>
-
-            <div class="feature-buttons">
-                <button class="feature-btn" onclick="showVisionTest()">
-                    🔍 TEST DE VISTA<br>
-                    <small>Gratis y rápido</small>
-                </button>
-                <button class="feature-btn" onclick="showCatalogView()">
-                    👓 VER MONTURAS<br>
-                    <small>Catálogo completo</small>
-                </button>
-                <button class="feature-btn" onclick="abrirPOS()">
-                    💼 PUNTO DE VENTA<br>
-                    <small>Facturación completa</small>
-                </button>
-                <button class="feature-btn" onclick="activarModoHumanitario()">
-                    🌾 MODO SIMPLE<br>
-                    <small>Para zonas rurales</small>
-                </button>
-            </div>
-            
-            <div id="mainContent">
-                <div class="empty-state">
-                    <span class="state-icon">🏥</span>
-                    <div class="state-title">Bienvenido a Óptica Nvisión</div>
-                    <div>Su salud visual es nuestra prioridad. Comience con nuestro test de vista gratuito o explore nuestro catálogo de monturas premium.</div>
-                    <br>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                        <button onclick="showVisionTest()" style="padding: 15px; background: linear-gradient(45deg, #22d3ee, #0891b2); color: white; border: none; border-radius: 15px; cursor: pointer; font-size: 14px; font-weight: 700;">
-                            🔍 Hacer Test
-                        </button>
-                        <button onclick="activarModoHumanitario()" style="padding: 15px; background: linear-gradient(45deg, #10b981, #059669); color: white; border: none; border-radius: 15px; cursor: pointer; font-size: 14px; font-weight: 700;">
-                            🌾 Modo Simple
-                        </button>
-                    </div>
-                </div>
-            </div>
+            <div class="by-line">by fbrugaljrubinstein consultores</div>
         </div>
-    </div>
 
-    <!-- MODO HUMANITARIO - Sistema WhatsApp Enfocado -->
-    <div id="modoHumanitario" class="modo-humanitario">
-        <div class="humanitario-container">
-            <!-- Header Humanitario -->
-            <div class="humanitario-header">
-                <div class="humanitario-logo">👁️</div>
-                <h1 class="humanitario-title">Óptica Nvisión</h1>
-                <p class="humanitario-subtitle">🌟 Cuidamos sus ojos 🌟</p>
-            </div>
-
-            <!-- Sección WhatsApp Viral -->
-            <div class="whatsapp-viral-section" onclick="compartirViralWhatsApp()">
-                <div class="whatsapp-icon">💬</div>
-                <div class="whatsapp-text">¡COMPARTE POR WHATSAPP!</div>
-                <div style="font-size: 18px; margin-top: 10px; opacity: 0.9;">
-                    Ayuda a tu familia y amigos
-                </div>
-            </div>
-
-            <!-- Sección de Emergencia MEJORADA -->
-            <div class="emergency-section" onclick="emergencyCall()">
-                <div class="emergency-icon">🚨</div>
-                <div class="emergency-text">¿PROBLEMA EN LOS OJOS?</div>
-                <div class="emergency-text" style="font-size: 18px;">TOQUE AQUÍ PARA LLAMAR</div>
-                <div style="font-size: 14px; margin-top: 10px; opacity: 0.9;">
-                    Atención médica inmediata
-                </div>
-            </div>
-
-            <!-- Acciones Principales Humanitarias MEJORADAS -->
-            <div class="main-actions-humanitario">
-                <button class="action-btn-humanitario" onclick="iniciarTestHumanitario()">
-                    <span class="action-icon-humanitario">👁️</span>
-                    <div class="action-text-humanitario">Revisar Vista</div>
-                    <div class="action-subtitle-humanitario">Con ayuda de voz</div>
-                </button>
-                
-                <button class="action-btn-humanitario" onclick="verLentesSimple()">
-                    <span class="action-icon-humanitario">👓</span>
-                    <div class="action-text-humanitario">Ver Lentes</div>
-                    <div class="action-subtitle-humanitario">Monturas disponibles</div>
-                </button>
-                
-                <button class="action-btn-humanitario" onclick="pedirAyuda()">
-                    <span class="action-icon-humanitario">🤝</span>
-                    <div class="action-text-humanitario">Pedir Ayuda</div>
-                    <div class="action-subtitle-humanitario">Hablar con especialista</div>
-                </button>
-            </div>
-
-            <!-- Botón para volver al modo normal -->
-            <div style="text-align: center;">
-                <button onclick="desactivarModoHumanitario()" style="background: rgba(255,255,255,0.2); color: white; border: 3px solid white; padding: 18px 35px; border-radius: 25px; font-size: 18px; font-weight: 700; cursor: pointer; transition: all 0.3s ease;">
-                    🔙 Modo Normal
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- SISTEMA DE TEST VISUAL HUMANITARIO MEJORADO -->
-    <div id="testVisualHumanitario" class="test-visual-humanitario">
-        <div class="progress-indicator">
-            <div class="progress-bar" id="progressBar"></div>
+        <div class="feature-buttons">
+            <button class="feature-btn" onclick="showVisionTest()">
+                🔍 TEST DE VISTA<br>
+                <small>Gratis y rápido</small>
+            </button>
+            <button class="feature-btn" onclick="showCatalogView()">
+                👓 VER MONTURAS<br>
+                <small>Catálogo completo</small>
+            </button>
+            <button class="feature-btn" onclick="abrirPOS()">
+                💼 PUNTO DE VENTA<br>
+                <small>Facturación completa</small>
+            </button>
+            <button class="feature-btn" onclick="goToCentral()">
+                🎯 SISTEMA CENTRAL<br>
+                <small>Gestión completa</small>
+            </button>
         </div>
         
-        <div class="test-container">
-            <div class="test-step" id="testStep">
-                <div class="test-icon" id="stepIcon">👋</div>
-                <div class="test-text" id="stepText">¡Hola! Vamos a revisar sus ojos. Es muy fácil.</div>
-                <div id="visualChart" style="display: none;">
-                    <div class="vision-chart">
-                        <div class="chart-line" style="font-size: 40px;">E</div>
-                        <div class="chart-line" style="font-size: 32px;">F P</div>
-                        <div class="chart-line" style="font-size: 24px;">T O Z</div>
-                        <div class="chart-line" style="font-size: 18px;">L P E D</div>
-                        <div class="chart-line" style="font-size: 14px;">P E C F D</div>
-                        <div class="chart-line" style="font-size: 12px;">E D F C Z P</div>
-                    </div>
-                </div>
-                <div class="test-buttons">
-                    <button class="test-btn btn-yes" onclick="responderTest(true)" id="btnSi">
-                        ✅ SÍ
+        <div id="mainContent">
+            <div class="empty-state">
+                <span class="state-icon">🏥</span>
+                <div class="state-title">Bienvenido a Óptica Nvisión</div>
+                <div>Su salud visual es nuestra prioridad. Comience con nuestro test de vista gratuito o explore nuestro catálogo de monturas premium.</div>
+                <br>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                    <button onclick="showVisionTest()" style="padding: 15px; background: linear-gradient(45deg, #22d3ee, #0891b2); color: white; border: none; border-radius: 15px; cursor: pointer; font-size: 14px; font-weight: 700;">
+                        🔍 Hacer Test
                     </button>
-                    <button class="test-btn btn-no" onclick="responderTest(false)" id="btnNo">
-                        ❌ NO
+                    <button onclick="goToCentral()" style="padding: 15px; background: linear-gradient(45deg, #10b981, #059669); color: white; border: none; border-radius: 15px; cursor: pointer; font-size: 14px; font-weight: 700;">
+                        🎯 Sistema Central
                     </button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Controles de Audio MEJORADOS -->
-    <div class="audio-controls">
-        <button class="audio-btn" onclick="toggleAudio()" id="audioBtn">
-            🔊
-        </button>
-    </div>
-
-    <!-- Analytics y Admin (solo en modo normal) -->
+    <!-- Analytics -->
     <div id="analyticsBadge" class="analytics-badge">
         📊 <span id="viewCount">0</span> vistas | 💬 <span id="clickCount">0</span> clicks
     </div>
 
+    <!-- Admin Access -->
     <div class="admin-access" onclick="adminAccess()">⚙️</div>
 
-    <!-- NUEVO: Notificación de éxito -->
+    <!-- Central Access -->
+    <div class="central-access" onclick="goToCentral()">🎯</div>
+
+    <!-- Success Notification -->
     <div id="successNotification" class="success-notification">
         ✅ ¡Enlace copiado!
     </div>
 
     <script>
-        // VARIABLES GLOBALES - CORREGIDO para Nvisión
-        var WHATSAPP_NUMBER = '18497972424';
-        var BASE_URL = window.location.origin + window.location.pathname.replace(/[^/]*$/, '');
-        var isAudioEnabled = false;
-        var modoActual = 'normal'; // 'normal' o 'humanitario'
-        var currentTestStep = 0;
-        var audioSupported = 'speechSynthesis' in window;
+        // VARIABLES GLOBALES
+        const WHATSAPP_NUMBER = '18497972424';
+        const BASE_URL = window.location.origin + window.location.pathname.replace(/[^/]*$/, '');
 
-        // SISTEMA DE BACKUP AUTOMÁTICO A GOOGLE DRIVE
-        var BACKUP_CONFIG = {
-            email: 'oopticanvision@gmail.com',
-            password: 'nvision2530',
-            enabled: true,
-            lastBackup: null,
-            interval: 30 * 60 * 1000 // 30 minutos
-        };
-
-        // PASOS DEL TEST HUMANITARIO MEJORADOS
-        var testSteps = [
-            {
-                icon: "👋",
-                text: "¡Hola! Vamos a revisar sus ojos. Es muy fácil y rápido.",
-                audio: "Hola, vamos a revisar sus ojos, es muy fácil y rápido. Solo debe seguir mis instrucciones. ¿Está listo para comenzar?",
-                showChart: false,
-                yesText: "✅ SÍ, ESTOY LISTO",
-                noText: "❌ NO, SALIR"
-            },
-            {
-                icon: "📱",
-                text: "Mantenga el teléfono a un brazo de distancia de sus ojos.",
-                audio: "Mantenga el teléfono a un brazo de distancia de sus ojos. Extienda su brazo completamente. ¿Ya lo hizo?",
-                showChart: false,
-                yesText: "✅ YA ESTÁ LISTO",
-                noText: "❓ NO ENTIENDO"
-            },
-            {
-                icon: "🖐️",
-                text: "Tape su ojo derecho con la mano izquierda.",
-                audio: "Ahora tape su ojo derecho con la mano izquierda. Mantenga el ojo bien tapado. ¿Ya tapó el ojo derecho?",
-                showChart: false,
-                yesText: "✅ OJO TAPADO",
-                noText: "❓ NO ENTIENDO"
-            },
-            {
-                icon: "👁️",
-                text: "Mire las letras con el ojo izquierdo. ¿Puede ver todas las letras claramente?",
-                audio: "Mire las letras con el ojo izquierdo. ¿Puede ver todas las letras claramente? Desde la más grande hasta la más pequeña.",
-                showChart: true,
-                yesText: "✅ VEO TODO CLARO",
-                noText: "❌ NO VEO BIEN"
-            },
-            {
-                icon: "🖐️",
-                text: "Ahora tape su ojo izquierdo con la mano derecha.",
-                audio: "Ahora tape su ojo izquierdo con la mano derecha. Mantenga el ojo bien tapado. ¿Ya tapó el ojo izquierdo?",
-                showChart: false,
-                yesText: "✅ OJO TAPADO",
-                noText: "❓ NO ENTIENDO"
-            },
-            {
-                icon: "👁️",
-                text: "Mire las letras con el ojo derecho. ¿Puede ver todas las letras claramente?",
-                audio: "Mire las letras con el ojo derecho. ¿Puede ver todas las letras claramente? Desde la más grande hasta la más pequeña.",
-                showChart: true,
-                yesText: "✅ VEO TODO CLARO",
-                noText: "❌ NO VEO BIEN"
-            }
-        ];
-
-        var testResults = {
-            ojoIzquierdo: null,
-            ojoDerecho: null
-        };
-
-        // SISTEMA DE BACKUP AUTOMÁTICO
-        function initBackupSystem() {
-            if (BACKUP_CONFIG.enabled) {
-                showBackupStatus();
-                setInterval(performAutoBackup, BACKUP_CONFIG.interval);
-                // Backup inicial después de 30 segundos
-                setTimeout(performAutoBackup, 30000);
-            }
-        }
-
-        function showBackupStatus() {
-            var status = document.getElementById('backupStatus');
-            status.classList.add('show');
-            setTimeout(() => status.classList.remove('show'), 3000);
-        }
-
-        function performAutoBackup() {
+        // FUNCIONES SEGURAS DE ALMACENAMIENTO
+        function safeGet(key, defaultValue = '{}') {
             try {
-                var allData = {
-                    monturas: safeGetStorage('nvision_monturas'),
-                    clientes: safeGetStorage('nvision_clientes'),
-                    productos: safeGetStorage('nvision_productos'),
-                    facturas: safeGetStorage('nvision_facturas'),
-                    comprobantes: safeGetStorage('nvision_comprobantes'),
-                    estadisticas: {
-                        views: localStorage.getItem('nvision_views') || '0',
-                        clicks: localStorage.getItem('nvision_whatsapp_clicks') || '0'
-                    },
-                    backup_info: {
-                        timestamp: new Date().toISOString(),
-                        version: '2.0',
-                        sistema: 'Nvision_Optica',
-                        email: BACKUP_CONFIG.email
-                    }
-                };
-
-                // Simular envío a Google Drive (en un entorno real, usarías Google Drive API)
-                var backupString = JSON.stringify(allData, null, 2);
-                var backupBlob = new Blob([backupString], {type: 'application/json'});
-                
-                // Guardar localmente como respaldo
-                try {
-                    localStorage.setItem('nvision_last_backup', backupString);
-                    BACKUP_CONFIG.lastBackup = new Date().toISOString();
-                    
-                    console.log('✅ Backup automático completado:', new Date().toLocaleString());
-                    
-                    // Mostrar indicador de backup exitoso
-                    var status = document.getElementById('backupStatus');
-                    status.innerHTML = '✅ Backup realizado';
-                    status.style.background = 'rgba(16, 185, 129, 0.9)';
-                    showBackupStatus();
-                    
-                    setTimeout(() => {
-                        status.innerHTML = '☁️ Backup automático activo';
-                        status.style.background = 'rgba(16, 185, 129, 0.9)';
-                    }, 3000);
-                    
-                } catch (e) {
-                    console.log('⚠️ Backup local fallido:', e);
-                }
-
-            } catch (error) {
-                console.error('❌ Error en backup automático:', error);
-                var status = document.getElementById('backupStatus');
-                status.innerHTML = '⚠️ Error backup';
-                status.style.background = 'rgba(239, 68, 68, 0.9)';
-                showBackupStatus();
-            }
-        }
-
-        // FUNCIONES DE UTILIDAD
-        function getUrlParam(name) {
-            try {
-                var urlParams = new URLSearchParams(window.location.search);
-                return urlParams.get(name);
-            } catch (e) {
-                try {
-                    var url = window.location.search.substring(1);
-                    var params = url.split('&');
-                    for (var i = 0; i < params.length; i++) {
-                        var param = params[i].split('=');
-                        if (param[0] === name) {
-                            return decodeURIComponent(param[1]);
-                        }
-                    }
-                } catch (e2) {
-                    console.log('URL param error:', e2);
-                }
-                return null;
-            }
-        }
-
-        function safeGetStorage(key) {
-            try {
-                if (typeof(Storage) !== "undefined" && localStorage) {
-                    var value = localStorage.getItem(key);
-                    if (value && value !== 'null' && value !== 'undefined') {
-                        return JSON.parse(value);
-                    }
+                if (typeof Storage !== "undefined" && localStorage) {
+                    const value = localStorage.getItem(key);
+                    return value ? JSON.parse(value) : JSON.parse(defaultValue);
                 }
             } catch (e) {
                 console.log('Storage error:', e);
             }
-            return {};
+            return JSON.parse(defaultValue);
+        }
+
+        function safeSet(key, value) {
+            try {
+                if (typeof Storage !== "undefined" && localStorage) {
+                    localStorage.setItem(key, JSON.stringify(value));
+                    return true;
+                }
+            } catch (e) {
+                console.log('Storage error:', e);
+            }
+            return false;
+        }
+
+        function getUrlParam(name) {
+            try {
+                const urlParams = new URLSearchParams(window.location.search);
+                return urlParams.get(name);
+            } catch (e) {
+                return null;
+            }
         }
 
         function addView() {
             try {
-                if (typeof(Storage) !== "undefined" && localStorage) {
-                    var views = localStorage.getItem('nvision_views') || '0';
-                    views = parseInt(views) + 1;
-                    localStorage.setItem('nvision_views', views.toString());
-                    
-                    var viewElement = document.getElementById('viewCount');
-                    if (viewElement) {
-                        viewElement.innerHTML = views;
-                    }
-                }
+                const views = parseInt(localStorage.getItem('nvision_views') || '0') + 1;
+                localStorage.setItem('nvision_views', views.toString());
+                document.getElementById('viewCount').textContent = views;
             } catch (e) {
-                console.log('Error updating views:', e);
+                console.log('Error updating views');
             }
         }
 
         function addWhatsAppClick() {
             try {
-                if (typeof(Storage) !== "undefined" && localStorage) {
-                    var clicks = localStorage.getItem('nvision_whatsapp_clicks') || '0';
-                    clicks = parseInt(clicks) + 1;
-                    localStorage.setItem('nvision_whatsapp_clicks', clicks.toString());
-                    
-                    var clickElement = document.getElementById('clickCount');
-                    if (clickElement) {
-                        clickElement.innerHTML = clicks;
-                    }
-                }
+                const clicks = parseInt(localStorage.getItem('nvision_whatsapp_clicks') || '0') + 1;
+                localStorage.setItem('nvision_whatsapp_clicks', clicks.toString());
+                document.getElementById('clickCount').textContent = clicks;
             } catch (e) {
-                console.log('Error updating clicks:', e);
+                console.log('Error updating clicks');
             }
         }
 
-        // NUEVO: Función para mostrar notificación
         function showNotification(message) {
-            var notification = document.getElementById('successNotification');
+            const notification = document.getElementById('successNotification');
             notification.textContent = message;
             notification.style.display = 'block';
             
-            setTimeout(function() {
+            setTimeout(() => {
                 notification.style.display = 'none';
             }, 3000);
         }
 
-        // NUEVO: Función para compartir viral por WhatsApp
-        function compartirViralWhatsApp() {
-            var mensaje = '👁️ *¡ÓPTICA NVISIÓN - TEST DE VISTA GRATIS!* 👁️\n\n';
-            mensaje += '🔍 *¿VES BIEN? DESCÚBRELO AHORA*\n\n';
-            mensaje += '✅ Test visual GRATUITO\n';
-            mensaje += '🔊 Con audio (no necesitas leer)\n';
-            mensaje += '📱 Desde tu celular\n';
-            mensaje += '⏱️ Solo 2 minutos\n';
-            mensaje += '👁️ Para toda la familia\n\n';
-            mensaje += '🔗 *HAZ TU TEST AQUÍ:*\n';
-            mensaje += window.location.origin + window.location.pathname + '?modo=rural&audio=true\n\n';
-            mensaje += '📞 *Óptica Nvisión: 849-797-2424*\n';
-            mensaje += '🏥 Especialistas en salud visual\n\n';
-            mensaje += '*¡Compártelo con tu familia!* 🌟\n';
-            mensaje += 'Vea mejor, viva mejor ✨';
-            
-            addWhatsAppClick();
-            window.open('https://wa.me/?text=' + encodeURIComponent(mensaje), '_blank');
-            speakText("Compartiendo test de vista por WhatsApp para ayudar a más personas");
-        }
-
-        // NUEVO: Función para copiar enlace viral
-        function copyProductLink(codigo) {
-            var enlace = window.location.origin + window.location.pathname + '?codigo=' + codigo;
-            
-            if (navigator.clipboard && navigator.clipboard.writeText) {
-                navigator.clipboard.writeText(enlace)
-                    .then(() => showNotification('✅ Enlace copiado al portapapeles'))
-                    .catch(() => fallbackCopyText(enlace));
-            } else {
-                fallbackCopyText(enlace);
-            }
-        }
-
-        // NUEVO: Función fallback para copiar
-        function fallbackCopyText(text) {
-            var textArea = document.createElement("textarea");
-            textArea.value = text;
-            textArea.style.position = "fixed";
-            textArea.style.left = "-999999px";
-            document.body.appendChild(textArea);
-            textArea.select();
-            
-            try {
-                document.execCommand('copy');
-                showNotification('✅ Enlace copiado');
-            } catch (err) {
-                showNotification('❌ No se pudo copiar');
-            }
-            
-            document.body.removeChild(textArea);
-        }
-
-        // NUEVO: Función para enviar mensaje de producto
-        function sendProductMessage(codigo) {
-            var monturas = safeGetStorage('nvision_monturas');
-            var montura = monturas[codigo];
-            
-            if (montura) {
-                var mensaje = '🏥 *ÓPTICA NVISIÓN* 🏥\n\n';
-                mensaje += '📸 Te comparto esta montura:\n';
-                mensaje += '🔢 Código: ' + montura.codigo + '\n';
-                mensaje += '💰 Precio: ' + montura.precio + '\n';
-                mensaje += '📝 Descripción: ' + montura.nombre + '\n\n';
-                mensaje += '🔗 Ver más detalles: ' + montura.enlace + '\n\n';
-                mensaje += '📞 *Contactar: 849-797-2424*\n';
-                mensaje += '👁️ ¡Vea mejor, viva mejor! ✨';
-                
-                window.open('https://wa.me/?text=' + encodeURIComponent(mensaje), '_blank');
-                addWhatsAppClick();
-                showNotification('✅ Compartiendo por WhatsApp');
-            }
-        }
-
-        // SISTEMA DE AUDIO MEJORADO
-        function toggleAudio() {
-            isAudioEnabled = !isAudioEnabled;
-            var btn = document.getElementById('audioBtn');
-            btn.textContent = isAudioEnabled ? '🔇' : '🔊';
-            
-            if (isAudioEnabled && audioSupported) {
-                speakText("Audio activado. Ahora escuchará instrucciones de voz claras y detalladas para ayudarle en todo momento.");
-                btn.style.background = 'linear-gradient(45deg, #22c55e, #16a34a)';
-            } else if (isAudioEnabled && !audioSupported) {
-                alert("Su navegador no soporta audio. Use un navegador más reciente como Chrome o Firefox.");
-                isAudioEnabled = false;
-                btn.textContent = '🔊';
-            } else {
-                btn.style.background = 'linear-gradient(45deg, #f59e0b, #d97706)';
-            }
-        }
-
-        function speakText(text) {
-            if (!isAudioEnabled || !audioSupported) return;
-            
-            window.speechSynthesis.cancel();
-            
-            var utterance = new SpeechSynthesisUtterance(text);
-            utterance.lang = 'es-ES';
-            utterance.rate = 0.65; // Más lento para mejor comprensión
-            utterance.volume = 1.0;
-            utterance.pitch = 1.0;
-            
-            // Intentar usar voces femeninas si están disponibles
-            var voices = window.speechSynthesis.getVoices();
-            var spanishVoice = voices.find(voice => voice.lang.includes('es') && voice.name.includes('ema'));
-            if (spanishVoice) {
-                utterance.voice = spanishVoice;
-            }
-            
-            window.speechSynthesis.speak(utterance);
-        }
-
-        // GESTIÓN DE MODOS
-        function toggleModo() {
-            if (modoActual === 'normal') {
-                activarModoHumanitario();
-            } else {
-                desactivarModoHumanitario();
-            }
-        }
-
-        function activarModoHumanitario() {
-            modoActual = 'humanitario';
-            document.getElementById('modoNormal').style.display = 'none';
-            document.getElementById('modoHumanitario').style.display = 'block';
-            document.getElementById('modoSelector').textContent = '🌾 Modo: Simple';
-            
-            if (!isAudioEnabled && audioSupported) {
-                setTimeout(() => toggleAudio(), 1000);
-            }
-            
-            setTimeout(() => {
-                speakText("Modo simple activado. Este modo está diseñado para personas con dificultades visuales o de lectura. Aquí puede revisar sus ojos de manera muy fácil con instrucciones de voz. También puede compartir este test con su familia por WhatsApp. Si tiene algún problema urgente en los ojos, toque el botón rojo para llamar inmediatamente.");
-            }, 2000);
-        }
-
-        function desactivarModoHumanitario() {
-            modoActual = 'normal';
-            document.getElementById('modoHumanitario').style.display = 'none';
-            document.getElementById('modoNormal').style.display = 'block';
-            document.getElementById('modoSelector').textContent = '👁️ Modo: Normal';
-            
-            cerrarTestHumanitario();
-            
-            speakText("Modo normal activado. Ahora puede acceder a todas las funciones avanzadas del sistema.");
-        }
-
-        // FUNCIONES DE EMERGENCIA MEJORADAS
-        function emergencyCall() {
-            speakText("Atención: Activando protocolo de emergencia médica. Si tiene dolor severo, pérdida repentina de visión, o cualquier problema urgente en los ojos, es importante recibir atención inmediata.");
-            addWhatsAppClick();
-            
-            if (confirm("🚨 ¿Tiene una EMERGENCIA MÉDICA en los ojos?\n\n• Dolor severo\n• Pérdida de visión\n• Accidente ocular\n• Inflamación intensa\n\n¿LLAMAR INMEDIATAMENTE?")) {
-                window.open('tel:' + WHATSAPP_NUMBER.replace(/^1/, ''), '_self');
-                
-                setTimeout(function() {
-                    var emergencyMessage = "🚨 EMERGENCIA MÉDICA OCULAR 🚨\n\n";
-                    emergencyMessage += "Necesito atención médica URGENTE para un problema en los ojos.\n\n";
-                    emergencyMessage += "⏰ ES UNA EMERGENCIA ⏰\n";
-                    emergencyMessage += "📱 Por favor llamen inmediatamente\n\n";
-                    emergencyMessage += "📍 Ubicación: [Indicar dónde se encuentra]\n";
-                    emergencyMessage += "🆘 Síntomas: [Describir problema]";
-                    
-                    window.open('https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(emergencyMessage), '_blank');
-                }, 1000);
-            }
-        }
-
-        // TEST VISUAL HUMANITARIO MEJORADO
-        function iniciarTestHumanitario() {
-            speakText("Iniciando test de vista especializado con instrucciones de voz paso a paso. Este test es completamente gratuito y le ayudará a determinar si necesita una consulta profesional.");
-            currentTestStep = 0;
-            testResults = { ojoIzquierdo: null, ojoDerecho: null };
-            
-            document.getElementById('testVisualHumanitario').style.display = 'block';
-            setTimeout(() => actualizarTestStep(), 1000);
-        }
-
-        function cerrarTestHumanitario() {
-            document.getElementById('testVisualHumanitario').style.display = 'none';
-            speakText("Test de vista cerrado. Puede repetirlo cuando guste.");
-        }
-
-        function actualizarTestStep() {
-            if (currentTestStep >= testSteps.length) {
-                completarTest();
-                return;
-            }
-            
-            var step = testSteps[currentTestStep];
-            
-            document.getElementById('stepIcon').textContent = step.icon;
-            document.getElementById('stepText').textContent = step.text;
-            document.getElementById('btnSi').textContent = step.yesText;
-            document.getElementById('btnNo').textContent = step.noText;
-            
-            var chart = document.getElementById('visualChart');
-            if (step.showChart) {
-                chart.style.display = 'block';
-            } else {
-                chart.style.display = 'none';
-            }
-            
-            var progress = ((currentTestStep + 1) / testSteps.length) * 100;
-            document.getElementById('progressBar').style.width = progress + '%';
-            
-            setTimeout(function() {
-                speakText(step.audio);
-            }, 800);
-        }
-
-        function responderTest(respuesta) {
-            var currentStep = testSteps[currentTestStep];
-            
-            if (!respuesta && (currentTestStep === 1 || currentTestStep === 2 || currentTestStep === 4)) {
-                speakText("No se preocupe, voy a explicarle otra vez. " + currentStep.audio);
-                return;
-            }
-            
-            if (!respuesta && currentTestStep === 0) {
-                cerrarTestHumanitario();
-                speakText("Test cancelado. Puede volver cuando esté listo.");
-                return;
-            }
-            
-            if (currentTestStep === 3) {
-                testResults.ojoIzquierdo = respuesta;
-                speakText(respuesta ? "Excelente, su ojo izquierdo ve bien las letras." : "Entiendo, tiene algunas dificultades con el ojo izquierdo. Continuemos.");
-            }
-            
-            if (currentTestStep === 5) {
-                testResults.ojoDerecho = respuesta;
-                speakText(respuesta ? "Muy bien, su ojo derecho también ve correctamente." : "Comprendo, tiene dificultades con el ojo derecho también.");
-            }
-            
-            currentTestStep++;
-            setTimeout(function() {
-                actualizarTestStep();
-            }, 1500);
-        }
-
-        function completarTest() {
-            addWhatsAppClick();
-            
-            var mensaje = "🔍 TEST DE VISTA COMPLETADO - ÓPTICA NVISIÓN 🔍\n\n";
-            mensaje += "📋 RESULTADOS DEL EXAMEN:\n";
-            mensaje += "👁️ Ojo Izquierdo: " + (testResults.ojoIzquierdo ? "Ve bien ✅" : "Con dificultades ❌") + "\n";
-            mensaje += "👁️ Ojo Derecho: " + (testResults.ojoDerecho ? "Ve bien ✅" : "Con dificultades ❌") + "\n\n";
-            
-            if (!testResults.ojoIzquierdo || !testResults.ojoDerecho) {
-                mensaje += "🏥 RECOMENDACIÓN: CONSULTA PROFESIONAL NECESARIA\n\n";
-                mensaje += "📅 Necesito agendar una cita para examen completo con optometrista.\n";
-                mensaje += "👩‍⚕️ Requiero evaluación profesional urgente.\n\n";
-                speakText("Test completado. Los resultados indican que necesita una consulta profesional. Contactando con nuestro especialista para agendar una cita urgente.");
-            } else {
-                mensaje += "✅ RESULTADO: VISTA APARENTEMENTE NORMAL\n\n";
-                mensaje += "👓 Me interesan las monturas de protección o estilo.\n";
-                mensaje += "🛡️ Quiero cuidar mi vista con lentes de calidad.\n\n";
-                speakText("Felicitaciones, test completado exitosamente. Su vista parece estar en buenas condiciones. Contactando para mostrarle nuestras monturas de protección.");
-            }
-            
-            mensaje += "📱 Completé el test en su página web de Óptica Nvisión.\n";
-            mensaje += "📍 Solicito información sobre precios y disponibilidad.\n\n";
-            mensaje += "🔗 Compartir test: " + window.location.origin + window.location.pathname + "?modo=rural&audio=true";
-            
-            window.open('https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(mensaje), '_blank');
-            
-            setTimeout(function() {
-                cerrarTestHumanitario();
-                speakText("Nuestro especialista se comunicará con usted muy pronto. Gracias por confiar en Óptica Nvisión. No olvide compartir este test con su familia.");
-            }, 3000);
-        }
-
-        // OTRAS FUNCIONES HUMANITARIAS MEJORADAS
-        function verLentesSimple() {
-            speakText("Mostrando todas las monturas disponibles en nuestro catálogo. Puede tocar cualquier montura para ver más detalles y precios.");
-            addView();
-            desactivarModoHumanitario();
-            setTimeout(() => showCatalogView(), 500);
-        }
-
-        function pedirAyuda() {
-            speakText("Conectando con nuestro especialista para recibir ayuda personalizada paso a paso.");
-            addWhatsAppClick();
-            
-            var mensaje = "🤝 SOLICITUD DE AYUDA PERSONALIZADA - ÓPTICA NVISIÓN 🤝\n\n";
-            mensaje += "Hola, necesito ayuda para usar su sistema de test de vista. ";
-            mensaje += "Prefiero que me expliquen paso a paso por teléfono o WhatsApp.\n\n";
-            mensaje += "📞 SOLICITO:\n";
-            mensaje += "• Explicación del test de vista\n";
-            mensaje += "• Ayuda para revisar mis ojos\n";
-            mensaje += "• Información sobre monturas\n";
-            mensaje += "• Asistencia personalizada\n\n";
-            mensaje += "🙏 Por favor, tengan paciencia conmigo y llámenme cuando puedan.\n\n";
-            mensaje += "📍 También pueden encontrar nuestro test aquí:\n";
-            mensaje += window.location.origin + window.location.pathname + "?modo=rural&audio=true";
-            
-            window.open('https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(mensaje), '_blank');
-        }
-
-        // FUNCIONES DEL SISTEMA ORIGINAL COMPLETAS
+        // FUNCIONES PRINCIPALES
         function showVisionTest() {
             addView();
-            var html = '';
-            html += '<div class="vision-test">';
-            html += '<h2 style="font-size: 24px; margin-bottom: 20px; color: #22d3ee;">🔍 Test de Vista Básico</h2>';
-            html += '<div class="test-instructions">';
-            html += '<div class="test-step">📏 Extienda su brazo completamente</div>';
-            html += '<div class="test-step">🖐️ Tape su ojo derecho con la mano</div>';
-            html += '<div class="test-step">👁️ Lea las letras con el ojo izquierdo</div>';
-            html += '</div>';
-            
-            html += '<div class="vision-chart">';
-            html += '<div class="chart-line" style="font-size: 40px;">E</div>';
-            html += '<div class="chart-line" style="font-size: 32px;">F P</div>';
-            html += '<div class="chart-line" style="font-size: 24px;">T O Z</div>';
-            html += '<div class="chart-line" style="font-size: 18px;">L P E D</div>';
-            html += '<div class="chart-line" style="font-size: 14px;">P E C F D</div>';
-            html += '<div class="chart-line" style="font-size: 12px;">E D F C Z P</div>';
-            html += '</div>';
-            
-            html += '<p style="margin: 20px 0; font-size: 14px; color: #e2e8f0;"><strong>⚠️ Importante:</strong> Este es solo un test referencial. Para un examen completo, visite a un profesional.</p>';
-            
-            html += '<div class="test-buttons">';
-            html += '<button onclick="sendTestResult(true)" class="test-btn test-btn-primary">✅ Veo bien todas</button>';
-            html += '<button onclick="sendTestResult(false)" class="test-btn test-btn-secondary">❌ No veo algunas</button>';
-            html += '</div>';
-            
-            html += '<div style="margin-top: 20px;">';
-            html += '<button onclick="showCatalogView()" class="catalog-button">👓 Ver Monturas Disponibles</button>';
-            html += '</div>';
-            
-            html += '<div class="viral-share-buttons" style="margin-top: 20px;">';
-            html += '<button onclick="compartirViralWhatsApp()" class="viral-btn btn-viral-whatsapp">💬 Compartir Test</button>';
-            html += '<button onclick="activarModoHumanitario()" class="viral-btn btn-copy-link">🌾 Modo Simple</button>';
-            html += '</div>';
-            
-            html += '</div>';
-
+            const html = `
+                <div class="product-card">
+                    <h2 style="font-size: 24px; margin-bottom: 20px; color: #22d3ee; text-align: center;">🔍 Test de Vista Básico</h2>
+                    <div style="background: rgba(255,255,255,0.1); padding: 15px; border-radius: 15px; margin-bottom: 20px;">
+                        <div style="margin-bottom: 10px;">📏 <strong>Paso 1:</strong> Extienda su brazo completamente</div>
+                        <div style="margin-bottom: 10px;">🖐️ <strong>Paso 2:</strong> Tape su ojo derecho con la mano</div>
+                        <div>👁️ <strong>Paso 3:</strong> Lea las letras con el ojo izquierdo</div>
+                    </div>
+                    
+                    <div style="background: white; color: black; border-radius: 20px; padding: 30px; margin: 20px 0; font-family: monospace; font-weight: bold; text-align: center;">
+                        <div style="font-size: 40px; margin: 15px 0;">E</div>
+                        <div style="font-size: 32px; margin: 15px 0;">F P</div>
+                        <div style="font-size: 24px; margin: 15px 0;">T O Z</div>
+                        <div style="font-size: 18px; margin: 15px 0;">L P E D</div>
+                        <div style="font-size: 14px; margin: 15px 0;">P E C F D</div>
+                        <div style="font-size: 12px; margin: 15px 0;">E D F C Z P</div>
+                    </div>
+                    
+                    <p style="margin: 20px 0; font-size: 14px; color: #e2e8f0; text-align: center;"><strong>⚠️ Importante:</strong> Este es solo un test referencial. Para un examen completo, visite a un profesional.</p>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;">
+                        <button onclick="sendTestResult(true)" style="padding: 18px; background: linear-gradient(45deg, #22c55e, #16a34a); color: white; border: none; border-radius: 15px; cursor: pointer; font-weight: 700;">✅ Veo bien todas</button>
+                        <button onclick="sendTestResult(false)" style="padding: 18px; background: linear-gradient(45deg, #ef4444, #dc2626); color: white; border: none; border-radius: 15px; cursor: pointer; font-weight: 700;">❌ Tengo dificultades</button>
+                    </div>
+                    
+                    <button onclick="showCatalogView()" class="catalog-button">👓 Ver nuestras monturas</button>
+                </div>
+            `;
             document.getElementById('mainContent').innerHTML = html;
         }
 
-        function sendTestResult(canSeeWell) {
-            addWhatsAppClick();
-            var message = '';
-            if (canSeeWell) {
-                message = '👁️ ¡Hola! Hice el test de vista en Óptica Nvisión y puedo ver bien. Me gustaría explorar monturas para protección o estilo. ¿Qué opciones tienen disponibles? ✨\n\n🔗 Test de vista: ' + window.location.origin + window.location.pathname + '?modo=rural&audio=true';
-            } else {
-                message = '👁️ ¡Hola! Hice el test de vista en Óptica Nvisión y tengo dificultades para ver algunas letras. Necesito una evaluación profesional y posiblemente monturas graduadas. ¿Pueden ayudarme? 🔍\n\n🔗 Test de vista: ' + window.location.origin + window.location.pathname + '?modo=rural&audio=true';
-            }
+        function sendTestResult(canSee) {
+            const resultado = canSee ? 'puede ver bien' : 'tiene dificultades visuales';
+            const recomendacion = canSee ? 
+                'Sus ojos parecen estar bien, pero recomendamos revisiones anuales.' : 
+                'Le recomendamos una consulta profesional lo antes posible.';
             
-            var whatsappUrl = 'https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(message);
+            const mensaje = `👁️ *RESULTADO TEST DE VISTA - ÓPTICA NVISIÓN* 👁️
+
+📋 *RESULTADO DEL TEST:*
+${resultado.toUpperCase()}
+
+💡 *RECOMENDACIÓN:*
+${recomendacion}
+
+📞 *PRÓXIMO PASO:*
+Agenda tu cita para un examen completo
+
+📱 WhatsApp: 849-797-2424
+📧 oopticanvision@gmail.com
+
+👁️ ¡Vea mejor, viva mejor! ✨
+by fbrugaljrubinstein consultores`;
+            
+            const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(mensaje)}`;
             window.open(whatsappUrl, '_blank');
+            
+            addWhatsAppClick();
+            showNotification('✅ Resultado enviado por WhatsApp');
         }
 
-        // CORREGIDO: Catálogo de productos mejorado
-        function showProduct(montura) {
-            var categories = {
-                'hombre': '👨 Hombres',
-                'mujer': '👩 Mujeres', 
-                'deportivo': '🏃 Deportivos',
-                'niños': '👶 Niños',
-                'lectura': '📖 Lectura',
-                'sol': '🕶️ Sol'
-            };
-
-            addView();
-
-            var message = '👁️ ¡Hola! Me interesa la montura ' + montura.codigo + ' "' + montura.nombre + '" por ' + montura.precio + '. ¿Está disponible y puedo agendar una cita para probármela? 👓✨\n\n🔗 Ver más monturas: ' + window.location.origin + window.location.pathname;
-            var whatsappUrl = 'https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(message);
-
-            var html = '';
-            html += '<div class="product-card">';
-            html += '<img src="' + montura.foto + '" alt="Montura ' + montura.codigo + '" class="product-image">';
-            html += '<div class="product-info">';
-            html += '<div class="product-code">' + montura.codigo + '</div>';
-            html += '<div class="product-category">' + (categories[montura.categoria] || '👓 Monturas') + '</div>';
-            html += '<h2 class="product-name">' + montura.nombre + '</h2>';
-            html += '<div class="product-price">' + montura.precio + '</div>';
-            
-            // NUEVO: Botones de compartir viral mejorados
-            html += '<div class="viral-share-buttons">';
-            html += '<button onclick="copyProductLink(\'' + montura.codigo + '\')" class="viral-btn btn-copy-link">📋 Copiar Enlace</button>';
-            html += '<button onclick="sendProductMessage(\'' + montura.codigo + '\')" class="viral-btn btn-viral-whatsapp">💬 Compartir</button>';
-            html += '</div>';
-            
-            html += '<a href="' + whatsappUrl + '" target="_blank" class="whatsapp-button" onclick="addWhatsAppClick()">';
-            html += '💬 CONSULTAR DISPONIBILIDAD</a>';
-            html += '<button onclick="showCatalogView()" class="catalog-button">';
-            html += '👁️ Ver todas las monturas</button>';
-            html += '</div></div>';
-
-            return html;
-        }
-
-        // CORREGIDO: Vista de catálogo mejorada
         function showCatalogView() {
-            var monturas = safeGetStorage('nvision_monturas');
-            var keys = Object.keys(monturas);
-
-            if (keys.length === 0) {
-                var html = '';
-                html += '<div class="empty-state">';
-                html += '<span class="state-icon">📦</span>';
-                html += '<div class="state-title">Catálogo en preparación</div>';
-                html += '<div>Estamos agregando nuevas monturas premium. Mientras tanto, puede hacer nuestro test de vista gratuito.</div><br>';
-                html += '<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">';
-                html += '<button onclick="showVisionTest()" style="padding: 15px; background: linear-gradient(45deg, #22d3ee, #0891b2); color: white; border: none; border-radius: 15px; cursor: pointer; font-weight: 700;">🔍 Test de Vista</button>';
-                html += '<button onclick="activarModoHumanitario()" style="padding: 15px; background: linear-gradient(45deg, #10b981, #059669); color: white; border: none; border-radius: 15px; cursor: pointer; font-weight: 700;">🌾 Modo Simple</button>';
-                html += '</div>';
-                html += '<div style="margin-top: 20px;">';
-                html += '<button onclick="compartirViralWhatsApp()" style="padding: 15px; background: linear-gradient(45deg, #25d366, #128c7e); color: white; border: none; border-radius: 15px; cursor: pointer; font-weight: 700; width: 100%;">💬 Compartir por WhatsApp</button>';
-                html += '</div></div>';
-                
-                document.getElementById('mainContent').innerHTML = html;
+            addView();
+            const monturas = safeGet('nvision_monturas', '{}');
+            const productos = safeGet('nvision_productos', '{}');
+            
+            // Combinar ambos catálogos
+            const allProducts = {...monturas, ...productos};
+            
+            if (Object.keys(allProducts).length === 0) {
+                document.getElementById('mainContent').innerHTML = `
+                    <div class="empty-state">
+                        <span class="state-icon">👓</span>
+                        <div class="state-title">Catálogo en construcción</div>
+                        <div>Estamos actualizando nuestro catálogo. Contáctanos para ver las monturas disponibles.</div>
+                        <br>
+                        <button onclick="contactarWhatsApp()" style="padding: 15px; background: #25d366; color: white; border: none; border-radius: 15px; cursor: pointer; font-size: 16px; font-weight: 700; width: 100%;">
+                            💬 Contactar por WhatsApp
+                        </button>
+                    </div>
+                `;
                 return;
             }
-
-            addView();
-
-            var html = '<div class="catalog-grid">';
             
-            for (var i = 0; i < keys.length; i++) {
-                var key = keys[i];
-                var montura = monturas[key];
-                
-                html += '<div class="catalog-item" onclick="goToProduct(\'' + montura.codigo + '\')">';
-                html += '<img src="' + montura.foto + '" alt="' + montura.codigo + '" class="catalog-item-image">';
-                html += '<div class="catalog-item-code">' + montura.codigo + '</div>';
-                html += '<div class="catalog-item-price">' + montura.precio + '</div>';
-                html += '</div>';
-            }
-            
+            let html = '<div class="catalog-grid">';
+            Object.values(allProducts).forEach(producto => {
+                html += `
+                    <div class="catalog-item" onclick="showProductDetail('${producto.codigo}')">
+                        <img src="${producto.foto || 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjZjNmNGY2Ii8+Cjx0ZXh0IHg9IjEwMCIgeT0iMTAwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM2YjdiODUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7wn5GTIHN1YiBpbWFnZW48L3RleHQ+Cjwvc3ZnPg=='}" alt="${producto.codigo}" class="catalog-item-image">
+                        <div class="catalog-item-code">${producto.codigo}</div>
+                        <div class="catalog-item-price">${producto.precio || 'Consultar precio'}</div>
+                    </div>
+                `;
+            });
             html += '</div>';
             
-            html += '<div style="text-align: center; margin-top: 20px;">';
-            html += '<button onclick="showVisionTest()" class="catalog-button">🔍 Hacer Test de Vista Gratis</button>';
-            html += '</div>';
-            
-            html += '<div class="viral-share-buttons" style="margin-top: 20px;">';
-            html += '<button onclick="compartirViralWhatsApp()" class="viral-btn btn-viral-whatsapp">💬 Compartir Catálogo</button>';
-            html += '<button onclick="activarModoHumanitario()" class="viral-btn btn-copy-link">🌾 Modo Simple</button>';
-            html += '</div>';
+            html += '<button onclick="contactarWhatsApp()" class="catalog-button" style="margin-top: 20px;">💬 Consultar disponibilidad por WhatsApp</button>';
             
             document.getElementById('mainContent').innerHTML = html;
         }
 
-        function goToProduct(codigo) {
-            var currentUrl = window.location.href.split('?')[0];
-            window.location.href = currentUrl + '?codigo=' + codigo;
-        }
-
-        function abrirPOS() {
-            var password = prompt('🔐 Acceso al Sistema POS (Contraseña: nvision3030):');
-            if (password === 'nvision3030') {
-                window.location.href = BASE_URL + 'pos.html';
-            } else if (password !== null) {
-                alert('❌ Contraseña incorrecta. Use: nvision3030');
+        function showProductDetail(codigo) {
+            const monturas = safeGet('nvision_monturas', '{}');
+            const productos = safeGet('nvision_productos', '{}');
+            const producto = monturas[codigo] || productos[codigo];
+            
+            if (!producto) {
+                showNotification('❌ Producto no encontrado');
+                return;
             }
-        }
-
-        function adminAccess() {
-            var password = prompt('🔐 Contraseña de administrador Nvisión (nvision3030):');
-            if (password === 'nvision3030') {
-                window.location.href = BASE_URL + 'admin.html';
-            } else if (password !== null) {
-                alert('❌ Contraseña incorrecta. Use: nvision3030');
-            }
-        }
-
-        // DETECCIÓN AUTOMÁTICA DEL MODO APROPIADO
-        function detectarModoApropiado() {
-            try {
-                var userAgent = navigator.userAgent.toLowerCase();
-                var connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
-                var isSlowConnection = connection && connection.effectiveType && (connection.effectiveType === 'slow-2g' || connection.effectiveType === '2g');
-                var isOldDevice = userAgent.includes('android 4') || userAgent.includes('ios 8') || userAgent.includes('opera mini');
-                
-                // Detectar parámetros de URL para modo rural
-                var urlParams = new URLSearchParams(window.location.search);
-                if (urlParams.get('modo') === 'rural' || urlParams.get('audio') === 'true') {
-                    setTimeout(() => activarModoHumanitario(), 1000);
-                    return;
-                }
-                
-                if (isSlowConnection || isOldDevice) {
-                    setTimeout(function() {
-                        if (confirm("¿Quiere usar el MODO SIMPLE con voz para revisar su vista más fácilmente?")) {
-                            activarModoHumanitario();
-                        }
-                    }, 4000);
-                }
-            } catch (e) {
-                console.log('Error en detección automática:', e);
-            }
-        }
-
-        // INICIALIZACIÓN CORREGIDA
-        function initApp() {
-            try {
-                var views = '0';
-                var clicks = '0';
-                
-                try {
-                    if (typeof(Storage) !== "undefined" && localStorage) {
-                        views = localStorage.getItem('nvision_views') || '0';
-                        clicks = localStorage.getItem('nvision_whatsapp_clicks') || '0';
-                    }
-                } catch (e) {
-                    console.log('Storage not available:', e);
-                }
-                
-                var viewElement = document.getElementById('viewCount');
-                var clickElement = document.getElementById('clickCount');
-                if (viewElement) viewElement.innerHTML = views;
-                if (clickElement) clickElement.innerHTML = clicks;
-
-                // CORREGIDO: Verificar si hay un código de producto en la URL
-                var productCode = getUrlParam('codigo');
-                
-                if (productCode) {
-                    var monturas = safeGetStorage('nvision_monturas');
-                    var montura = monturas[productCode.toUpperCase()];
-                    
-                    if (montura) {
-                        document.getElementById('mainContent').innerHTML = showProduct(montura);
-                        document.title = montura.codigo + ' - ' + montura.nombre + ' | Óptica Nvisión';
-                    } else {
-                        var html = '';
-                        html += '<div class="empty-state">';
-                        html += '<span class="state-icon">🔍</span>';
-                        html += '<div class="state-title">Montura no encontrada</div>';
-                        html += '<div>El código <strong>' + productCode + '</strong> no existe</div><br>';
-                        html += '<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">';
-                        html += '<button onclick="showCatalogView()" style="padding: 15px; background: linear-gradient(45deg, #22d3ee, #0891b2); color: white; border: none; border-radius: 15px; cursor: pointer; font-weight: 700;">👓 Ver Catálogo</button>';
-                        html += '<button onclick="activarModoHumanitario()" style="padding: 15px; background: linear-gradient(45deg, #10b981, #059669); color: white; border: none; border-radius: 15px; cursor: pointer; font-weight: 700;">🌾 Modo Simple</button>';
-                        html += '</div></div>';
+            
+            const html = `
+                <div class="product-card">
+                    <img src="${producto.foto}" alt="${producto.codigo}" class="product-image">
+                    <div class="product-info">
+                        <div class="product-code">${producto.codigo}</div>
+                        <div class="product-category">${producto.categoria || 'Monturas'}</div>
+                        <div class="product-name">${producto.nombre || producto.descripcion}</div>
+                        <div class="product-price">${producto.precio}</div>
                         
-                        document.getElementById('mainContent').innerHTML = html;
-                    }
-                } else {
-                    // CORREGIDO: Mostrar catálogo automáticamente si hay productos
-                    var monturas = safeGetStorage('nvision_monturas');
-                    if (Object.keys(monturas).length > 0) {
-                        showCatalogView();
-                    }
-                }
-
-                // Inicializar sistema de backup
-                initBackupSystem();
-
-                detectarModoApropiado();
-                
-                setTimeout(function() {
-                    if (audioSupported) {
-                        speakText("Bienvenido a Óptica Nvisión. Toque el botón naranja para activar la ayuda por voz, o el botón modo simple para acceso fácil. También puede compartir nuestro test de vista por WhatsApp.");
-                    }
-                }, 3000);
-                
-            } catch (e) {
-                console.error('Error initializing app:', e);
-                var html = '';
-                html += '<div class="empty-state">';
-                html += '<span class="state-icon">⚠️</span>';
-                html += '<div class="state-title">Error de carga</div>';
-                html += '<div>Intente recargar la página</div><br>';
-                html += '<button onclick="window.location.reload()" style="padding: 15px; background: #ef4444; color: white; border: none; border-radius: 15px; cursor: pointer; font-weight: 700;">🔄 Recargar</button>';
-                html += '</div>';
-                
-                document.getElementById('mainContent').innerHTML = html;
-            }
-        }
-
-        // EVENTOS
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', initApp);
-        } else {
-            initApp();
-        }
-        
-        window.addEventListener('offline', function() {
-            speakText("Sin conexión a internet. El sistema funciona sin conexión.");
-        });
-        
-        window.addEventListener('online', function() {
-            speakText("Conexión a internet restaurada. Realizando backup automático.");
-            setTimeout(performAutoBackup, 2000);
-        });
-
-        document.addEventListener('touchstart', function(event) {
-            if (event.touches.length > 1) {
-                event.preventDefault();
-            }
-        }, { passive: false });
-    </script>
-</body>
-</html>
+                        <a href="https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent('Hola, me interesa la montura ' + producto.codigo + ' "' + (producto.nombre || producto.descripcion) + '" por ' + producto.precio + '. ¿Está disponible?')}" 
+                           class="whatsapp-button" onclick="addWhatsAppClick()">
+                           💬 Consultar por WhatsApp
+                        </a>
+                        
+                        <div class="share-buttons">
+                            <button onclick="copyProductLink('${producto.codigo}')" class="share-btn
