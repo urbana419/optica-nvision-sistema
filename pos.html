@@ -746,3 +746,375 @@
                     total: total,
                     esSinNCF: tipo === 'sin_ncf'
                 };
+            }
+            
+            try {
+                var numeroComprobante = null;
+                
+                if (!data.esSinNCF) {
+                    var comprobante = new ComprobanteNCF(data.tipo);
+                    numeroComprobante = comprobante.usar();
+                }
+                
+                var factura = {
+                    id: 'FACT-' + Date.now(),
+                    numeroComprobante: numeroComprobante,
+                    sinNCF: data.esSinNCF,
+                    esProforma: data.esSinNCF,
+                    fecha: new Date().toLocaleDateString('es-DO'),
+                    hora: new Date().toLocaleTimeString('es-DO'),
+                    cliente: {
+                        nombre: data.cliente,
+                        telefono: data.telefono,
+                        cedula: data.cedula
+                    },
+                    productos: data.productos,
+                    subtotal: data.subtotal,
+                    itbis: document.getElementById('itbis').value,
+                    total: data.total,
+                    tipoComprobante: data.tipo
+                };
+                
+                // Guardar factura
+                var facturas = safeGetStorage('nvision_facturas') || {};
+                facturas[factura.id] = factura;
+                safeSetStorage('nvision_facturas', facturas);
+                
+                // Actualizar clientes
+                var clientes = safeGetStorage('nvision_clientes') || {};
+                if (data.cliente && data.telefono) {
+                    clientes[data.telefono] = {
+                        nombre: data.cliente,
+                        telefono: data.telefono,
+                        cedula: data.cedula,
+                        ultimaCompra: new Date().toISOString()
+                    };
+                    safeSetStorage('nvision_clientes', clientes);
+                }
+                
+                if (data.esSinNCF) {
+                    showAlert('✅ Factura Proforma generada (Sin NCF)', 'success');
+                    enviarFacturaPorWhatsApp(factura);
+                } else {
+                    showAlert(`✅ Factura generada: ${numeroComprobante}`, 'success');
+                    enviarFacturaPorWhatsApp(factura);
+                }
+                
+                limpiarFormulario();
+                cargarFacturasRecientes();
+                actualizarNCFStatus();
+                cerrarModal('modalPreview');
+                
+            } catch (error) {
+                console.error('Error generando factura:', error);
+                showAlert('❌ Error: ' + error.message, 'error');
+            }
+        }
+
+        function enviarFacturaPorWhatsApp(factura) {
+            var mensaje = `👁️ *ÓPTICA NVISIÓN* 👁️
+
+${factura.sinNCF ? '📄 FACTURA PROFORMA (Sin NCF)' : '📄 FACTURA FISCAL'}
+${factura.sinNCF ? '🌾 Zona Rural/Humanitaria' : 'NCF: ' + factura.numeroComprobante}
+📅 ${factura.fecha} - ${factura.hora}
+
+👤 Cliente: ${factura.cliente.nombre}
+📱 Teléfono: ${factura.cliente.telefono}
+
+🛍️ Productos/Servicios:
+${factura.productos}
+
+💰 Subtotal: ${factura.subtotal}
+📊 ITBIS (18%): ${factura.itbis}
+🎯 TOTAL: ${factura.total}
+
+${factura.sinNCF ? '⚠️ Factura Proforma - Sin validez fiscal' : '✅ Comprobante Fiscal Válido'}
+
+👁️ ¡Vea mejor, viva mejor! ✨
+by fbrugaljrubinstein consultores`;
+            
+            var telefono = factura.cliente.telefono ? factura.cliente.telefono.replace(/[^0-9]/g, '') : '';
+            var whatsappUrl = `https://wa.me/${telefono || WHATSAPP_NUMBER}?text=${encodeURIComponent(mensaje)}`;
+            window.open(whatsappUrl, '_blank');
+            
+            showAlert('📱 Factura enviada por WhatsApp', 'success');
+        }
+
+        function limpiarFormulario() {
+            document.getElementById('clienteNombre').value = '';
+            document.getElementById('clienteTelefono').value = '';
+            document.getElementById('clienteCedula').value = '';
+            document.getElementById('productosServicios').value = '';
+            document.getElementById('subtotal').value = '';
+            document.getElementById('itbis').value = '';
+            document.getElementById('totalFactura').value = '';
+            document.getElementById('tipoComprobante').value = 'sin_ncf';
+        }
+
+        // FUNCIONES DE GESTIÓN
+        function buscarCliente() {
+            var nombre = prompt('🔍 Nombre del cliente a buscar:');
+            if (!nombre) return;
+            
+            var clientes = safeGetStorage('nvision_clientes');
+            var encontrado = false;
+            
+            Object.keys(clientes).forEach(function(key) {
+                var cliente = clientes[key];
+                if (cliente.nombre.toLowerCase().includes(nombre.toLowerCase())) {
+                    document.getElementById('clienteNombre').value = cliente.nombre;
+                    document.getElementById('clienteTelefono').value = cliente.telefono;
+                    document.getElementById('clienteCedula').value = cliente.cedula || '';
+                    encontrado = true;
+                    showAlert('✅ Cliente encontrado y cargado', 'success');
+                }
+            });
+            
+            if (!encontrado) {
+                showAlert('❌ Cliente no encontrado', 'error');
+            }
+        }
+
+        function agregarProducto() {
+            window.location.href = BASE_URL + 'admin.html';
+        }
+
+        function consultarInventario() {
+            var monturas = safeGetStorage('nvision_monturas');
+            var productos = safeGetStorage('nvision_productos');
+            var total = Object.keys(monturas).length + Object.keys(productos).length;
+            
+            showAlert(`📦 Inventario: ${total} productos registrados`, 'success');
+        }
+
+        function generarReporte() {
+            var facturas = safeGetStorage('nvision_facturas');
+            var hoy = new Date().toLocaleDateString('es-DO');
+            var facturasHoy = Object.values(facturas).filter(f => f.fecha === hoy);
+            var totalVentas = facturasHoy.reduce((sum, f) => sum + parseCurrency(f.total), 0);
+            
+            showAlert(`📊 Hoy: ${facturasHoy.length} facturas - ${formatCurrency(totalVentas)}`, 'success');
+        }
+
+        function configurarNCF() {
+            showAlert('⚙️ Configuración NCF disponible en Admin', 'warning');
+        }
+
+        function consultarNCF() {
+            actualizarNCFStatus();
+            showAlert('📋 Estado NCF actualizado', 'success');
+        }
+
+        function solicitarNCF() {
+            var mensaje = `👁️ *SOLICITUD DE NCF - ÓPTICA NVISIÓN* 👁️
+
+📞 Solicitud de Nuevos Comprobantes Fiscales
+
+🏢 Empresa: Óptica Nvisión
+📅 Fecha: ${new Date().toLocaleDateString('es-DO')}
+
+📋 COMPROBANTES SOLICITADOS:
+• B01 (Consumidor Final): 10,000 unidades
+• B02 (Crédito Fiscal): 5,000 unidades
+
+⚠️ URGENTE: Comprobantes actuales próximos a agotarse
+
+📞 Favor contactar para coordinar entrega
+👁️ ¡Vea mejor, viva mejor! ✨
+
+by fbrugaljrubinstein consultores`;
+            
+            var whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(mensaje)}`;
+            window.open(whatsappUrl, '_blank');
+            
+            showAlert('📞 Solicitud enviada', 'success');
+        }
+
+        function exportarNCF() {
+            try {
+                var comprobantes = safeGetStorage('nvision_comprobantes');
+                var facturas = safeGetStorage('nvision_facturas');
+                
+                var reporteNCF = {
+                    fecha_reporte: new Date().toISOString(),
+                    empresa: 'Óptica Nvisión',
+                    rnc: '000-00000-0',
+                    comprobantes_usados: {},
+                    facturas: facturas,
+                    resumen: {
+                        total_facturas: Object.keys(facturas).length,
+                        facturas_con_ncf: Object.values(facturas).filter(f => !f.sinNCF).length,
+                        facturas_sin_ncf: Object.values(facturas).filter(f => f.sinNCF).length
+                    }
+                };
+                
+                Object.keys(comprobantes).forEach(tipo => {
+                    var comp = comprobantes[tipo];
+                    reporteNCF.comprobantes_usados[tipo] = {
+                        prefijo: comp.prefijo,
+                        inicial: 1,
+                        actual: comp.actual,
+                        usados: comp.actual - 1,
+                        disponibles: comp.final - comp.actual + 1
+                    };
+                });
+                
+                var blob = new Blob([JSON.stringify(reporteNCF, null, 2)], {type: 'application/json'});
+                var url = URL.createObjectURL(blob);
+                var a = document.createElement('a');
+                a.href = url;
+                a.download = 'reporte_ncf_' + new Date().toISOString().split('T')[0] + '.json';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                
+                showAlert('📤 Reporte NCF exportado', 'success');
+            } catch (error) {
+                showAlert('❌ Error al exportar', 'error');
+            }
+        }
+
+        function cargarFacturasRecientes() {
+            var facturas = safeGetStorage('nvision_facturas');
+            var hoy = new Date().toLocaleDateString('es-DO');
+            var facturasHoy = Object.values(facturas)
+                .filter(f => f.fecha === hoy)
+                .sort((a, b) => new Date(b.hora) - new Date(a.hora))
+                .slice(0, 10);
+            
+            var container = document.getElementById('facturasRecientes');
+            
+            if (facturasHoy.length === 0) {
+                container.innerHTML = '<div style="text-align: center; padding: 30px; opacity: 0.7;">📄 No hay facturas registradas hoy</div>';
+                return;
+            }
+            
+            var html = '';
+            facturasHoy.forEach(function(factura) {
+                html += `
+                    <div style="background: rgba(255,255,255,0.1); border-radius: 12px; padding: 15px; margin-bottom: 10px; border: 1px solid rgba(255,255,255,0.2);">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <div style="font-weight: 700; color: #60a5fa;">${factura.cliente.nombre}</div>
+                                <div style="font-size: 12px; opacity: 0.8;">${factura.sinNCF ? 'Proforma' : factura.numeroComprobante}</div>
+                                <div style="font-size: 11px; opacity: 0.6;">${factura.hora}</div>
+                            </div>
+                            <div style="text-align: right;">
+                                <div style="font-weight: 700; color: #22d3ee;">${factura.total}</div>
+                                <button onclick="reenviarFactura('${factura.id}')" style="background: #25d366; color: white; border: none; padding: 5px 10px; border-radius: 8px; font-size: 11px; cursor: pointer; margin-top: 5px;">📱 Reenviar</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+
+        function reenviarFactura(facturaId) {
+            var facturas = safeGetStorage('nvision_facturas');
+            var factura = facturas[facturaId];
+            
+            if (factura) {
+                enviarFacturaPorWhatsApp(factura);
+            } else {
+                showAlert('❌ Factura no encontrada', 'error');
+            }
+        }
+
+        function actualizarNCFStatus() {
+            var comprobantes = safeGetStorage('nvision_comprobantes');
+            
+            // Actualizar Consumidor
+            if (comprobantes.consumidor) {
+                var cons = new ComprobanteNCF('consumidor', comprobantes.consumidor.actual, comprobantes.consumidor.final);
+                document.getElementById('ncfConsumidor').textContent = cons.obtenerSiguiente() || 'AGOTADO';
+                document.getElementById('remainingConsumidor').textContent = cons.quedan() + ' disponibles';
+            }
+            
+            // Actualizar Empresarial
+            if (comprobantes.empresarial) {
+                var emp = new ComprobanteNCF('empresarial', comprobantes.empresarial.actual, comprobantes.empresarial.final);
+                document.getElementById('ncfEmpresarial').textContent = emp.obtenerSiguiente() || 'AGOTADO';
+                document.getElementById('remainingEmpresarial').textContent = emp.quedan() + ' disponibles';
+            }
+        }
+
+        // FUNCIONES DE NAVEGACIÓN
+        function goToIndex() {
+            window.location.href = BASE_URL + 'index.html';
+        }
+
+        function goToAdmin() {
+            window.location.href = BASE_URL + 'admin.html';
+        }
+
+        function goToCentral() {
+            window.location.href = BASE_URL + 'central.html';
+        }
+
+        function cerrarSesion() {
+            if (confirm('🚪 ¿Cerrar sesión del sistema POS?')) {
+                window.location.href = BASE_URL + 'index.html';
+            }
+        }
+
+        function cerrarModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        // INICIALIZACIÓN
+        function inicializarPOS() {
+            try {
+                // Inicializar comprobantes si no existen
+                var comprobantes = safeGetStorage('nvision_comprobantes');
+                if (!comprobantes.consumidor) {
+                    comprobantes.consumidor = { actual: 1, final: 99999, prefijo: 'B01' };
+                    comprobantes.empresarial = { actual: 1, final: 99999, prefijo: 'B02' };
+                    safeSetStorage('nvision_comprobantes', comprobantes);
+                }
+                
+                actualizarNCFStatus();
+                cargarFacturasRecientes();
+                
+                showAlert('✅ Sistema POS inicializado correctamente', 'success');
+                
+            } catch (error) {
+                console.error('Error inicializando POS:', error);
+                showAlert('⚠️ Error en inicialización. Algunas funciones pueden no estar disponibles.', 'error');
+            }
+        }
+
+        // Event listeners
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', inicializarPOS);
+        } else {
+            inicializarPOS();
+        }
+
+        // Cerrar modales al hacer clic fuera
+        window.addEventListener('click', function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        });
+
+        // Evitar zoom en móviles
+        document.addEventListener('touchstart', function(event) {
+            if (event.touches.length > 1) {
+                event.preventDefault();
+            }
+        }, { passive: false });
+
+        var lastTouchEnd = 0;
+        document.addEventListener('touchend', function(event) {
+            var now = (new Date()).getTime();
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
+    </script>
+</body>
+</html>
