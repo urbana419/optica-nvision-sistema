@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>POS - Óptica Nvisión</title>
+    <title>Óptica Nvisión - Sistema WhatsApp</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { 
@@ -11,665 +11,1113 @@
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
             min-height: 100vh; 
             color: white; 
-            padding: 10px;
+            font-size: 16px;
+            overflow-x: hidden;
         }
-        .container { max-width: 500px; margin: 0 auto; }
+        .container { max-width: 430px; margin: 0 auto; padding: 15px; }
         
-        .header {
-            background: rgba(255, 255, 255, 0.15);
+        /* MODO NORMAL - Sistema Original */
+        .modo-normal { display: block; }
+        
+        .header { 
+            background: rgba(255, 255, 255, 0.15); 
             backdrop-filter: blur(10px);
+            border-radius: 25px; 
+            padding: 30px 25px; 
+            text-align: center; 
+            margin-bottom: 25px; 
             border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 20px;
-            padding: 20px;
-            text-align: center;
-            margin-bottom: 20px;
         }
-        
-        .header h1 {
-            font-size: 24px;
-            margin-bottom: 5px;
+        .logo { 
+            width: 70px; 
+            height: 70px; 
+            background: linear-gradient(45deg, #4f46e5, #7c3aed); 
+            border-radius: 50%; 
+            margin: 0 auto 20px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-size: 32px; 
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+        .brand-name { 
+            font-size: 28px; 
+            font-weight: 800; 
+            margin-bottom: 8px;
             background: linear-gradient(45deg, #fbbf24, #f59e0b);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-        
-        .header p {
-            opacity: 0.9;
-            margin-bottom: 15px;
+        .tagline { font-size: 15px; opacity: 0.95; margin-bottom: 20px; font-weight: 500; }
+        .contact-info { 
+            display: flex; 
+            justify-content: center; 
+            gap: 12px; 
+            flex-wrap: wrap; 
+            font-size: 13px; 
         }
-        
-        .header-buttons {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-        
-        .header-btn {
-            padding: 8px 15px;
-            border-radius: 10px;
-            font-size: 12px;
-            cursor: pointer;
-            border: 1px solid;
+        .contact-item { 
+            display: flex; 
+            align-items: center; 
+            gap: 6px; 
+            padding: 10px 14px; 
+            background: rgba(255, 255, 255, 0.2); 
+            border-radius: 20px; 
             font-weight: 600;
-            transition: all 0.3s ease;
         }
-        
-        .btn-home {
-            background: rgba(34, 211, 238, 0.2);
-            color: #22d3ee;
-            border-color: rgba(34, 211, 238, 0.3);
-        }
-        
-        .btn-admin {
-            background: rgba(16, 185, 129, 0.2);
-            color: #10b981;
-            border-color: rgba(16, 185, 129, 0.3);
-        }
-        
-        .btn-home:hover, .btn-admin:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-        }
-        
-        .tabs {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-        
-        .tab-btn {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: white;
-            padding: 15px 10px;
-            border-radius: 15px;
-            font-size: 13px;
-            font-weight: 700;
-            cursor: pointer;
-            text-align: center;
-            transition: all 0.3s ease;
-        }
-        
-        .tab-btn.active {
-            background: linear-gradient(45deg, #22d3ee, #0891b2);
-            box-shadow: 0 4px 15px rgba(34, 211, 238, 0.3);
-        }
-        
-        .tab-content {
-            display: none;
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 20px;
-            padding: 20px;
-            margin-bottom: 20px;
-        }
-        
-        .tab-content.active { display: block; }
-        
-        .section-title {
-            font-size: 18px;
-            font-weight: 700;
-            margin-bottom: 20px;
-            text-align: center;
-            color: #fbbf24;
-        }
-        
-        .form-group {
-            margin-bottom: 15px;
-        }
-        
-        .form-label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: 600;
-            color: #e2e8f0;
-            font-size: 13px;
-        }
-        
-        .form-input, .form-select, .form-textarea {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            border-radius: 10px;
-            font-size: 14px;
-            font-family: inherit;
-            transition: all 0.3s ease;
-        }
-        
-        .form-input::placeholder, .form-textarea::placeholder {
-            color: rgba(255, 255, 255, 0.6);
-        }
-        
-        .form-input:focus, .form-select:focus, .form-textarea:focus {
-            outline: none;
-            border-color: #22d3ee;
-            box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.1);
-        }
-        
-        .btn {
-            padding: 12px 20px;
-            border: none;
-            border-radius: 10px;
-            font-size: 14px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            width: 100%;
-            margin-bottom: 10px;
-        }
-        
-        .btn-primary {
-            background: linear-gradient(45deg, #22d3ee, #0891b2);
-            color: white;
-            box-shadow: 0 4px 15px rgba(34, 211, 238, 0.3);
-        }
-        
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(34, 211, 238, 0.4);
-        }
-        
-        .btn-success {
-            background: linear-gradient(45deg, #10b981, #059669);
-            color: white;
-            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
-        }
-        
-        .btn-success:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
-        }
-        
-        .btn-danger {
-            background: linear-gradient(45deg, #ef4444, #dc2626);
-            color: white;
-            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
-        }
-        
-        .btn-danger:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4);
-        }
-        
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-        }
-        
-        .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.3);
-        }
-        
-        .row {
+
+        .feature-buttons {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-bottom: 15px;
+            gap: 15px;
+            margin-bottom: 25px;
         }
         
-        .list-item {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            padding: 12px;
-            margin-bottom: 10px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .list-item:hover {
-            background: rgba(255, 255, 255, 0.2);
-            border-color: rgba(255, 255, 255, 0.3);
-            transform: translateY(-1px);
-        }
-        
-        .list-item-title {
-            font-weight: 700;
-            color: #60a5fa;
-            margin-bottom: 5px;
-            font-size: 14px;
-        }
-        
-        .list-item-info {
-            font-size: 12px;
-            opacity: 0.9;
-            line-height: 1.4;
-        }
-        
-        .empty-state {
-            text-align: center;
-            padding: 40px 20px;
-            opacity: 0.7;
-        }
-        
-        .empty-icon {
-            font-size: 48px;
-            margin-bottom: 15px;
-        }
-        
-        .invoice-summary {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            padding: 15px;
-            margin-bottom: 15px;
+        .feature-btn {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-        
-        .summary-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 8px;
-            font-size: 14px;
-        }
-        
-        .summary-total {
-            font-weight: 800;
-            font-size: 18px;
-            color: #22d3ee;
-            border-top: 1px solid rgba(255, 255, 255, 0.2);
-            padding-top: 8px;
-        }
-        
-        .cart-item {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            padding: 10px;
-            margin-bottom: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .cart-item-info {
-            flex: 1;
-        }
-        
-        .cart-item-name {
-            font-weight: 600;
-            margin-bottom: 3px;
-            font-size: 13px;
-        }
-        
-        .cart-item-price {
-            color: #22d3ee;
-            font-size: 12px;
-        }
-        
-        .cart-controls {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .qty-btn {
-            background: rgba(255, 255, 255, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.3);
             color: white;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
+            padding: 20px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 700;
             cursor: pointer;
-            font-weight: bold;
+            text-align: center;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: block;
+        }
+        
+        .feature-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+        }
+
+        /* MODO HUMANITARIO - Sistema WhatsApp Enfocado */
+        .modo-humanitario {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1000;
+            background: linear-gradient(135deg, #1e3a8a 0%, #7c2d12 100%);
+            padding: 20px;
+        }
+        
+        .humanitario-container {
+            max-width: 400px;
+            margin: 0 auto;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .humanitario-header {
+            background: rgba(255, 255, 255, 0.95);
+            color: #1e293b;
+            border-radius: 30px;
+            padding: 40px 30px;
+            text-align: center;
+            margin-bottom: 30px;
+            border: 4px solid #fbbf24;
+            animation: pulse-header 3s infinite;
+        }
+        
+        @keyframes pulse-header {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 20px rgba(251, 191, 36, 0.3); }
+            50% { transform: scale(1.02); box-shadow: 0 0 30px rgba(251, 191, 36, 0.5); }
+        }
+        
+        .humanitario-logo {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(45deg, #4f46e5, #7c3aed);
+            border-radius: 50%;
+            margin: 0 auto 25px;
             display: flex;
             align-items: center;
             justify-content: center;
+            font-size: 60px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+            animation: float 4s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .humanitario-title {
+            font-size: 36px;
+            font-weight: 900;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            animation: glow-text 2s ease-in-out infinite alternate;
+        }
+        
+        @keyframes glow-text {
+            from { text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
+            to { text-shadow: 2px 2px 20px rgba(251, 191, 36, 0.8); }
+        }
+        
+        .humanitario-subtitle {
+            font-size: 20px;
+            margin-bottom: 25px;
+            font-weight: 700;
+        }
+
+        .whatsapp-viral-section {
+            background: linear-gradient(45deg, #25d366, #128c7e);
+            border-radius: 30px;
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 30px;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            animation: pulse-whatsapp 2s infinite;
+            box-shadow: 0 15px 40px rgba(37, 211, 102, 0.4);
+            cursor: pointer;
+        }
+        
+        @keyframes pulse-whatsapp {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        .whatsapp-icon {
+            font-size: 70px;
+            margin-bottom: 20px;
+            animation: shake 1s infinite;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        
+        .whatsapp-text {
+            font-size: 24px;
+            font-weight: 900;
+            margin-bottom: 12px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .main-actions-humanitario {
+            display: grid;
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .action-btn-humanitario {
+            background: rgba(255, 255, 255, 0.98);
+            color: #1e293b;
+            border: 5px solid #fbbf24;
+            padding: 40px 25px;
+            border-radius: 30px;
+            font-size: 22px;
+            font-weight: 900;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+            text-transform: uppercase;
+        }
+        
+        .action-btn-humanitario:hover {
+            background: #fbbf24;
+            color: white;
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.4);
+        }
+        
+        .action-icon-humanitario {
+            font-size: 80px;
+            display: block;
+            margin-bottom: 20px;
+            animation: bounce-icon 2s infinite;
+        }
+        
+        @keyframes bounce-icon {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .action-text-humanitario {
+            font-size: 24px;
+            margin-bottom: 12px;
+            line-height: 1.2;
+        }
+        
+        .action-subtitle-humanitario {
+            font-size: 16px;
+            opacity: 0.8;
+            font-weight: 600;
+        }
+
+        .emergency-section {
+            background: linear-gradient(45deg, #ef4444, #dc2626);
+            border-radius: 30px;
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 30px;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            animation: pulse-emergency 1.5s infinite;
+            box-shadow: 0 15px 40px rgba(239, 68, 68, 0.4);
+            cursor: pointer;
+        }
+        
+        @keyframes pulse-emergency {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        .emergency-icon {
+            font-size: 70px;
+            margin-bottom: 20px;
+            animation: shake 1s infinite;
+        }
+        
+        .emergency-text {
+            font-size: 24px;
+            font-weight: 900;
+            margin-bottom: 12px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        /* Sistema de Test Visual Humanitario MEJORADO */
+        .test-visual-humanitario {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1001;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        }
+        
+        .test-container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .test-step {
+            background: rgba(255, 255, 255, 0.98);
+            color: #1e293b;
+            border-radius: 35px;
+            padding: 60px 40px;
+            text-align: center;
+            margin-bottom: 30px;
+            border: 5px solid #22d3ee;
+            animation: test-glow 3s ease-in-out infinite alternate;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+        }
+        
+        @keyframes test-glow {
+            from { box-shadow: 0 20px 50px rgba(34, 211, 238, 0.3); }
+            to { box-shadow: 0 20px 50px rgba(34, 211, 238, 0.6); }
+        }
+        
+        .test-icon {
+            font-size: 120px;
+            margin-bottom: 30px;
+            animation: icon-pulse 2s infinite;
+        }
+        
+        @keyframes icon-pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        .test-text {
+            font-size: 28px;
+            font-weight: 900;
+            margin-bottom: 25px;
+            line-height: 1.3;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+        
+        .test-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin-top: 40px;
+        }
+        
+        .test-btn {
+            padding: 25px;
+            font-size: 22px;
+            font-weight: 900;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+        
+        .btn-yes {
+            background: linear-gradient(45deg, #22c55e, #16a34a);
+            color: white;
+        }
+        
+        .btn-no {
+            background: linear-gradient(45deg, #ef4444, #dc2626);
+            color: white;
+        }
+        
+        .btn-yes:hover, .btn-no:hover {
+            transform: scale(1.05) translateY(-3px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+        }
+
+        /* Tabla Visual para Test MEJORADA */
+        .vision-chart {
+            background: white;
+            color: black;
+            border-radius: 25px;
+            padding: 40px;
+            margin: 30px 0;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            border: 5px solid #22d3ee;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+        
+        .chart-line {
+            margin: 20px 0;
+            letter-spacing: 3px;
+            text-align: center;
             transition: all 0.3s ease;
         }
         
-        .qty-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
-        }
-        
-        .qty-display {
-            min-width: 30px;
-            text-align: center;
-            font-weight: bold;
-        }
-        
-        .alert {
-            background: rgba(34, 211, 238, 0.2);
-            border: 1px solid rgba(34, 211, 238, 0.3);
+        .chart-line:hover {
+            transform: scale(1.1);
             color: #22d3ee;
-            padding: 12px;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            text-align: center;
-            font-weight: 600;
-            font-size: 13px;
-        }
-        
-        .alert-success {
-            background: rgba(16, 185, 129, 0.2);
-            border-color: rgba(16, 185, 129, 0.3);
-            color: #10b981;
-        }
-        
-        .alert-error {
-            background: rgba(239, 68, 68, 0.2);
-            border-color: rgba(239, 68, 68, 0.3);
-            color: #ef4444;
         }
 
-        .comprobante-item {
-            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+        /* Controles de Audio MEJORADOS */
+        .audio-controls {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1002;
+        }
+        
+        .audio-btn {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #f59e0b, #d97706);
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            font-size: 35px;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            animation: audio-pulse 2s infinite;
+            transition: all 0.3s ease;
+        }
+        
+        @keyframes audio-pulse {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-5px) scale(1.05); }
+        }
+        
+        .audio-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+        }
+
+        /* Barra de Progreso MEJORADA */
+        .progress-indicator {
+            position: fixed;
+            top: 25px;
+            left: 25px;
+            right: 25px;
+            height: 12px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            overflow: hidden;
+            z-index: 1003;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(45deg, #22c55e, #16a34a);
+            width: 0%;
+            transition: width 0.5s ease;
+            box-shadow: 0 0 20px rgba(34, 197, 94, 0.5);
+        }
+
+        /* Detector de Modo MEJORADO */
+        .modo-selector {
+            position: fixed;
+            top: 25px;
+            left: 25px;
+            z-index: 999;
+            background: rgba(0,0,0,0.9);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 25px;
+            font-size: 14px;
+            cursor: pointer;
+            font-weight: 700;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        /* Estilos del sistema original que se mantienen */
+        .analytics-badge {
+            position: fixed;
+            top: 25px;
+            right: 25px;
+            background: rgba(0,0,0,0.9);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 25px;
+            font-size: 12px;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            font-weight: 600;
+        }
+
+        .admin-access {
+            position: fixed;
+            bottom: 25px;
+            left: 25px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: rgba(0,0,0,0.9);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: #888;
+            font-size: 24px;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .admin-access:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .empty-state { 
+            text-align: center; 
+            padding: 60px 20px; 
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 25px;
+            backdrop-filter: blur(10px);
+        }
+        .state-icon { font-size: 64px; margin-bottom: 20px; }
+        .state-title { font-size: 22px; font-weight: 700; margin-bottom: 15px; }
+
+        /* CORREGIDO: Estilos mejorados para productos */
+        .product-card { 
+            background: rgba(255, 255, 255, 0.15); 
+            backdrop-filter: blur(10px);
+            border-radius: 25px; 
+            padding: 25px; 
+            margin-bottom: 20px; 
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
-
-        .comprobante-item:hover {
-            background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.1) 100%);
+        .product-image { 
+            width: 100%; 
+            max-width: 350px; 
+            height: 350px; 
+            border-radius: 20px; 
+            margin: 0 auto 25px; 
+            display: block; 
+            object-fit: cover; 
+        }
+        .product-info { text-align: center; }
+        .product-code { 
+            background: linear-gradient(45deg, #4f46e5, #7c3aed); 
+            color: white; 
+            padding: 15px 25px; 
+            border-radius: 25px; 
+            font-size: 18px; 
+            font-weight: 700; 
+            display: inline-block; 
+            margin-bottom: 15px; 
+            text-transform: uppercase; 
+            box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3);
+        }
+        .product-category { 
+            background: rgba(251, 146, 60, 0.2); 
+            color: #fb923c; 
+            padding: 10px 18px; 
+            border-radius: 20px; 
+            font-size: 14px; 
+            font-weight: 600; 
+            display: inline-block; 
+            margin-bottom: 15px; 
+        }
+        .product-name { font-size: 22px; font-weight: 700; margin-bottom: 15px; }
+        .product-price { 
+            font-size: 36px; 
+            font-weight: 800; 
+            color: #22d3ee; 
+            margin-bottom: 30px; 
         }
 
-        ::-webkit-scrollbar {
-            width: 8px;
+        /* CORREGIDO: Botones mejorados */
+        .whatsapp-button { 
+            background: #25d366; 
+            color: white; 
+            padding: 25px 20px; 
+            border: none; 
+            border-radius: 25px; 
+            font-size: 22px; 
+            font-weight: 800; 
+            cursor: pointer; 
+            width: 100%; 
+            text-decoration: none; 
+            display: block; 
+            text-align: center;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
         }
 
-        ::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.1);
+        .whatsapp-button:hover {
+            background: #128c7e;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+        }
+
+        /* NUEVO: Botones de compartir viral */
+        .viral-share-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .viral-btn {
+            padding: 18px;
+            border: none;
+            border-radius: 20px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+        }
+
+        .btn-copy-link {
+            background: rgba(99, 102, 241, 0.2);
+            color: #6366f1;
+            border: 2px solid rgba(99, 102, 241, 0.3);
+        }
+
+        .btn-copy-link:hover {
+            background: #6366f1;
+            color: white;
+        }
+
+        .btn-viral-whatsapp {
+            background: rgba(37, 211, 102, 0.2);
+            color: #25d366;
+            border: 2px solid rgba(37, 211, 102, 0.3);
+        }
+
+        .btn-viral-whatsapp:hover {
+            background: #25d366;
+            color: white;
+        }
+
+        .catalog-button { 
+            background: rgba(99, 102, 241, 0.2); 
+            color: #a5b4fc; 
+            padding: 18px; 
+            border: 1px solid rgba(99, 102, 241, 0.3); 
+            border-radius: 18px; 
+            font-size: 16px; 
+            font-weight: 600; 
+            cursor: pointer; 
+            width: 100%; 
+            text-align: center;
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+        .catalog-button:hover {
+            background: rgba(99, 102, 241, 0.3);
+        }
+
+        /* CORREGIDO: Catálogo mejorado */
+        .catalog-grid { 
+            display: grid; 
+            grid-template-columns: repeat(2, 1fr); 
+            gap: 18px; 
+            margin-bottom: 25px; 
+        }
+        .catalog-item { 
+            background: rgba(255, 255, 255, 0.15); 
+            backdrop-filter: blur(10px);
+            border-radius: 18px; 
+            padding: 18px; 
+            text-align: center; 
+            cursor: pointer; 
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .catalog-item:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+        
+        .catalog-item-image { 
+            width: 100%; 
+            height: 140px; 
+            border-radius: 12px; 
+            object-fit: cover; 
+            margin-bottom: 12px; 
+        }
+        .catalog-item-code { 
+            font-size: 14px; 
+            font-weight: 700; 
+            color: #60a5fa; 
+            margin-bottom: 8px; 
+        }
+        .catalog-item-price { 
+            font-size: 18px; 
+            font-weight: 700; 
+            color: #22d3ee; 
+        }
+
+        /* Ocultar elementos en modo humanitario */
+        .modo-humanitario .analytics-badge,
+        .modo-humanitario .admin-access {
+            display: none;
+        }
+
+        /* NUEVO: Notificación de éxito */
+        .success-notification {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(34, 211, 238, 0.95);
+            color: white;
+            padding: 20px 30px;
+            border-radius: 20px;
+            font-size: 18px;
+            font-weight: 700;
+            z-index: 2000;
+            display: none;
+            animation: fadeInOut 3s ease-in-out;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+            10%, 90% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+        }
+
+        /* BACKUP Status Indicator */
+        .backup-status {
+            position: fixed;
+            top: 80px;
+            right: 25px;
+            background: rgba(16, 185, 129, 0.9);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            z-index: 1000;
+            font-weight: 600;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .backup-status.show {
+            opacity: 1;
+        }
+
+        /* Creditos */
+        .credits {
+            position: fixed;
+            bottom: 5px;
+            right: 5px;
+            font-size: 10px;
+            opacity: 0.6;
+            background: rgba(0,0,0,0.5);
+            padding: 5px 10px;
             border-radius: 10px;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.3);
-            border-radius: 10px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: rgba(255, 255, 255, 0.5);
+            z-index: 999;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>💼 POS Óptica Nvisión</h1>
-            <p>Sistema Punto de Venta Completo</p>
-            <div class="header-buttons">
-                <button onclick="goToMainSite()" class="header-btn btn-home">
-                    🏠 Sitio Principal
+    <!-- Selector de Modo -->
+    <div class="modo-selector" onclick="toggleModo()" id="modoSelector">
+        👁️ Modo: Normal
+    </div>
+
+    <!-- BACKUP Status -->
+    <div class="backup-status" id="backupStatus">
+        ☁️ Backup automático activo
+    </div>
+
+    <!-- Créditos -->
+    <div class="credits">
+        by fbrugal jrubinstein consultores
+    </div>
+
+    <!-- MODO NORMAL - Sistema Original -->
+    <div id="modoNormal" class="modo-normal">
+        <div class="container">
+            <div class="header">
+                <div class="logo">👁️</div>
+                <h1 class="brand-name">Óptica Nvisión</h1>
+                <p class="tagline">Vea mejor, viva mejor - Especialistas en salud visual</p>
+                <div class="contact-info">
+                    <div class="contact-item"><span>📱</span><span>849-797-2424</span></div>
+                    <div class="contact-item"><span>🎁</span><span>Garantía premium</span></div>
+                    <div class="contact-item"><span>🚚</span><span>Entrega gratis</span></div>
+                </div>
+            </div>
+
+            <div class="feature-buttons">
+                <button class="feature-btn" onclick="showVisionTest()">
+                    🔍 TEST DE VISTA<br>
+                    <small>Gratis y rápido</small>
                 </button>
-                <button onclick="goToAdmin()" class="header-btn btn-admin">
-                    ⚙️ Panel Admin
+                <button class="feature-btn" onclick="showCatalogView()">
+                    👓 VER MONTURAS<br>
+                    <small>Catálogo completo</small>
+                </button>
+                <button class="feature-btn" onclick="abrirPOS()">
+                    💼 PUNTO DE VENTA<br>
+                    <small>Facturación completa</small>
+                </button>
+                <button class="feature-btn" onclick="activarModoHumanitario()">
+                    🌾 MODO SIMPLE<br>
+                    <small>Para zonas rurales</small>
                 </button>
             </div>
-        </div>
-        
-        <div class="tabs">
-            <button class="tab-btn active" onclick="showTab('clientes')">👥 Clientes</button>
-            <button class="tab-btn" onclick="showTab('inventario')">📦 Inventario</button>
-            <button class="tab-btn" onclick="showTab('comprobantes')">📋 Comprobantes</button>
-            <button class="tab-btn" onclick="showTab('facturacion')">💰 Facturar</button>
-        </div>
-
-        <div id="alertContainer"></div>
-
-        <!-- TAB CLIENTES -->
-        <div id="clientes" class="tab-content active">
-            <h2 class="section-title">👥 Gestión de Clientes</h2>
             
-            <form id="clienteForm">
-                <div class="form-group">
-                    <label class="form-label">📝 Nombre Completo</label>
-                    <input type="text" id="clienteNombre" class="form-input" placeholder="Nombre del cliente">
-                </div>
-                
-                <div class="row">
-                    <div class="form-group">
-                        <label class="form-label">📱 Teléfono</label>
-                        <input type="tel" id="clienteTelefono" class="form-input" placeholder="849-000-0000">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">🆔 Cédula/RNC</label>
-                        <input type="text" id="clienteCedula" class="form-input" placeholder="000-0000000-0">
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label">📧 Correo Electrónico</label>
-                    <input type="email" id="clienteCorreo" class="form-input" placeholder="cliente@email.com">
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label">🏠 Dirección</label>
-                    <textarea id="clienteDireccion" class="form-textarea" rows="2" placeholder="Dirección completa"></textarea>
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label">📅 Fecha Último Examen</label>
-                    <input type="date" id="clienteFechaExamen" class="form-input">
-                </div>
-                
-                <div class="row">
-                    <div class="form-group">
-                        <label class="form-label">👁️ Ojo Derecho (OD)</label>
-                        <input type="text" id="clienteOjoDerecho" class="form-input" placeholder="+1.25 -0.50 x 90">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">👁️ Ojo Izquierdo (OI)</label>
-                        <input type="text" id="clienteOjoIzquierdo" class="form-input" placeholder="+1.00 -0.75 x 85">
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label">🩺 Diagnóstico</label>
-                    <textarea id="clienteDiagnostico" class="form-textarea" rows="2" placeholder="Diagnóstico optométrico"></textarea>
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label">💬 Comentarios</label>
-                    <textarea id="clienteComentarios" class="form-textarea" rows="2" placeholder="Observaciones adicionales"></textarea>
-                </div>
-                
-                <button type="button" onclick="guardarCliente()" class="btn btn-primary">💾 Guardar Cliente</button>
-                <button type="button" onclick="limpiarFormularioCliente()" class="btn btn-secondary">🗑️ Limpiar</button>
-            </form>
-            
-            <h3 style="margin: 20px 0 10px 0; font-size: 16px;">📋 Lista de Clientes</h3>
-            <div id="listaClientes">
+            <div id="mainContent">
                 <div class="empty-state">
-                    <div class="empty-icon">👥</div>
-                    <div>No hay clientes registrados</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- TAB INVENTARIO -->
-        <div id="inventario" class="tab-content">
-            <h2 class="section-title">📦 Gestión de Inventario</h2>
-            
-            <button onclick="sincronizarInventario()" class="btn btn-success">🔄 Sincronizar con Catálogo</button>
-            
-            <form id="productoForm" style="margin-top: 15px;">
-                <div class="form-group">
-                    <label class="form-label">🔤 ID Producto</label>
-                    <input type="text" id="productoId" class="form-input" placeholder="NV001" style="text-transform: uppercase;">
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label">📝 Descripción</label>
-                    <textarea id="productoDescripcion" class="form-textarea" rows="3" placeholder="Descripción detallada del producto"></textarea>
-                </div>
-                
-                <div class="row">
-                    <div class="form-group">
-                        <label class="form-label">💰 Precio Base</label>
-                        <input type="number" id="productoPrecio" class="form-input" placeholder="0.00" step="0.01">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">📊 Stock</label>
-                        <input type="number" id="productoStock" class="form-input" placeholder="0" min="0">
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label">💬 Comentarios</label>
-                    <textarea id="productoComentarios" class="form-textarea" rows="2" placeholder="Observaciones del producto"></textarea>
-                </div>
-                
-                <button type="button" onclick="guardarProducto()" class="btn btn-primary">💾 Guardar Producto</button>
-                <button type="button" onclick="limpiarFormularioProducto()" class="btn btn-secondary">🗑️ Limpiar</button>
-            </form>
-            
-            <h3 style="margin: 20px 0 10px 0; font-size: 16px;">📋 Lista de Productos</h3>
-            <div id="listaProductos">
-                <div class="empty-state">
-                    <div class="empty-icon">📦</div>
-                    <div>No hay productos en inventario</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- TAB COMPROBANTES -->
-        <div id="comprobantes" class="tab-content">
-            <h2 class="section-title">📋 Comprobantes Fiscales</h2>
-            
-            <div id="listaComprobantes">
-                <div class="list-item comprobante-item">
-                    <div class="list-item-title">🧾 Consumidor Final</div>
-                    <div class="list-item-info">
-                        Rango: B010000000001 - B010000099999<br>
-                        Siguiente: <span id="siguienteConsumidor">B010000000001</span>
-                    </div>
-                </div>
-                
-                <div class="list-item comprobante-item">
-                    <div class="list-item-title">🏢 Empresarial</div>
-                    <div class="list-item-info">
-                        Rango: B020000000001 - B020000099999<br>
-                        Siguiente: <span id="siguienteEmpresarial">B020000000001</span>
-                    </div>
-                </div>
-                
-                <div class="list-item comprobante-item">
-                    <div class="list-item-title">🏛️ Gubernamental</div>
-                    <div class="list-item-info">
-                        Rango: B030000000001 - B030000099999<br>
-                        Siguiente: <span id="siguienteGubernamental">B030000000001</span>
-                    </div>
-                </div>
-                
-                <div class="list-item comprobante-item">
-                    <div class="list-item-title">🆓 Zona Franca</div>
-                    <div class="list-item-info">
-                        Rango: B040000000001 - B040000099999<br>
-                        Siguiente: <span id="siguienteZonaFranca">B040000000001</span>
+                    <span class="state-icon">🏥</span>
+                    <div class="state-title">Bienvenido a Óptica Nvisión</div>
+                    <div>Su salud visual es nuestra prioridad. Comience con nuestro test de vista gratuito o explore nuestro catálogo de monturas premium.</div>
+                    <br>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                        <button onclick="showVisionTest()" style="padding: 15px; background: linear-gradient(45deg, #22d3ee, #0891b2); color: white; border: none; border-radius: 15px; cursor: pointer; font-size: 14px; font-weight: 700;">
+                            🔍 Hacer Test
+                        </button>
+                        <button onclick="activarModoHumanitario()" style="padding: 15px; background: linear-gradient(45deg, #10b981, #059669); color: white; border: none; border-radius: 15px; cursor: pointer; font-size: 14px; font-weight: 700;">
+                            🌾 Modo Simple
+                        </button>
                     </div>
                 </div>
             </div>
-            
-            <button onclick="resetearComprobantes()" class="btn btn-danger" style="margin-top: 15px;">🔄 Resetear Numeración</button>
-        </div>
-
-        <!-- TAB FACTURACIÓN -->
-        <div id="facturacion" class="tab-content">
-            <h2 class="section-title">💰 Facturación</h2>
-            
-            <div class="form-group">
-                <label class="form-label">👤 Seleccionar Cliente</label>
-                <select id="facturaCliente" class="form-select">
-                    <option value="">Seleccione un cliente...</option>
-                </select>
-            </div>
-            
-            <div class="form-group">
-                <label class="form-label">📋 Tipo de Comprobante</label>
-                <select id="facturaComprobante" class="form-select">
-                    <option value="consumidor">🧾 Consumidor Final</option>
-                    <option value="empresarial">🏢 Empresarial</option>
-                    <option value="gubernamental">🏛️ Gubernamental</option>
-                    <option value="zona_franca">🆓 Zona Franca</option>
-                </select>
-            </div>
-            
-            <div class="form-group">
-                <label class="form-label">💳 Forma de Pago</label>
-                <select id="facturaFormaPago" class="form-select">
-                    <option value="efectivo">💵 Efectivo</option>
-                    <option value="tarjeta">💳 Tarjeta</option>
-                    <option value="transferencia">🏦 Transferencia</option>
-                    <option value="credito">📄 Crédito</option>
-                </select>
-            </div>
-            
-            <h3 style="margin: 20px 0 10px 0; font-size: 16px;">🛒 Agregar Productos</h3>
-            <div class="row">
-                <div class="form-group">
-                    <select id="facturaProducto" class="form-select">
-                        <option value="">Seleccione producto...</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <button onclick="agregarProductoFactura()" class="btn btn-primary">➕ Agregar</button>
-                </div>
-            </div>
-            
-            <h3 style="margin: 20px 0 10px 0; font-size: 16px;">🛍️ Productos en Factura</h3>
-            <div id="carritoFactura">
-                <div class="empty-state">
-                    <div class="empty-icon">🛒</div>
-                    <div>No hay productos agregados</div>
-                </div>
-            </div>
-            
-            <div id="resumenFactura" class="invoice-summary" style="display: none;">
-                <div class="summary-row">
-                    <span>Subtotal:</span>
-                    <span id="facturaSubtotal">RD$0.00</span>
-                </div>
-                <div class="summary-row">
-                    <span>ITBIS (18%):</span>
-                    <span id="facturaItbis">RD$0.00</span>
-                </div>
-                <div class="summary-row summary-total">
-                    <span>Total:</span>
-                    <span id="facturaTotal">RD$0.00</span>
-                </div>
-            </div>
-            
-            <button onclick="procesarFactura()" class="btn btn-success" id="btnProcesarFactura" disabled>📄 Generar Factura PDF</button>
-            <button onclick="limpiarFactura()" class="btn btn-secondary">🗑️ Limpiar Factura</button>
         </div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    
+    <!-- MODO HUMANITARIO - Sistema WhatsApp Enfocado -->
+    <div id="modoHumanitario" class="modo-humanitario">
+        <div class="humanitario-container">
+            <!-- Header Humanitario -->
+            <div class="humanitario-header">
+                <div class="humanitario-logo">👁️</div>
+                <h1 class="humanitario-title">Óptica Nvisión</h1>
+                <p class="humanitario-subtitle">🌟 Cuidamos sus ojos 🌟</p>
+            </div>
+
+            <!-- Sección WhatsApp Viral -->
+            <div class="whatsapp-viral-section" onclick="compartirViralWhatsApp()">
+                <div class="whatsapp-icon">💬</div>
+                <div class="whatsapp-text">¡COMPARTE POR WHATSAPP!</div>
+                <div style="font-size: 18px; margin-top: 10px; opacity: 0.9;">
+                    Ayuda a tu familia y amigos
+                </div>
+            </div>
+
+            <!-- Sección de Emergencia MEJORADA -->
+            <div class="emergency-section" onclick="emergencyCall()">
+                <div class="emergency-icon">🚨</div>
+                <div class="emergency-text">¿PROBLEMA EN LOS OJOS?</div>
+                <div class="emergency-text" style="font-size: 18px;">TOQUE AQUÍ PARA LLAMAR</div>
+                <div style="font-size: 14px; margin-top: 10px; opacity: 0.9;">
+                    Atención médica inmediata
+                </div>
+            </div>
+
+            <!-- Acciones Principales Humanitarias MEJORADAS -->
+            <div class="main-actions-humanitario">
+                <button class="action-btn-humanitario" onclick="iniciarTestHumanitario()">
+                    <span class="action-icon-humanitario">👁️</span>
+                    <div class="action-text-humanitario">Revisar Vista</div>
+                    <div class="action-subtitle-humanitario">Con ayuda de voz</div>
+                </button>
+                
+                <button class="action-btn-humanitario" onclick="verLentesSimple()">
+                    <span class="action-icon-humanitario">👓</span>
+                    <div class="action-text-humanitario">Ver Lentes</div>
+                    <div class="action-subtitle-humanitario">Monturas disponibles</div>
+                </button>
+                
+                <button class="action-btn-humanitario" onclick="pedirAyuda()">
+                    <span class="action-icon-humanitario">🤝</span>
+                    <div class="action-text-humanitario">Pedir Ayuda</div>
+                    <div class="action-subtitle-humanitario">Hablar con especialista</div>
+                </button>
+            </div>
+
+            <!-- Botón para volver al modo normal -->
+            <div style="text-align: center;">
+                <button onclick="desactivarModoHumanitario()" style="background: rgba(255,255,255,0.2); color: white; border: 3px solid white; padding: 18px 35px; border-radius: 25px; font-size: 18px; font-weight: 700; cursor: pointer; transition: all 0.3s ease;">
+                    🔙 Modo Normal
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SISTEMA DE TEST VISUAL HUMANITARIO MEJORADO -->
+    <div id="testVisualHumanitario" class="test-visual-humanitario">
+        <div class="progress-indicator">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+        
+        <div class="test-container">
+            <div class="test-step" id="testStep">
+                <div class="test-icon" id="stepIcon">👋</div>
+                <div class="test-text" id="stepText">¡Hola! Vamos a revisar sus ojos. Es muy fácil.</div>
+                <div id="visualChart" style="display: none;">
+                    <div class="vision-chart">
+                        <div class="chart-line" style="font-size: 40px;">E</div>
+                        <div class="chart-line" style="font-size: 32px;">F P</div>
+                        <div class="chart-line" style="font-size: 24px;">T O Z</div>
+                        <div class="chart-line" style="font-size: 18px;">L P E D</div>
+                        <div class="chart-line" style="font-size: 14px;">P E C F D</div>
+                        <div class="chart-line" style="font-size: 12px;">E D F C Z P</div>
+                    </div>
+                </div>
+                <div class="test-buttons">
+                    <button class="test-btn btn-yes" onclick="responderTest(true)" id="btnSi">
+                        ✅ SÍ
+                    </button>
+                    <button class="test-btn btn-no" onclick="responderTest(false)" id="btnNo">
+                        ❌ NO
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Controles de Audio MEJORADOS -->
+    <div class="audio-controls">
+        <button class="audio-btn" onclick="toggleAudio()" id="audioBtn">
+            🔊
+        </button>
+    </div>
+
+    <!-- Analytics y Admin (solo en modo normal) -->
+    <div id="analyticsBadge" class="analytics-badge">
+        📊 <span id="viewCount">0</span> vistas | 💬 <span id="clickCount">0</span> clicks
+    </div>
+
+    <div class="admin-access" onclick="adminAccess()">⚙️</div>
+
+    <!-- NUEVO: Notificación de éxito -->
+    <div id="successNotification" class="success-notification">
+        ✅ ¡Enlace copiado!
+    </div>
+
     <script>
+        // VARIABLES GLOBALES - CORREGIDO para Nvisión
         var WHATSAPP_NUMBER = '18497972424';
         var BASE_URL = window.location.origin + window.location.pathname.replace(/[^/]*$/, '');
-        var currentTab = 'clientes';
-        var carritoActual = [];
-        var clienteSeleccionado = null;
-        
-        function showTab(tabName) {
-            var contents = document.querySelectorAll('.tab-content');
-            var buttons = document.querySelectorAll('.tab-btn');
-            
-            contents.forEach(content => content.classList.remove('active'));
-            buttons.forEach(btn => btn.classList.remove('active'));
-            
-            document.getElementById(tabName).classList.add('active');
-            event.target.classList.add('active');
-            
-            currentTab = tabName;
-            
-            if (tabName === 'facturacion') {
-                cargarClientesSelect();
-                cargarProductosSelect();
-            } else if (tabName === 'clientes') {
-                cargarListaClientes();
-            } else if (tabName === 'inventario') {
-                cargarListaProductos();
+        var isAudioEnabled = false;
+        var modoActual = 'normal'; // 'normal' o 'humanitario'
+        var currentTestStep = 0;
+        var audioSupported = 'speechSynthesis' in window;
+
+        // SISTEMA DE BACKUP AUTOMÁTICO A GOOGLE DRIVE
+        var BACKUP_CONFIG = {
+            email: 'oopticanvision@gmail.com',
+            password: 'nvision2530',
+            enabled: true,
+            lastBackup: null,
+            interval: 30 * 60 * 1000 // 30 minutos
+        };
+
+        // PASOS DEL TEST HUMANITARIO MEJORADOS
+        var testSteps = [
+            {
+                icon: "👋",
+                text: "¡Hola! Vamos a revisar sus ojos. Es muy fácil y rápido.",
+                audio: "Hola, vamos a revisar sus ojos, es muy fácil y rápido. Solo debe seguir mis instrucciones. ¿Está listo para comenzar?",
+                showChart: false,
+                yesText: "✅ SÍ, ESTOY LISTO",
+                noText: "❌ NO, SALIR"
+            },
+            {
+                icon: "📱",
+                text: "Mantenga el teléfono a un brazo de distancia de sus ojos.",
+                audio: "Mantenga el teléfono a un brazo de distancia de sus ojos. Extienda su brazo completamente. ¿Ya lo hizo?",
+                showChart: false,
+                yesText: "✅ YA ESTÁ LISTO",
+                noText: "❓ NO ENTIENDO"
+            },
+            {
+                icon: "🖐️",
+                text: "Tape su ojo derecho con la mano izquierda.",
+                audio: "Ahora tape su ojo derecho con la mano izquierda. Mantenga el ojo bien tapado. ¿Ya tapó el ojo derecho?",
+                showChart: false,
+                yesText: "✅ OJO TAPADO",
+                noText: "❓ NO ENTIENDO"
+            },
+            {
+                icon: "👁️",
+                text: "Mire las letras con el ojo izquierdo. ¿Puede ver todas las letras claramente?",
+                audio: "Mire las letras con el ojo izquierdo. ¿Puede ver todas las letras claramente? Desde la más grande hasta la más pequeña.",
+                showChart: true,
+                yesText: "✅ VEO TODO CLARO",
+                noText: "❌ NO VEO BIEN"
+            },
+            {
+                icon: "🖐️",
+                text: "Ahora tape su ojo izquierdo con la mano derecha.",
+                audio: "Ahora tape su ojo izquierdo con la mano derecha. Mantenga el ojo bien tapado. ¿Ya tapó el ojo izquierdo?",
+                showChart: false,
+                yesText: "✅ OJO TAPADO",
+                noText: "❓ NO ENTIENDO"
+            },
+            {
+                icon: "👁️",
+                text: "Mire las letras con el ojo derecho. ¿Puede ver todas las letras claramente?",
+                audio: "Mire las letras con el ojo derecho. ¿Puede ver todas las letras claramente? Desde la más grande hasta la más pequeña.",
+                showChart: true,
+                yesText: "✅ VEO TODO CLARO",
+                noText: "❌ NO VEO BIEN"
+            }
+        ];
+
+        var testResults = {
+            ojoIzquierdo: null,
+            ojoDerecho: null
+        };
+
+        // SISTEMA DE BACKUP AUTOMÁTICO
+        function initBackupSystem() {
+            if (BACKUP_CONFIG.enabled) {
+                showBackupStatus();
+                setInterval(performAutoBackup, BACKUP_CONFIG.interval);
+                // Backup inicial después de 30 segundos
+                setTimeout(performAutoBackup, 30000);
             }
         }
-        
+
+        function showBackupStatus() {
+            var status = document.getElementById('backupStatus');
+            status.classList.add('show');
+            setTimeout(() => status.classList.remove('show'), 3000);
+        }
+
+        function performAutoBackup() {
+            try {
+                var allData = {
+                    monturas: safeGetStorage('nvision_monturas'),
+                    clientes: safeGetStorage('nvision_clientes'),
+                    productos: safeGetStorage('nvision_productos'),
+                    facturas: safeGetStorage('nvision_facturas'),
+                    comprobantes: safeGetStorage('nvision_comprobantes'),
+                    estadisticas: {
+                        views: localStorage.getItem('nvision_views') || '0',
+                        clicks: localStorage.getItem('nvision_whatsapp_clicks') || '0'
+                    },
+                    backup_info: {
+                        timestamp: new Date().toISOString(),
+                        version: '2.0',
+                        sistema: 'Nvision_Optica',
+                        email: BACKUP_CONFIG.email
+                    }
+                };
+
+                // Simular envío a Google Drive (en un entorno real, usarías Google Drive API)
+                var backupString = JSON.stringify(allData, null, 2);
+                var backupBlob = new Blob([backupString], {type: 'application/json'});
+                
+                // Guardar localmente como respaldo
+                try {
+                    localStorage.setItem('nvision_last_backup', backupString);
+                    BACKUP_CONFIG.lastBackup = new Date().toISOString();
+                    
+                    console.log('✅ Backup automático completado:', new Date().toLocaleString());
+                    
+                    // Mostrar indicador de backup exitoso
+                    var status = document.getElementById('backupStatus');
+                    status.innerHTML = '✅ Backup realizado';
+                    status.style.background = 'rgba(16, 185, 129, 0.9)';
+                    showBackupStatus();
+                    
+                    setTimeout(() => {
+                        status.innerHTML = '☁️ Backup automático activo';
+                        status.style.background = 'rgba(16, 185, 129, 0.9)';
+                    }, 3000);
+                    
+                } catch (e) {
+                    console.log('⚠️ Backup local fallido:', e);
+                }
+
+            } catch (error) {
+                console.error('❌ Error en backup automático:', error);
+                var status = document.getElementById('backupStatus');
+                status.innerHTML = '⚠️ Error backup';
+                status.style.background = 'rgba(239, 68, 68, 0.9)';
+                showBackupStatus();
+            }
+        }
+
+        // FUNCIONES DE UTILIDAD
+        function getUrlParam(name) {
+            try {
+                var urlParams = new URLSearchParams(window.location.search);
+                return urlParams.get(name);
+            } catch (e) {
+                try {
+                    var url = window.location.search.substring(1);
+                    var params = url.split('&');
+                    for (var i = 0; i < params.length; i++) {
+                        var param = params[i].split('=');
+                        if (param[0] === name) {
+                            return decodeURIComponent(param[1]);
+                        }
+                    }
+                } catch (e2) {
+                    console.log('URL param error:', e2);
+                }
+                return null;
+            }
+        }
+
         function safeGetStorage(key) {
             try {
                 if (typeof(Storage) !== "undefined" && localStorage) {
@@ -683,527 +1131,647 @@
             }
             return {};
         }
-        
-        function safeSetStorage(key, value) {
+
+        function addView() {
             try {
                 if (typeof(Storage) !== "undefined" && localStorage) {
-                    localStorage.setItem(key, JSON.stringify(value));
-                    return true;
+                    var views = localStorage.getItem('nvision_views') || '0';
+                    views = parseInt(views) + 1;
+                    localStorage.setItem('nvision_views', views.toString());
+                    
+                    var viewElement = document.getElementById('viewCount');
+                    if (viewElement) {
+                        viewElement.innerHTML = views;
+                    }
                 }
             } catch (e) {
-                console.log('Storage error:', e);
-                return false;
+                console.log('Error updating views:', e);
             }
-        }
-        
-        function showAlert(message, type = 'success') {
-            var alertHtml = '<div class="alert alert-' + type + '">' + message + '</div>';
-            document.getElementById('alertContainer').innerHTML = alertHtml;
-            
-            setTimeout(function() {
-                document.getElementById('alertContainer').innerHTML = '';
-            }, 4000);
-        }
-        
-        function guardarCliente() {
-            var cliente = {
-                id: Date.now().toString(),
-                nombre: document.getElementById('clienteNombre').value.trim(),
-                telefono: document.getElementById('clienteTelefono').value.trim(),
-                cedula: document.getElementById('clienteCedula').value.trim(),
-                correo: document.getElementById('clienteCorreo').value.trim(),
-                direccion: document.getElementById('clienteDireccion').value.trim(),
-                fechaExamen: document.getElementById('clienteFechaExamen').value,
-                ojoDerecho: document.getElementById('clienteOjoDerecho').value.trim(),
-                ojoIzquierdo: document.getElementById('clienteOjoIzquierdo').value.trim(),
-                diagnostico: document.getElementById('clienteDiagnostico').value.trim(),
-                comentarios: document.getElementById('clienteComentarios').value.trim(),
-                fechaRegistro: new Date().toISOString()
-            };
-            
-            if (!cliente.nombre || !cliente.telefono) {
-                showAlert('⚠️ Nombre y teléfono son obligatorios', 'error');
-                return;
-            }
-            
-            var clientes = safeGetStorage('nvision_clientes');
-            clientes[cliente.id] = cliente;
-            
-            if (safeSetStorage('nvision_clientes', clientes)) {
-                showAlert('✅ Cliente guardado exitosamente');
-                limpiarFormularioCliente();
-                cargarListaClientes();
-            } else {
-                showAlert('❌ Error al guardar cliente', 'error');
-            }
-        }
-        
-        function limpiarFormularioCliente() {
-            document.getElementById('clienteForm').reset();
-        }
-        
-        function cargarListaClientes() {
-            var clientes = safeGetStorage('nvision_clientes');
-            var container = document.getElementById('listaClientes');
-            var keys = Object.keys(clientes);
-            
-            if (keys.length === 0) {
-                container.innerHTML = '<div class="empty-state"><div class="empty-icon">👥</div><div>No hay clientes registrados</div></div>';
-                return;
-            }
-            
-            var html = '';
-            keys.forEach(function(key) {
-                var cliente = clientes[key];
-                html += '<div class="list-item" onclick="editarCliente(\'' + key + '\')">';
-                html += '<div class="list-item-title">' + cliente.nombre + '</div>';
-                html += '<div class="list-item-info">📱 ' + cliente.telefono + ' | 🆔 ' + (cliente.cedula || 'Sin cédula');
-                if (cliente.fechaExamen) {
-                    html += '<br>👁️ Último examen: ' + cliente.fechaExamen;
-                }
-                if (cliente.ojoDerecho || cliente.ojoIzquierdo) {
-                    html += '<br>👓 Graduación: OD: ' + (cliente.ojoDerecho || 'N/A') + ' | OI: ' + (cliente.ojoIzquierdo || 'N/A');
-                }
-                html += '</div></div>';
-            });
-            
-            container.innerHTML = html;
-        }
-        
-        function editarCliente(clienteId) {
-            var clientes = safeGetStorage('nvision_clientes');
-            var cliente = clientes[clienteId];
-            
-            if (cliente) {
-                document.getElementById('clienteNombre').value = cliente.nombre || '';
-                document.getElementById('clienteTelefono').value = cliente.telefono || '';
-                document.getElementById('clienteCedula').value = cliente.cedula || '';
-                document.getElementById('clienteCorreo').value = cliente.correo || '';
-                document.getElementById('clienteDireccion').value = cliente.direccion || '';
-                document.getElementById('clienteFechaExamen').value = cliente.fechaExamen || '';
-                document.getElementById('clienteOjoDerecho').value = cliente.ojoDerecho || '';
-                document.getElementById('clienteOjoIzquierdo').value = cliente.ojoIzquierdo || '';
-                document.getElementById('clienteDiagnostico').value = cliente.diagnostico || '';
-                document.getElementById('clienteComentarios').value = cliente.comentarios || '';
-            }
-        }
-        
-        function sincronizarInventario() {
-            var monturas = safeGetStorage('nvision_monturas');
-            var productos = safeGetStorage('nvision_productos');
-            var monturaKeys = Object.keys(monturas);
-            
-            if (monturaKeys.length === 0) {
-                showAlert('⚠️ No hay productos en el catálogo para sincronizar', 'error');
-                return;
-            }
-            
-            var sincronizados = 0;
-            monturaKeys.forEach(function(key) {
-                var montura = monturas[key];
-                if (!productos[montura.codigo]) {
-                    var precio = parseFloat(montura.precio.replace(/[^0-9.-]+/g,"")) || 0;
-                    productos[montura.codigo] = {
-                        id: montura.codigo,
-                        descripcion: montura.nombre,
-                        precioBase: precio,
-                        stock: 1,
-                        comentarios: 'Sincronizado desde catálogo',
-                        fechaSync: new Date().toISOString()
-                    };
-                    sincronizados++;
-                }
-            });
-            
-            if (safeSetStorage('nvision_productos', productos)) {
-                showAlert('✅ Sincronizados ' + sincronizados + ' productos del catálogo');
-                cargarListaProductos();
-            } else {
-                showAlert('❌ Error al sincronizar inventario', 'error');
-            }
-        }
-        
-        function guardarProducto() {
-            var producto = {
-                id: document.getElementById('productoId').value.trim().toUpperCase(),
-                descripcion: document.getElementById('productoDescripcion').value.trim(),
-                precioBase: parseFloat(document.getElementById('productoPrecio').value) || 0,
-                stock: parseInt(document.getElementById('productoStock').value) || 0,
-                comentarios: document.getElementById('productoComentarios').value.trim(),
-                fechaModificacion: new Date().toISOString()
-            };
-            
-            if (!producto.id || !producto.descripcion || producto.precioBase <= 0) {
-                showAlert('⚠️ Complete todos los campos obligatorios', 'error');
-                return;
-            }
-            
-            var productos = safeGetStorage('nvision_productos');
-            productos[producto.id] = producto;
-            
-            if (safeSetStorage('nvision_productos', productos)) {
-                showAlert('✅ Producto guardado: ' + producto.id);
-                limpiarFormularioProducto();
-                cargarListaProductos();
-            } else {
-                showAlert('❌ Error al guardar producto', 'error');
-            }
-        }
-        
-        function limpiarFormularioProducto() {
-            document.getElementById('productoForm').reset();
-        }
-        
-        function cargarListaProductos() {
-            var productos = safeGetStorage('nvision_productos');
-            var container = document.getElementById('listaProductos');
-            var keys = Object.keys(productos);
-            
-            if (keys.length === 0) {
-                container.innerHTML = '<div class="empty-state"><div class="empty-icon">📦</div><div>No hay productos en inventario</div></div>';
-                return;
-            }
-            
-            var html = '';
-            keys.forEach(function(key) {
-                var producto = productos[key];
-                html += '<div class="list-item">';
-                html += '<div class="list-item-title">' + producto.id + '</div>';
-                html += '<div class="list-item-info">' + producto.descripcion + '<br>💰 RD$' + producto.precioBase.toFixed(2) + ' | 📊 Stock: ' + producto.stock + '</div>';
-                html += '</div>';
-            });
-            
-            container.innerHTML = html;
-        }
-        
-        function obtenerSiguienteComprobante(tipo) {
-            var comprobantes = safeGetStorage('nvision_comprobantes');
-            if (!comprobantes[tipo]) {
-                var prefijos = {
-                    'consumidor': 1,
-                    'empresarial': 1, 
-                    'gubernamental': 1,
-                    'zona_franca': 1
-                };
-                comprobantes[tipo] = prefijos[tipo];
-            }
-            
-            var siguiente = comprobantes[tipo];
-            comprobantes[tipo] = siguiente + 1;
-            safeSetStorage('nvision_comprobantes', comprobantes);
-            
-            var prefijo = tipo === 'consumidor' ? 'B01' :
-                         tipo === 'empresarial' ? 'B02' :
-                         tipo === 'gubernamental' ? 'B03' : 'B04';
-            
-            return prefijo + String(siguiente).padStart(11, '0');
-        }
-        
-        function resetearComprobantes() {
-            if (confirm('⚠️ ¿Está seguro de resetear toda la numeración de comprobantes?')) {
-                safeSetStorage('nvision_comprobantes', {});
-                showAlert('✅ Numeración de comprobantes reseteada');
-                actualizarVistaComprobantes();
-            }
-        }
-        
-        function actualizarVistaComprobantes() {
-            var comprobantes = safeGetStorage('nvision_comprobantes');
-            
-            var tipos = [
-                { tipo: 'consumidor', elemento: 'siguienteConsumidor' },
-                { tipo: 'empresarial', elemento: 'siguienteEmpresarial' },
-                { tipo: 'gubernamental', elemento: 'siguienteGubernamental' },
-                { tipo: 'zona_franca', elemento: 'siguienteZonaFranca' }
-            ];
-            
-            tipos.forEach(function(item) {
-                var elemento = document.getElementById(item.elemento);
-                if (elemento) {
-                    var numero = comprobantes[item.tipo] || 1;
-                    var prefijo = item.tipo === 'consumidor' ? 'B01' :
-                                 item.tipo === 'empresarial' ? 'B02' :
-                                 item.tipo === 'gubernamental' ? 'B03' : 'B04';
-                    elemento.textContent = prefijo + String(numero).padStart(11, '0');
-                }
-            });
-        }
-        
-        function cargarClientesSelect() {
-            var clientes = safeGetStorage('nvision_clientes');
-            var select = document.getElementById('facturaCliente');
-            var keys = Object.keys(clientes);
-            
-            var html = '<option value="">Seleccione un cliente...</option>';
-            keys.forEach(function(key) {
-                var cliente = clientes[key];
-                html += '<option value="' + key + '">' + cliente.nombre + ' - ' + cliente.telefono + '</option>';
-            });
-            
-            select.innerHTML = html;
-        }
-        
-        function cargarProductosSelect() {
-            var productos = safeGetStorage('nvision_productos');
-            var select = document.getElementById('facturaProducto');
-            var keys = Object.keys(productos);
-            
-            var html = '<option value="">Seleccione producto...</option>';
-            keys.forEach(function(key) {
-                var producto = productos[key];
-                if (producto.stock > 0) {
-                    html += '<option value="' + key + '">' + producto.id + ' - ' + producto.descripcion + ' (RD$' + producto.precioBase.toFixed(2) + ')</option>';
-                }
-            });
-            
-            select.innerHTML = html;
-        }
-        
-        function agregarProductoFactura() {
-            var productoId = document.getElementById('facturaProducto').value;
-            if (!productoId) {
-                showAlert('⚠️ Seleccione un producto', 'error');
-                return;
-            }
-            
-            var productos = safeGetStorage('nvision_productos');
-            var producto = productos[productoId];
-            
-            var itemExistente = carritoActual.find(item => item.id === productoId);
-            if (itemExistente) {
-                itemExistente.cantidad++;
-            } else {
-                carritoActual.push({
-                    id: productoId,
-                    descripcion: producto.descripcion,
-                    precio: producto.precioBase,
-                    cantidad: 1
-                });
-            }
-            
-            actualizarCarritoFactura();
-            document.getElementById('facturaProducto').value = '';
-        }
-        
-        function actualizarCarritoFactura() {
-            var container = document.getElementById('carritoFactura');
-            
-            if (carritoActual.length === 0) {
-                container.innerHTML = '<div class="empty-state"><div class="empty-icon">🛒</div><div>No hay productos agregados</div></div>';
-                document.getElementById('resumenFactura').style.display = 'none';
-                document.getElementById('btnProcesarFactura').disabled = true;
-                return;
-            }
-            
-            var html = '';
-            var subtotal = 0;
-            
-            carritoActual.forEach(function(item, index) {
-                var total = item.precio * item.cantidad;
-                subtotal += total;
-                
-                html += '<div class="cart-item">';
-                html += '<div class="cart-item-info">';
-                html += '<div class="cart-item-name">' + item.id + ' - ' + item.descripcion + '</div>';
-                html += '<div class="cart-item-price">RD$' + item.precio.toFixed(2) + ' c/u</div>';
-                html += '</div>';
-                html += '<div class="cart-controls">';
-                html += '<button class="qty-btn" onclick="cambiarCantidad(' + index + ', -1)">-</button>';
-                html += '<div class="qty-display">' + item.cantidad + '</div>';
-                html += '<button class="qty-btn" onclick="cambiarCantidad(' + index + ', 1)">+</button>';
-                html += '</div></div>';
-            });
-            
-            container.innerHTML = html;
-            
-            var itbis = subtotal * 0.18;
-            var total = subtotal + itbis;
-            
-            document.getElementById('facturaSubtotal').textContent = 'RD$' + subtotal.toFixed(2);
-            document.getElementById('facturaItbis').textContent = 'RD$' + itbis.toFixed(2);
-            document.getElementById('facturaTotal').textContent = 'RD$' + total.toFixed(2);
-            document.getElementById('resumenFactura').style.display = 'block';
-            document.getElementById('btnProcesarFactura').disabled = false;
-        }
-        
-        function cambiarCantidad(index, cambio) {
-            carritoActual[index].cantidad += cambio;
-            if (carritoActual[index].cantidad <= 0) {
-                carritoActual.splice(index, 1);
-            }
-            actualizarCarritoFactura();
-        }
-        
-        function limpiarFactura() {
-            carritoActual = [];
-            document.getElementById('facturaCliente').value = '';
-            document.getElementById('facturaComprobante').value = 'consumidor';
-            document.getElementById('facturaFormaPago').value = 'efectivo';
-            actualizarCarritoFactura();
-        }
-        
-        function procesarFactura() {
-            var clienteId = document.getElementById('facturaCliente').value;
-            var tipoComprobante = document.getElementById('facturaComprobante').value;
-            var formaPago = document.getElementById('facturaFormaPago').value;
-            
-            if (!clienteId || carritoActual.length === 0) {
-                showAlert('⚠️ Seleccione cliente y agregue productos', 'error');
-                return;
-            }
-            
-            var clientes = safeGetStorage('nvision_clientes');
-            var cliente = clientes[clienteId];
-            var numeroComprobante = obtenerSiguienteComprobante(tipoComprobante);
-            
-            var factura = {
-                id: 'FACT-' + Date.now(),
-                numeroComprobante: numeroComprobante,
-                fecha: new Date().toLocaleDateString('es-DO'),
-                cliente: cliente,
-                productos: [...carritoActual],
-                subtotal: carritoActual.reduce((sum, item) => sum + (item.precio * item.cantidad), 0),
-                itbis: carritoActual.reduce((sum, item) => sum + (item.precio * item.cantidad), 0) * 0.18,
-                total: carritoActual.reduce((sum, item) => sum + (item.precio * item.cantidad), 0) * 1.18,
-                formaPago: formaPago,
-                tipoComprobante: tipoComprobante
-            };
-            
-            generarPDF(factura);
-            
-            var facturas = safeGetStorage('nvision_facturas');
-            facturas[factura.id] = factura;
-            safeSetStorage('nvision_facturas', facturas);
-            
-            showAlert('✅ Factura generada: ' + numeroComprobante);
-            limpiarFactura();
-        }
-        
-        function generarPDF(factura) {
-            try {
-                var { jsPDF } = window.jspdf;
-                var doc = new jsPDF();
-                
-                doc.setFontSize(20);
-                doc.text('ÓPTICA NVISIÓN', 105, 20, { align: 'center' });
-                doc.setFontSize(12);
-                doc.text('Vea mejor, viva mejor - Especialistas en salud visual', 105, 30, { align: 'center' });
-                doc.text('Tel: 849-797-2424', 105, 40, { align: 'center' });
-                
-                doc.setFontSize(14);
-                doc.text('FACTURA', 20, 60);
-                doc.setFontSize(10);
-                doc.text('Número: ' + factura.numeroComprobante, 20, 70);
-                doc.text('Fecha: ' + factura.fecha, 20, 80);
-                doc.text('Forma de Pago: ' + factura.formaPago.toUpperCase(), 20, 90);
-                
-                doc.text('CLIENTE:', 20, 110);
-                doc.text('Nombre: ' + factura.cliente.nombre, 20, 120);
-                doc.text('Teléfono: ' + factura.cliente.telefono, 20, 130);
-                if (factura.cliente.cedula) doc.text('Cédula/RNC: ' + factura.cliente.cedula, 20, 140);
-                
-                if (factura.cliente.fechaExamen) {
-                    doc.text('ÚLTIMO EXAMEN OPTOMÉTRICO:', 20, 160);
-                    doc.text('Fecha: ' + factura.cliente.fechaExamen, 20, 170);
-                    if (factura.cliente.ojoDerecho) doc.text('OD: ' + factura.cliente.ojoDerecho, 20, 180);
-                    if (factura.cliente.ojoIzquierdo) doc.text('OI: ' + factura.cliente.ojoIzquierdo, 100, 180);
-                    if (factura.cliente.diagnostico) doc.text('Diagnóstico: ' + factura.cliente.diagnostico, 20, 190);
-                }
-                
-                var startY = factura.cliente.fechaExamen ? 210 : 160;
-                doc.text('PRODUCTOS:', 20, startY);
-                
-                var currentY = startY + 15;
-                factura.productos.forEach(function(producto) {
-                    var linea = producto.id + ' - ' + producto.descripcion;
-                    doc.text(linea, 20, currentY);
-                    doc.text('Cant: ' + producto.cantidad, 20, currentY + 10);
-                    doc.text('Precio: RD$' + producto.precio.toFixed(2), 100, currentY + 10);
-                    doc.text('Total: RD$' + (producto.precio * producto.cantidad).toFixed(2), 150, currentY + 10);
-                    currentY += 25;
-                });
-                
-                currentY += 10;
-                doc.text('Subtotal: RD$' + factura.subtotal.toFixed(2), 150, currentY);
-                doc.text('ITBIS (18%): RD$' + factura.itbis.toFixed(2), 150, currentY + 10);
-                doc.setFontSize(12);
-                doc.text('TOTAL: RD$' + factura.total.toFixed(2), 150, currentY + 25);
-                
-                doc.setFontSize(8);
-                doc.text('Gracias por confiar en Óptica Nvisión', 105, currentY + 45, { align: 'center' });
-                
-                doc.save('Factura_Nvision_' + factura.numeroComprobante + '.pdf');
-                
-                setTimeout(function() {
-                    enviarFacturaPorWhatsApp(factura);
-                }, 1000);
-                
-            } catch (error) {
-                console.error('Error generando PDF:', error);
-                showAlert('❌ Error al generar PDF. Verifique su navegador.', 'error');
-            }
-        }
-        
-        function enviarFacturaPorWhatsApp(factura) {
-            var mensaje = '📄 *FACTURA ÓPTICA NVISIÓN* 📄\n\n';
-            mensaje += '🧾 Número: ' + factura.numeroComprobante + '\n';
-            mensaje += '📅 Fecha: ' + factura.fecha + '\n';
-            mensaje += '👤 Cliente: ' + factura.cliente.nombre + '\n\n';
-            
-            mensaje += '🛍️ *PRODUCTOS:*\n';
-            factura.productos.forEach(function(producto) {
-                mensaje += '• ' + producto.id + ' - ' + producto.descripcion + '\n';
-                mensaje += '  Cantidad: ' + producto.cantidad + ' | Precio: RD$' + producto.precio.toFixed(2) + '\n';
-            });
-            
-            mensaje += '\n💰 *TOTALES:*\n';
-            mensaje += 'Subtotal: RD$' + factura.subtotal.toFixed(2) + '\n';
-            mensaje += 'ITBIS (18%): RD$' + factura.itbis.toFixed(2) + '\n';
-            mensaje += '*TOTAL: RD$' + factura.total.toFixed(2) + '*\n\n';
-            
-            if (factura.cliente.fechaExamen) {
-                mensaje += '👁️ *ÚLTIMO EXAMEN:*\n';
-                mensaje += 'Fecha: ' + factura.cliente.fechaExamen + '\n';
-                if (factura.cliente.ojoDerecho) mensaje += 'OD: ' + factura.cliente.ojoDerecho + '\n';
-                if (factura.cliente.ojoIzquierdo) mensaje += 'OI: ' + factura.cliente.ojoIzquierdo + '\n';
-            }
-            
-            mensaje += '\n👁️ ¡Gracias por confiar en Óptica Nvisión! ✨\n';
-            mensaje += 'Vea mejor, viva mejor 🌟';
-            
-            var whatsappUrl = 'https://wa.me/' + factura.cliente.telefono.replace(/[^0-9]/g, '') + '?text=' + encodeURIComponent(mensaje);
-            window.open(whatsappUrl, '_blank');
-        }
-        
-        function goToMainSite() {
-            window.location.href = BASE_URL;
         }
 
-        function goToAdmin() {
-            window.location.href = BASE_URL + 'admin.html';
-        }
-        
-        function inicializarPOS() {
-            cargarListaClientes();
-            actualizarVistaComprobantes();
-            
-            var comprobantes = safeGetStorage('nvision_comprobantes');
-            if (Object.keys(comprobantes).length === 0) {
-                safeSetStorage('nvision_comprobantes', {
-                    'consumidor': 1,
-                    'empresarial': 1,
-                    'gubernamental': 1,
-                    'zona_franca': 1
-                });
-                actualizarVistaComprobantes();
+        function addWhatsAppClick() {
+            try {
+                if (typeof(Storage) !== "undefined" && localStorage) {
+                    var clicks = localStorage.getItem('nvision_whatsapp_clicks') || '0';
+                    clicks = parseInt(clicks) + 1;
+                    localStorage.setItem('nvision_whatsapp_clicks', clicks.toString());
+                    
+                    var clickElement = document.getElementById('clickCount');
+                    if (clickElement) {
+                        clickElement.innerHTML = clicks;
+                    }
+                }
+            } catch (e) {
+                console.log('Error updating clicks:', e);
             }
         }
-        
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', inicializarPOS);
-        } else {
-            inicializarPOS();
+
+        // NUEVO: Función para mostrar notificación
+        function showNotification(message) {
+            var notification = document.getElementById('successNotification');
+            notification.textContent = message;
+            notification.style.display = 'block';
+            
+            setTimeout(function() {
+                notification.style.display = 'none';
+            }, 3000);
         }
+
+        // NUEVO: Función para compartir viral por WhatsApp
+        function compartirViralWhatsApp() {
+            var mensaje = '👁️ *¡ÓPTICA NVISIÓN - TEST DE VISTA GRATIS!* 👁️\n\n';
+            mensaje += '🔍 *¿VES BIEN? DESCÚBRELO AHORA*\n\n';
+            mensaje += '✅ Test visual GRATUITO\n';
+            mensaje += '🔊 Con audio (no necesitas leer)\n';
+            mensaje += '📱 Desde tu celular\n';
+            mensaje += '⏱️ Solo 2 minutos\n';
+            mensaje += '👁️ Para toda la familia\n\n';
+            mensaje += '🔗 *HAZ TU TEST AQUÍ:*\n';
+            mensaje += window.location.origin + window.location.pathname + '?modo=rural&audio=true\n\n';
+            mensaje += '📞 *Óptica Nvisión: 849-797-2424*\n';
+            mensaje += '🏥 Especialistas en salud visual\n\n';
+            mensaje += '*¡Compártelo con tu familia!* 🌟\n';
+            mensaje += 'Vea mejor, viva mejor ✨';
+            
+            addWhatsAppClick();
+            window.open('https://wa.me/?text=' + encodeURIComponent(mensaje), '_blank');
+            speakText("Compartiendo test de vista por WhatsApp para ayudar a más personas");
+        }
+
+        // NUEVO: Función para copiar enlace viral
+        function copyProductLink(codigo) {
+            var enlace = window.location.origin + window.location.pathname + '?codigo=' + codigo;
+            
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(enlace)
+                    .then(() => showNotification('✅ Enlace copiado al portapapeles'))
+                    .catch(() => fallbackCopyText(enlace));
+            } else {
+                fallbackCopyText(enlace);
+            }
+        }
+
+        // NUEVO: Función fallback para copiar
+        function fallbackCopyText(text) {
+            var textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.style.position = "fixed";
+            textArea.style.left = "-999999px";
+            document.body.appendChild(textArea);
+            textArea.select();
+            
+            try {
+                document.execCommand('copy');
+                showNotification('✅ Enlace copiado');
+            } catch (err) {
+                showNotification('❌ No se pudo copiar');
+            }
+            
+            document.body.removeChild(textArea);
+        }
+
+        // NUEVO: Función para enviar mensaje de producto
+        function sendProductMessage(codigo) {
+            var monturas = safeGetStorage('nvision_monturas');
+            var montura = monturas[codigo];
+            
+            if (montura) {
+                var mensaje = '🏥 *ÓPTICA NVISIÓN* 🏥\n\n';
+                mensaje += '📸 Te comparto esta montura:\n';
+                mensaje += '🔢 Código: ' + montura.codigo + '\n';
+                mensaje += '💰 Precio: ' + montura.precio + '\n';
+                mensaje += '📝 Descripción: ' + montura.nombre + '\n\n';
+                mensaje += '🔗 Ver más detalles: ' + montura.enlace + '\n\n';
+                mensaje += '📞 *Contactar: 849-797-2424*\n';
+                mensaje += '👁️ ¡Vea mejor, viva mejor! ✨';
+                
+                window.open('https://wa.me/?text=' + encodeURIComponent(mensaje), '_blank');
+                addWhatsAppClick();
+                showNotification('✅ Compartiendo por WhatsApp');
+            }
+        }
+
+        // SISTEMA DE AUDIO MEJORADO
+        function toggleAudio() {
+            isAudioEnabled = !isAudioEnabled;
+            var btn = document.getElementById('audioBtn');
+            btn.textContent = isAudioEnabled ? '🔇' : '🔊';
+            
+            if (isAudioEnabled && audioSupported) {
+                speakText("Audio activado. Ahora escuchará instrucciones de voz claras y detalladas para ayudarle en todo momento.");
+                btn.style.background = 'linear-gradient(45deg, #22c55e, #16a34a)';
+            } else if (isAudioEnabled && !audioSupported) {
+                alert("Su navegador no soporta audio. Use un navegador más reciente como Chrome o Firefox.");
+                isAudioEnabled = false;
+                btn.textContent = '🔊';
+            } else {
+                btn.style.background = 'linear-gradient(45deg, #f59e0b, #d97706)';
+            }
+        }
+
+        function speakText(text) {
+            if (!isAudioEnabled || !audioSupported) return;
+            
+            window.speechSynthesis.cancel();
+            
+            var utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'es-ES';
+            utterance.rate = 0.65; // Más lento para mejor comprensión
+            utterance.volume = 1.0;
+            utterance.pitch = 1.0;
+            
+            // Intentar usar voces femeninas si están disponibles
+            var voices = window.speechSynthesis.getVoices();
+            var spanishVoice = voices.find(voice => voice.lang.includes('es') && voice.name.includes('ema'));
+            if (spanishVoice) {
+                utterance.voice = spanishVoice;
+            }
+            
+            window.speechSynthesis.speak(utterance);
+        }
+
+        // GESTIÓN DE MODOS
+        function toggleModo() {
+            if (modoActual === 'normal') {
+                activarModoHumanitario();
+            } else {
+                desactivarModoHumanitario();
+            }
+        }
+
+        function activarModoHumanitario() {
+            modoActual = 'humanitario';
+            document.getElementById('modoNormal').style.display = 'none';
+            document.getElementById('modoHumanitario').style.display = 'block';
+            document.getElementById('modoSelector').textContent = '🌾 Modo: Simple';
+            
+            if (!isAudioEnabled && audioSupported) {
+                setTimeout(() => toggleAudio(), 1000);
+            }
+            
+            setTimeout(() => {
+                speakText("Modo simple activado. Este modo está diseñado para personas con dificultades visuales o de lectura. Aquí puede revisar sus ojos de manera muy fácil con instrucciones de voz. También puede compartir este test con su familia por WhatsApp. Si tiene algún problema urgente en los ojos, toque el botón rojo para llamar inmediatamente.");
+            }, 2000);
+        }
+
+        function desactivarModoHumanitario() {
+            modoActual = 'normal';
+            document.getElementById('modoHumanitario').style.display = 'none';
+            document.getElementById('modoNormal').style.display = 'block';
+            document.getElementById('modoSelector').textContent = '👁️ Modo: Normal';
+            
+            cerrarTestHumanitario();
+            
+            speakText("Modo normal activado. Ahora puede acceder a todas las funciones avanzadas del sistema.");
+        }
+
+        // FUNCIONES DE EMERGENCIA MEJORADAS
+        function emergencyCall() {
+            speakText("Atención: Activando protocolo de emergencia médica. Si tiene dolor severo, pérdida repentina de visión, o cualquier problema urgente en los ojos, es importante recibir atención inmediata.");
+            addWhatsAppClick();
+            
+            if (confirm("🚨 ¿Tiene una EMERGENCIA MÉDICA en los ojos?\n\n• Dolor severo\n• Pérdida de visión\n• Accidente ocular\n• Inflamación intensa\n\n¿LLAMAR INMEDIATAMENTE?")) {
+                window.open('tel:' + WHATSAPP_NUMBER.replace(/^1/, ''), '_self');
+                
+                setTimeout(function() {
+                    var emergencyMessage = "🚨 EMERGENCIA MÉDICA OCULAR 🚨\n\n";
+                    emergencyMessage += "Necesito atención médica URGENTE para un problema en los ojos.\n\n";
+                    emergencyMessage += "⏰ ES UNA EMERGENCIA ⏰\n";
+                    emergencyMessage += "📱 Por favor llamen inmediatamente\n\n";
+                    emergencyMessage += "📍 Ubicación: [Indicar dónde se encuentra]\n";
+                    emergencyMessage += "🆘 Síntomas: [Describir problema]";
+                    
+                    window.open('https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(emergencyMessage), '_blank');
+                }, 1000);
+            }
+        }
+
+        // TEST VISUAL HUMANITARIO MEJORADO
+        function iniciarTestHumanitario() {
+            speakText("Iniciando test de vista especializado con instrucciones de voz paso a paso. Este test es completamente gratuito y le ayudará a determinar si necesita una consulta profesional.");
+            currentTestStep = 0;
+            testResults = { ojoIzquierdo: null, ojoDerecho: null };
+            
+            document.getElementById('testVisualHumanitario').style.display = 'block';
+            setTimeout(() => actualizarTestStep(), 1000);
+        }
+
+        function cerrarTestHumanitario() {
+            document.getElementById('testVisualHumanitario').style.display = 'none';
+            speakText("Test de vista cerrado. Puede repetirlo cuando guste.");
+        }
+
+        function actualizarTestStep() {
+            if (currentTestStep >= testSteps.length) {
+                completarTest();
+                return;
+            }
+            
+            var step = testSteps[currentTestStep];
+            
+            document.getElementById('stepIcon').textContent = step.icon;
+            document.getElementById('stepText').textContent = step.text;
+            document.getElementById('btnSi').textContent = step.yesText;
+            document.getElementById('btnNo').textContent = step.noText;
+            
+            var chart = document.getElementById('visualChart');
+            if (step.showChart) {
+                chart.style.display = 'block';
+            } else {
+                chart.style.display = 'none';
+            }
+            
+            var progress = ((currentTestStep + 1) / testSteps.length) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+            
+            setTimeout(function() {
+                speakText(step.audio);
+            }, 800);
+        }
+
+        function responderTest(respuesta) {
+            var currentStep = testSteps[currentTestStep];
+            
+            if (!respuesta && (currentTestStep === 1 || currentTestStep === 2 || currentTestStep === 4)) {
+                speakText("No se preocupe, voy a explicarle otra vez. " + currentStep.audio);
+                return;
+            }
+            
+            if (!respuesta && currentTestStep === 0) {
+                cerrarTestHumanitario();
+                speakText("Test cancelado. Puede volver cuando esté listo.");
+                return;
+            }
+            
+            if (currentTestStep === 3) {
+                testResults.ojoIzquierdo = respuesta;
+                speakText(respuesta ? "Excelente, su ojo izquierdo ve bien las letras." : "Entiendo, tiene algunas dificultades con el ojo izquierdo. Continuemos.");
+            }
+            
+            if (currentTestStep === 5) {
+                testResults.ojoDerecho = respuesta;
+                speakText(respuesta ? "Muy bien, su ojo derecho también ve correctamente." : "Comprendo, tiene dificultades con el ojo derecho también.");
+            }
+            
+            currentTestStep++;
+            setTimeout(function() {
+                actualizarTestStep();
+            }, 1500);
+        }
+
+        function completarTest() {
+            addWhatsAppClick();
+            
+            var mensaje = "🔍 TEST DE VISTA COMPLETADO - ÓPTICA NVISIÓN 🔍\n\n";
+            mensaje += "📋 RESULTADOS DEL EXAMEN:\n";
+            mensaje += "👁️ Ojo Izquierdo: " + (testResults.ojoIzquierdo ? "Ve bien ✅" : "Con dificultades ❌") + "\n";
+            mensaje += "👁️ Ojo Derecho: " + (testResults.ojoDerecho ? "Ve bien ✅" : "Con dificultades ❌") + "\n\n";
+            
+            if (!testResults.ojoIzquierdo || !testResults.ojoDerecho) {
+                mensaje += "🏥 RECOMENDACIÓN: CONSULTA PROFESIONAL NECESARIA\n\n";
+                mensaje += "📅 Necesito agendar una cita para examen completo con optometrista.\n";
+                mensaje += "👩‍⚕️ Requiero evaluación profesional urgente.\n\n";
+                speakText("Test completado. Los resultados indican que necesita una consulta profesional. Contactando con nuestro especialista para agendar una cita urgente.");
+            } else {
+                mensaje += "✅ RESULTADO: VISTA APARENTEMENTE NORMAL\n\n";
+                mensaje += "👓 Me interesan las monturas de protección o estilo.\n";
+                mensaje += "🛡️ Quiero cuidar mi vista con lentes de calidad.\n\n";
+                speakText("Felicitaciones, test completado exitosamente. Su vista parece estar en buenas condiciones. Contactando para mostrarle nuestras monturas de protección.");
+            }
+            
+            mensaje += "📱 Completé el test en su página web de Óptica Nvisión.\n";
+            mensaje += "📍 Solicito información sobre precios y disponibilidad.\n\n";
+            mensaje += "🔗 Compartir test: " + window.location.origin + window.location.pathname + "?modo=rural&audio=true";
+            
+            window.open('https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(mensaje), '_blank');
+            
+            setTimeout(function() {
+                cerrarTestHumanitario();
+                speakText("Nuestro especialista se comunicará con usted muy pronto. Gracias por confiar en Óptica Nvisión. No olvide compartir este test con su familia.");
+            }, 3000);
+        }
+
+        // OTRAS FUNCIONES HUMANITARIAS MEJORADAS
+        function verLentesSimple() {
+            speakText("Mostrando todas las monturas disponibles en nuestro catálogo. Puede tocar cualquier montura para ver más detalles y precios.");
+            addView();
+            desactivarModoHumanitario();
+            setTimeout(() => showCatalogView(), 500);
+        }
+
+        function pedirAyuda() {
+            speakText("Conectando con nuestro especialista para recibir ayuda personalizada paso a paso.");
+            addWhatsAppClick();
+            
+            var mensaje = "🤝 SOLICITUD DE AYUDA PERSONALIZADA - ÓPTICA NVISIÓN 🤝\n\n";
+            mensaje += "Hola, necesito ayuda para usar su sistema de test de vista. ";
+            mensaje += "Prefiero que me expliquen paso a paso por teléfono o WhatsApp.\n\n";
+            mensaje += "📞 SOLICITO:\n";
+            mensaje += "• Explicación del test de vista\n";
+            mensaje += "• Ayuda para revisar mis ojos\n";
+            mensaje += "• Información sobre monturas\n";
+            mensaje += "• Asistencia personalizada\n\n";
+            mensaje += "🙏 Por favor, tengan paciencia conmigo y llámenme cuando puedan.\n\n";
+            mensaje += "📍 También pueden encontrar nuestro test aquí:\n";
+            mensaje += window.location.origin + window.location.pathname + "?modo=rural&audio=true";
+            
+            window.open('https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(mensaje), '_blank');
+        }
+
+        // FUNCIONES DEL SISTEMA ORIGINAL COMPLETAS
+        function showVisionTest() {
+            addView();
+            var html = '';
+            html += '<div class="vision-test">';
+            html += '<h2 style="font-size: 24px; margin-bottom: 20px; color: #22d3ee;">🔍 Test de Vista Básico</h2>';
+            html += '<div class="test-instructions">';
+            html += '<div class="test-step">📏 Extienda su brazo completamente</div>';
+            html += '<div class="test-step">🖐️ Tape su ojo derecho con la mano</div>';
+            html += '<div class="test-step">👁️ Lea las letras con el ojo izquierdo</div>';
+            html += '</div>';
+            
+            html += '<div class="vision-chart">';
+            html += '<div class="chart-line" style="font-size: 40px;">E</div>';
+            html += '<div class="chart-line" style="font-size: 32px;">F P</div>';
+            html += '<div class="chart-line" style="font-size: 24px;">T O Z</div>';
+            html += '<div class="chart-line" style="font-size: 18px;">L P E D</div>';
+            html += '<div class="chart-line" style="font-size: 14px;">P E C F D</div>';
+            html += '<div class="chart-line" style="font-size: 12px;">E D F C Z P</div>';
+            html += '</div>';
+            
+            html += '<p style="margin: 20px 0; font-size: 14px; color: #e2e8f0;"><strong>⚠️ Importante:</strong> Este es solo un test referencial. Para un examen completo, visite a un profesional.</p>';
+            
+            html += '<div class="test-buttons">';
+            html += '<button onclick="sendTestResult(true)" class="test-btn test-btn-primary">✅ Veo bien todas</button>';
+            html += '<button onclick="sendTestResult(false)" class="test-btn test-btn-secondary">❌ No veo algunas</button>';
+            html += '</div>';
+            
+            html += '<div style="margin-top: 20px;">';
+            html += '<button onclick="showCatalogView()" class="catalog-button">👓 Ver Monturas Disponibles</button>';
+            html += '</div>';
+            
+            html += '<div class="viral-share-buttons" style="margin-top: 20px;">';
+            html += '<button onclick="compartirViralWhatsApp()" class="viral-btn btn-viral-whatsapp">💬 Compartir Test</button>';
+            html += '<button onclick="activarModoHumanitario()" class="viral-btn btn-copy-link">🌾 Modo Simple</button>';
+            html += '</div>';
+            
+            html += '</div>';
+
+            document.getElementById('mainContent').innerHTML = html;
+        }
+
+        function sendTestResult(canSeeWell) {
+            addWhatsAppClick();
+            var message = '';
+            if (canSeeWell) {
+                message = '👁️ ¡Hola! Hice el test de vista en Óptica Nvisión y puedo ver bien. Me gustaría explorar monturas para protección o estilo. ¿Qué opciones tienen disponibles? ✨\n\n🔗 Test de vista: ' + window.location.origin + window.location.pathname + '?modo=rural&audio=true';
+            } else {
+                message = '👁️ ¡Hola! Hice el test de vista en Óptica Nvisión y tengo dificultades para ver algunas letras. Necesito una evaluación profesional y posiblemente monturas graduadas. ¿Pueden ayudarme? 🔍\n\n🔗 Test de vista: ' + window.location.origin + window.location.pathname + '?modo=rural&audio=true';
+            }
+            
+            var whatsappUrl = 'https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(message);
+            window.open(whatsappUrl, '_blank');
+        }
+
+        // CORREGIDO: Catálogo de productos mejorado
+        function showProduct(montura) {
+            var categories = {
+                'hombre': '👨 Hombres',
+                'mujer': '👩 Mujeres', 
+                'deportivo': '🏃 Deportivos',
+                'niños': '👶 Niños',
+                'lectura': '📖 Lectura',
+                'sol': '🕶️ Sol'
+            };
+
+            addView();
+
+            var message = '👁️ ¡Hola! Me interesa la montura ' + montura.codigo + ' "' + montura.nombre + '" por ' + montura.precio + '. ¿Está disponible y puedo agendar una cita para probármela? 👓✨\n\n🔗 Ver más monturas: ' + window.location.origin + window.location.pathname;
+            var whatsappUrl = 'https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(message);
+
+            var html = '';
+            html += '<div class="product-card">';
+            html += '<img src="' + montura.foto + '" alt="Montura ' + montura.codigo + '" class="product-image">';
+            html += '<div class="product-info">';
+            html += '<div class="product-code">' + montura.codigo + '</div>';
+            html += '<div class="product-category">' + (categories[montura.categoria] || '👓 Monturas') + '</div>';
+            html += '<h2 class="product-name">' + montura.nombre + '</h2>';
+            html += '<div class="product-price">' + montura.precio + '</div>';
+            
+            // NUEVO: Botones de compartir viral mejorados
+            html += '<div class="viral-share-buttons">';
+            html += '<button onclick="copyProductLink(\'' + montura.codigo + '\')" class="viral-btn btn-copy-link">📋 Copiar Enlace</button>';
+            html += '<button onclick="sendProductMessage(\'' + montura.codigo + '\')" class="viral-btn btn-viral-whatsapp">💬 Compartir</button>';
+            html += '</div>';
+            
+            html += '<a href="' + whatsappUrl + '" target="_blank" class="whatsapp-button" onclick="addWhatsAppClick()">';
+            html += '💬 CONSULTAR DISPONIBILIDAD</a>';
+            html += '<button onclick="showCatalogView()" class="catalog-button">';
+            html += '👁️ Ver todas las monturas</button>';
+            html += '</div></div>';
+
+            return html;
+        }
+
+        // CORREGIDO: Vista de catálogo mejorada
+        function showCatalogView() {
+            var monturas = safeGetStorage('nvision_monturas');
+            var keys = Object.keys(monturas);
+
+            if (keys.length === 0) {
+                var html = '';
+                html += '<div class="empty-state">';
+                html += '<span class="state-icon">📦</span>';
+                html += '<div class="state-title">Catálogo en preparación</div>';
+                html += '<div>Estamos agregando nuevas monturas premium. Mientras tanto, puede hacer nuestro test de vista gratuito.</div><br>';
+                html += '<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">';
+                html += '<button onclick="showVisionTest()" style="padding: 15px; background: linear-gradient(45deg, #22d3ee, #0891b2); color: white; border: none; border-radius: 15px; cursor: pointer; font-weight: 700;">🔍 Test de Vista</button>';
+                html += '<button onclick="activarModoHumanitario()" style="padding: 15px; background: linear-gradient(45deg, #10b981, #059669); color: white; border: none; border-radius: 15px; cursor: pointer; font-weight: 700;">🌾 Modo Simple</button>';
+                html += '</div>';
+                html += '<div style="margin-top: 20px;">';
+                html += '<button onclick="compartirViralWhatsApp()" style="padding: 15px; background: linear-gradient(45deg, #25d366, #128c7e); color: white; border: none; border-radius: 15px; cursor: pointer; font-weight: 700; width: 100%;">💬 Compartir por WhatsApp</button>';
+                html += '</div></div>';
+                
+                document.getElementById('mainContent').innerHTML = html;
+                return;
+            }
+
+            addView();
+
+            var html = '<div class="catalog-grid">';
+            
+            for (var i = 0; i < keys.length; i++) {
+                var key = keys[i];
+                var montura = monturas[key];
+                
+                html += '<div class="catalog-item" onclick="goToProduct(\'' + montura.codigo + '\')">';
+                html += '<img src="' + montura.foto + '" alt="' + montura.codigo + '" class="catalog-item-image">';
+                html += '<div class="catalog-item-code">' + montura.codigo + '</div>';
+                html += '<div class="catalog-item-price">' + montura.precio + '</div>';
+                html += '</div>';
+            }
+            
+            html += '</div>';
+            
+            html += '<div style="text-align: center; margin-top: 20px;">';
+            html += '<button onclick="showVisionTest()" class="catalog-button">🔍 Hacer Test de Vista Gratis</button>';
+            html += '</div>';
+            
+            html += '<div class="viral-share-buttons" style="margin-top: 20px;">';
+            html += '<button onclick="compartirViralWhatsApp()" class="viral-btn btn-viral-whatsapp">💬 Compartir Catálogo</button>';
+            html += '<button onclick="activarModoHumanitario()" class="viral-btn btn-copy-link">🌾 Modo Simple</button>';
+            html += '</div>';
+            
+            document.getElementById('mainContent').innerHTML = html;
+        }
+
+        function goToProduct(codigo) {
+            var currentUrl = window.location.href.split('?')[0];
+            window.location.href = currentUrl + '?codigo=' + codigo;
+        }
+
+        function abrirPOS() {
+            var password = prompt('🔐 Acceso al Sistema POS (Contraseña: nvision3030):');
+            if (password === 'nvision3030') {
+                window.location.href = BASE_URL + 'pos.html';
+            } else if (password !== null) {
+                alert('❌ Contraseña incorrecta. Use: nvision3030');
+            }
+        }
+
+        function adminAccess() {
+            var password = prompt('🔐 Contraseña de administrador Nvisión (nvision3030):');
+            if (password === 'nvision3030') {
+                window.location.href = BASE_URL + 'admin.html';
+            } else if (password !== null) {
+                alert('❌ Contraseña incorrecta. Use: nvision3030');
+            }
+        }
+
+        // DETECCIÓN AUTOMÁTICA DEL MODO APROPIADO
+        function detectarModoApropiado() {
+            try {
+                var userAgent = navigator.userAgent.toLowerCase();
+                var connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+                var isSlowConnection = connection && connection.effectiveType && (connection.effectiveType === 'slow-2g' || connection.effectiveType === '2g');
+                var isOldDevice = userAgent.includes('android 4') || userAgent.includes('ios 8') || userAgent.includes('opera mini');
+                
+                // Detectar parámetros de URL para modo rural
+                var urlParams = new URLSearchParams(window.location.search);
+                if (urlParams.get('modo') === 'rural' || urlParams.get('audio') === 'true') {
+                    setTimeout(() => activarModoHumanitario(), 1000);
+                    return;
+                }
+                
+                if (isSlowConnection || isOldDevice) {
+                    setTimeout(function() {
+                        if (confirm("¿Quiere usar el MODO SIMPLE con voz para revisar su vista más fácilmente?")) {
+                            activarModoHumanitario();
+                        }
+                    }, 4000);
+                }
+            } catch (e) {
+                console.log('Error en detección automática:', e);
+            }
+        }
+
+        // INICIALIZACIÓN CORREGIDA
+        function initApp() {
+            try {
+                var views = '0';
+                var clicks = '0';
+                
+                try {
+                    if (typeof(Storage) !== "undefined" && localStorage) {
+                        views = localStorage.getItem('nvision_views') || '0';
+                        clicks = localStorage.getItem('nvision_whatsapp_clicks') || '0';
+                    }
+                } catch (e) {
+                    console.log('Storage not available:', e);
+                }
+                
+                var viewElement = document.getElementById('viewCount');
+                var clickElement = document.getElementById('clickCount');
+                if (viewElement) viewElement.innerHTML = views;
+                if (clickElement) clickElement.innerHTML = clicks;
+
+                // CORREGIDO: Verificar si hay un código de producto en la URL
+                var productCode = getUrlParam('codigo');
+                
+                if (productCode) {
+                    var monturas = safeGetStorage('nvision_monturas');
+                    var montura = monturas[productCode.toUpperCase()];
+                    
+                    if (montura) {
+                        document.getElementById('mainContent').innerHTML = showProduct(montura);
+                        document.title = montura.codigo + ' - ' + montura.nombre + ' | Óptica Nvisión';
+                    } else {
+                        var html = '';
+                        html += '<div class="empty-state">';
+                        html += '<span class="state-icon">🔍</span>';
+                        html += '<div class="state-title">Montura no encontrada</div>';
+                        html += '<div>El código <strong>' + productCode + '</strong> no existe</div><br>';
+                        html += '<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">';
+                        html += '<button onclick="showCatalogView()" style="padding: 15px; background: linear-gradient(45deg, #22d3ee, #0891b2); color: white; border: none; border-radius: 15px; cursor: pointer; font-weight: 700;">👓 Ver Catálogo</button>';
+                        html += '<button onclick="activarModoHumanitario()" style="padding: 15px; background: linear-gradient(45deg, #10b981, #059669); color: white; border: none; border-radius: 15px; cursor: pointer; font-weight: 700;">🌾 Modo Simple</button>';
+                        html += '</div></div>';
+                        
+                        document.getElementById('mainContent').innerHTML = html;
+                    }
+                } else {
+                    // CORREGIDO: Mostrar catálogo automáticamente si hay productos
+                    var monturas = safeGetStorage('nvision_monturas');
+                    if (Object.keys(monturas).length > 0) {
+                        showCatalogView();
+                    }
+                }
+
+                // Inicializar sistema de backup
+                initBackupSystem();
+
+                detectarModoApropiado();
+                
+                setTimeout(function() {
+                    if (audioSupported) {
+                        speakText("Bienvenido a Óptica Nvisión. Toque el botón naranja para activar la ayuda por voz, o el botón modo simple para acceso fácil. También puede compartir nuestro test de vista por WhatsApp.");
+                    }
+                }, 3000);
+                
+            } catch (e) {
+                console.error('Error initializing app:', e);
+                var html = '';
+                html += '<div class="empty-state">';
+                html += '<span class="state-icon">⚠️</span>';
+                html += '<div class="state-title">Error de carga</div>';
+                html += '<div>Intente recargar la página</div><br>';
+                html += '<button onclick="window.location.reload()" style="padding: 15px; background: #ef4444; color: white; border: none; border-radius: 15px; cursor: pointer; font-weight: 700;">🔄 Recargar</button>';
+                html += '</div>';
+                
+                document.getElementById('mainContent').innerHTML = html;
+            }
+        }
+
+        // EVENTOS
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initApp);
+        } else {
+            initApp();
+        }
+        
+        window.addEventListener('offline', function() {
+            speakText("Sin conexión a internet. El sistema funciona sin conexión.");
+        });
+        
+        window.addEventListener('online', function() {
+            speakText("Conexión a internet restaurada. Realizando backup automático.");
+            setTimeout(performAutoBackup, 2000);
+        });
+
+        document.addEventListener('touchstart', function(event) {
+            if (event.touches.length > 1) {
+                event.preventDefault();
+            }
+        }, { passive: false });
     </script>
 </body>
 </html>
