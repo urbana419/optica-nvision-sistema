@@ -67,7 +67,46 @@
             color: #10b981;
             border-color: rgba(16, 185, 129, 0.3);
         }
+
+        .btn-backup {
+            background: rgba(99, 102, 241, 0.2);
+            color: #6366f1;
+            border-color: rgba(99, 102, 241, 0.3);
+        }
         
+        /* NUEVO: Cloud Status Badge */
+        .cloud-status {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .cloud-status.connected { background: rgba(34, 197, 94, 0.8); }
+        .cloud-status.syncing { background: rgba(251, 146, 60, 0.8); }
+        .cloud-status.error { background: rgba(239, 68, 68, 0.8); }
+        
+        .cloud-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: currentColor;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -96,6 +135,44 @@
             font-size: 14px;
             font-weight: 600;
             opacity: 0.9;
+        }
+
+        /* NUEVO: Google Drive Backup Section */
+        .backup-section {
+            background: rgba(34, 197, 94, 0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            border-radius: 25px;
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+
+        .backup-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #22c55e;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .backup-info {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .backup-controls {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
         }
         
         .form-section {
@@ -148,7 +225,6 @@
             box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.1);
         }
         
-        /* CORREGIDO: Camera Upload con vista completa */
         .camera-upload {
             background: rgba(255, 255, 255, 0.1);
             border: 2px dashed rgba(255, 255, 255, 0.3);
@@ -172,7 +248,6 @@
             display: block;
         }
         
-        /* CORREGIDO: Preview de imagen en pantalla completa */
         .preview-image {
             max-width: 100%;
             width: 100%;
@@ -184,7 +259,6 @@
             object-fit: cover;
         }
         
-        /* NUEVO: Modal para vista completa de cámara */
         .camera-modal {
             display: none;
             position: fixed;
@@ -286,6 +360,30 @@
             background: linear-gradient(45deg, #10b981, #059669);
             color: white;
         }
+
+        .btn-warning {
+            background: linear-gradient(45deg, #f59e0b, #d97706);
+            color: white;
+        }
+
+        /* NUEVO: Cloud backup buttons */
+        .btn-cloud {
+            background: linear-gradient(45deg, #22c55e, #16a34a);
+            color: white;
+            box-shadow: 0 4px 15px rgba(34, 197, 94, 0.3);
+        }
+
+        .btn-cloud:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(34, 197, 94, 0.4);
+        }
+
+        .btn-cloud:disabled {
+            background: rgba(255, 255, 255, 0.2);
+            transform: none;
+            box-shadow: none;
+            cursor: not-allowed;
+        }
         
         .action-buttons {
             display: grid;
@@ -377,7 +475,12 @@
             color: #ef4444;
         }
 
-        /* NUEVO: Botones de compartir */
+        .alert-warning {
+            background: rgba(245, 158, 11, 0.2);
+            border-color: rgba(245, 158, 11, 0.3);
+            color: #f59e0b;
+        }
+
         .share-buttons {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -406,7 +509,75 @@
             border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
-        /* Scrollbar personalizado */
+        /* NUEVO: Loading spinner */
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* NUEVO: WhatsApp Viral Section */
+        .whatsapp-viral-section {
+            background: linear-gradient(45deg, #25d366, #128c7e);
+            border-radius: 25px;
+            padding: 25px;
+            margin-bottom: 30px;
+            text-align: center;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .viral-title {
+            font-size: 20px;
+            font-weight: 800;
+            margin-bottom: 15px;
+            color: white;
+        }
+
+        .viral-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .viral-stat {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        .viral-number {
+            font-size: 18px;
+            font-weight: 800;
+            color: white;
+        }
+
+        .viral-label {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        /* Creditos */
+        .credits {
+            position: fixed;
+            bottom: 5px;
+            right: 5px;
+            font-size: 10px;
+            opacity: 0.6;
+            background: rgba(0,0,0,0.5);
+            padding: 5px 10px;
+            border-radius: 10px;
+            z-index: 999;
+        }
+
         ::-webkit-scrollbar {
             width: 8px;
         }
@@ -427,6 +598,17 @@
     </style>
 </head>
 <body>
+    <!-- NUEVO: Cloud Status Badge -->
+    <div id="cloudStatus" class="cloud-status">
+        <div class="cloud-indicator"></div>
+        <span id="cloudStatusText">Conectando a Google Drive...</span>
+    </div>
+
+    <!-- Créditos -->
+    <div class="credits">
+        by fbrugal jrubinstein consultores
+    </div>
+
     <div class="container">
         <div class="header">
             <h1>📊 Panel de Administración</h1>
@@ -438,6 +620,59 @@
                 <button onclick="abrirPOS()" class="header-btn btn-pos">
                     💼 Sistema POS
                 </button>
+                <button onclick="manualBackup()" class="header-btn btn-backup">
+                    ☁️ Backup Manual
+                </button>
+            </div>
+        </div>
+
+        <!-- NUEVO: WhatsApp Viral Section -->
+        <div class="whatsapp-viral-section">
+            <h2 class="viral-title">💬 Sistema Viral WhatsApp</h2>
+            <div class="viral-stats">
+                <div class="viral-stat">
+                    <div class="viral-number" id="viralShares">0</div>
+                    <div class="viral-label">Compartidos</div>
+                </div>
+                <div class="viral-stat">
+                    <div class="viral-number" id="viralClicks">0</div>
+                    <div class="viral-label">Clicks</div>
+                </div>
+                <div class="viral-stat">
+                    <div class="viral-number" id="viralRate">0%</div>
+                    <div class="viral-label">Tasa Viral</div>
+                </div>
+            </div>
+            <button onclick="generarEnlaceViral()" class="btn btn-cloud btn-small" style="width: 100%;">
+                🚀 Generar Enlace Viral
+            </button>
+        </div>
+
+        <!-- NUEVO: Google Drive Backup Section -->
+        <div class="backup-section">
+            <h2 class="backup-title">
+                <span>☁️</span>
+                <span>Backup Automático Google Drive</span>
+            </h2>
+            <div class="backup-info">
+                <strong>📧 Cuenta:</strong> oopticanvision@gmail.com<br>
+                <strong>🔄 Último backup:</strong> <span id="lastBackupTime">Nunca</span><br>
+                <strong>📦 Productos respaldados:</strong> <span id="backedUpProducts">0</span><br>
+                <strong>📊 Estado:</strong> <span id="backupStatus">Esperando...</span>
+            </div>
+            <div class="backup-controls">
+                <button id="manualBackupBtn" onclick="manualBackup()" class="btn btn-cloud">
+                    ☁️ Respaldar Ahora
+                </button>
+                <button id="restoreBackupBtn" onclick="restoreFromCloud()" class="btn btn-cloud">
+                    📥 Restaurar de Cloud
+                </button>
+            </div>
+            <div style="margin-top: 15px; text-align: center;">
+                <label style="display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 14px;">
+                    <input type="checkbox" id="autoBackupEnabled" onchange="toggleAutoBackup()" checked>
+                    <span>🔄 Backup automático cada 5 minutos</span>
+                </label>
             </div>
         </div>
         
@@ -452,571 +687,4 @@
             </div>
             <div class="stat-card">
                 <div class="stat-number" id="whatsappClicks">0</div>
-                <div class="stat-label">Clicks WhatsApp</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number" id="conversionRate">0%</div>
-                <div class="stat-label">Tasa conversión</div>
-            </div>
-        </div>
-
-        <div class="action-buttons">
-            <button onclick="goToMainSite()" class="btn btn-secondary btn-small">
-                🏠 Ir al sitio
-            </button>
-            <button onclick="abrirPOS()" class="btn btn-success btn-small">
-                💼 Sistema POS
-            </button>
-            <button onclick="exportData()" class="btn btn-secondary btn-small">
-                📤 Exportar
-            </button>
-        </div>
-
-        <div id="alertContainer"></div>
-
-        <div class="form-section">
-            <h2 class="section-title">➕ Agregar Nuevo Producto</h2>
-            
-            <form id="productForm">
-                <div class="form-group">
-                    <label class="form-label">📸 Foto del Producto</label>
-                    <div class="camera-upload" onclick="openCamera()">
-                        <span class="camera-icon">📷</span>
-                        <div style="font-size: 18px; font-weight: 600; margin-bottom: 8px;">Tomar/Subir Foto</div>
-                        <div style="font-size: 14px; opacity: 0.8;">Toque para activar cámara</div>
-                        <img id="photoPreview" class="preview-image" style="display: none;">
-                    </div>
-                    <input type="file" id="photoInput" accept="image/*" capture="environment" style="display: none;">
-                    
-                    <!-- NUEVO: Botones de compartir para productos guardados -->
-                    <div id="shareButtons" class="share-buttons" style="display: none;">
-                        <button type="button" onclick="copyProductLink()" class="btn-share btn-copy">
-                            📋 Copiar Enlace
-                        </button>
-                        <button type="button" onclick="shareWhatsApp()" class="btn-share btn-whatsapp">
-                            💬 Enviar WhatsApp
-                        </button>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">🔤 Código del Producto</label>
-                    <input type="text" id="productCode" class="form-input" placeholder="Ej: NV001, NV002..." style="text-transform: uppercase;" maxlength="10">
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">📂 Categoría</label>
-                    <select id="productCategory" class="form-select">
-                        <option value="hombre">👨 Hombres</option>
-                        <option value="mujer">👩 Mujeres</option>
-                        <option value="deportivo">🏃 Deportivos</option>
-                        <option value="niños">👶 Niños</option>
-                        <option value="lectura">📖 Lectura</option>
-                        <option value="sol">🕶️ Sol</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">💰 Precio</label>
-                    <input type="text" id="productPrice" class="form-input" placeholder="Ej: RD$2,500, RD$1,800...">
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">📝 Nombre/Descripción</label>
-                    <textarea id="productName" class="form-textarea" rows="3" placeholder="Ej: Montura elegante para dama, marco metálico resistente..."></textarea>
-                </div>
-
-                <div class="button-group">
-                    <button type="button" onclick="saveProduct()" class="btn btn-primary">
-                        💾 Guardar Producto
-                    </button>
-                    <button type="button" onclick="clearForm()" class="btn btn-secondary">
-                        🗑️ Limpiar Formulario
-                    </button>
-                </div>
-            </form>
-        </div>
-
-        <div class="products-list">
-            <h2 class="section-title">📦 Productos en Catálogo</h2>
-            <div id="productsList">
-                <div style="text-align: center; padding: 40px; opacity: 0.7;">
-                    <span style="font-size: 48px;">📦</span>
-                    <div style="margin-top: 15px;">No hay productos agregados</div>
-                </div>
-            </div>
-        </div>
-
-        <div style="margin-top: 30px; text-align: center;">
-            <button onclick="exportData()" style="padding: 15px 30px; background: rgba(34, 211, 238, 0.2); color: #22d3ee; border: 1px solid rgba(34, 211, 238, 0.3); border-radius: 15px; cursor: pointer; margin-right: 10px;">
-                📤 Exportar Datos
-            </button>
-            <button onclick="resetStats()" style="padding: 15px 30px; background: rgba(239, 68, 68, 0.2); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 15px; cursor: pointer;">
-                🗑️ Reset Stats
-            </button>
-        </div>
-    </div>
-
-    <!-- NUEVO: Modal de cámara en pantalla completa -->
-    <div id="cameraModal" class="camera-modal">
-        <div class="camera-container">
-            <video id="cameraVideo" class="camera-video" autoplay playsinline></video>
-            <canvas id="cameraCanvas" style="display: none;"></canvas>
-            <div class="camera-controls">
-                <button onclick="capturePhoto()" class="camera-btn btn-capture">📷 Capturar</button>
-                <button onclick="closeCamera()" class="camera-btn btn-close">❌ Cerrar</button>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        // VARIABLES GLOBALES - CORREGIDO para Nvisión
-        var WHATSAPP_NUMBER = '18497972424';
-        var BASE_URL = window.location.origin + window.location.pathname.replace(/[^/]*$/, '');
-        var currentPhoto = null;
-        var currentProductCode = null;
-        var stream = null;
-
-        // Funciones de utilidad para almacenamiento
-        function safeGetStorage(key) {
-            try {
-                if (typeof(Storage) !== "undefined" && localStorage) {
-                    var value = localStorage.getItem(key);
-                    if (value && value !== 'null' && value !== 'undefined') {
-                        return JSON.parse(value);
-                    }
-                }
-            } catch (e) {
-                console.log('Storage error:', e);
-            }
-            return {};
-        }
-
-        function safeSetStorage(key, value) {
-            try {
-                if (typeof(Storage) !== "undefined" && localStorage) {
-                    localStorage.setItem(key, JSON.stringify(value));
-                    return true;
-                }
-            } catch (e) {
-                console.log('Storage error:', e);
-                return false;
-            }
-        }
-
-        function showAlert(message, type) {
-            var alertHtml = '<div class="alert alert-' + (type || 'success') + '">' + message + '</div>';
-            document.getElementById('alertContainer').innerHTML = alertHtml;
-            
-            setTimeout(function() {
-                document.getElementById('alertContainer').innerHTML = '';
-            }, 5000);
-        }
-
-        // CORREGIDO: Nueva función para abrir cámara en pantalla completa
-        function openCamera() {
-            document.getElementById('photoInput').click();
-            
-            if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-                navigator.mediaDevices.getUserMedia({
-                    video: { 
-                        facingMode: 'environment',
-                        width: { ideal: 1920 },
-                        height: { ideal: 1080 }
-                    }
-                })
-                .then(function(mediaStream) {
-                    stream = mediaStream;
-                    var video = document.getElementById('cameraVideo');
-                    video.srcObject = mediaStream;
-                    document.getElementById('cameraModal').style.display = 'flex';
-                })
-                .catch(function(error) {
-                    console.log('Camera error:', error);
-                    document.getElementById('photoInput').click();
-                });
-            }
-        }
-
-        // NUEVO: Capturar foto desde cámara
-        function capturePhoto() {
-            var video = document.getElementById('cameraVideo');
-            var canvas = document.getElementById('cameraCanvas');
-            var context = canvas.getContext('2d');
-            
-            canvas.width = video.videoWidth;
-            canvas.height = video.videoHeight;
-            
-            context.drawImage(video, 0, 0, canvas.width, canvas.height);
-            
-            canvas.toBlob(function(blob) {
-                var reader = new FileReader();
-                reader.onload = function(e) {
-                    currentPhoto = e.target.result;
-                    var preview = document.getElementById('photoPreview');
-                    preview.src = currentPhoto;
-                    preview.style.display = 'block';
-                    closeCamera();
-                };
-                reader.readAsDataURL(blob);
-            }, 'image/jpeg', 0.8);
-        }
-
-        // NUEVO: Cerrar cámara
-        function closeCamera() {
-            if (stream) {
-                stream.getTracks().forEach(track => track.stop());
-                stream = null;
-            }
-            document.getElementById('cameraModal').style.display = 'none';
-        }
-
-        // Manejo de fotos desde input file
-        document.getElementById('photoInput').addEventListener('change', function(e) {
-            var file = e.target.files[0];
-            if (file) {
-                if (file.size > 5 * 1024 * 1024) {
-                    showAlert('⚠️ La imagen es muy grande. Use una imagen menor a 5MB.', 'error');
-                    return;
-                }
-                
-                var reader = new FileReader();
-                reader.onload = function(e) {
-                    currentPhoto = e.target.result;
-                    var preview = document.getElementById('photoPreview');
-                    preview.src = currentPhoto;
-                    preview.style.display = 'block';
-                };
-                reader.readAsDataURL(file);
-            }
-        });
-
-        // CORREGIDO: Gestión de productos para Nvisión
-        function saveProduct() {
-            var codigo = document.getElementById('productCode').value.trim().toUpperCase();
-            var categoria = document.getElementById('productCategory').value;
-            var precio = document.getElementById('productPrice').value.trim();
-            var nombre = document.getElementById('productName').value.trim();
-
-            if (!currentPhoto) {
-                showAlert('⚠️ Debe agregar una foto del producto', 'error');
-                return;
-            }
-            
-            if (!codigo) {
-                showAlert('⚠️ Debe ingresar un código de producto', 'error');
-                return;
-            }
-            
-            if (codigo.length < 3) {
-                showAlert('⚠️ El código debe tener al menos 3 caracteres', 'error');
-                return;
-            }
-            
-            if (!precio) {
-                showAlert('⚠️ Debe ingresar el precio del producto', 'error');
-                return;
-            }
-            
-            if (!nombre) {
-                showAlert('⚠️ Debe ingresar el nombre/descripción del producto', 'error');
-                return;
-            }
-
-            try {
-                var monturas = safeGetStorage('nvision_monturas');
-                
-                if (monturas[codigo]) {
-                    if (!confirm('⚠️ El código ' + codigo + ' ya existe. ¿Desea reemplazarlo?')) {
-                        return;
-                    }
-                }
-                
-                monturas[codigo] = {
-                    codigo: codigo,
-                    categoria: categoria,
-                    precio: precio,
-                    nombre: nombre,
-                    foto: currentPhoto,
-                    fechaCreacion: new Date().toISOString(),
-                    enlace: window.location.origin + window.location.pathname.replace('admin.html', '') + '?codigo=' + codigo,
-                    whatsapp: 'https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent('Hola, me interesa la montura ' + codigo + ' "' + nombre + '" por ' + precio + '. ¿Está disponible?')
-                };
-
-                if (safeSetStorage('nvision_monturas', monturas)) {
-                    currentProductCode = codigo;
-                    showAlert('✅ Producto guardado exitosamente: ' + codigo, 'success');
-                    
-                    document.getElementById('shareButtons').style.display = 'grid';
-                    
-                    updateStats();
-                    loadProductsList();
-                } else {
-                    showAlert('❌ Error al guardar. Verifique el tamaño de la imagen.', 'error');
-                }
-            } catch (e) {
-                console.error('Error saving product:', e);
-                showAlert('❌ Error al guardar el producto. Intente con una imagen más pequeña.', 'error');
-            }
-        }
-
-        // NUEVO: Función para copiar enlace del producto
-        function copyProductLink() {
-            if (!currentProductCode) {
-                showAlert('⚠️ Primero debe guardar un producto', 'error');
-                return;
-            }
-            
-            var enlace = window.location.origin + window.location.pathname.replace('admin.html', '') + '?codigo=' + currentProductCode;
-            
-            if (navigator.clipboard && navigator.clipboard.writeText) {
-                navigator.clipboard.writeText(enlace)
-                    .then(() => showAlert('✅ Enlace copiado al portapapeles', 'success'))
-                    .catch(() => fallbackCopyText(enlace));
-            } else {
-                fallbackCopyText(enlace);
-            }
-        }
-
-        // NUEVO: Función fallback para copiar texto
-        function fallbackCopyText(text) {
-            var textArea = document.createElement("textarea");
-            textArea.value = text;
-            textArea.style.position = "fixed";
-            textArea.style.left = "-999999px";
-            textArea.style.top = "-999999px";
-            document.body.appendChild(textArea);
-            textArea.focus();
-            textArea.select();
-            
-            try {
-                document.execCommand('copy');
-                showAlert('✅ Enlace copiado al portapapeles', 'success');
-            } catch (err) {
-                showAlert('❌ No se pudo copiar. Enlace: ' + text, 'error');
-            }
-            
-            document.body.removeChild(textArea);
-        }
-
-        // NUEVO: Función para compartir por WhatsApp
-        function shareWhatsApp() {
-            if (!currentProductCode) {
-                showAlert('⚠️ Primero debe guardar un producto', 'error');
-                return;
-            }
-            
-            var monturas = safeGetStorage('nvision_monturas');
-            var montura = monturas[currentProductCode];
-            
-            if (montura) {
-                var mensaje = '👁️ *ÓPTICA NVISIÓN* 👁️\n\n';
-                mensaje += '📸 Nueva montura disponible:\n';
-                mensaje += '🔢 Código: ' + montura.codigo + '\n';
-                mensaje += '💰 Precio: ' + montura.precio + '\n';
-                mensaje += '📂 Categoría: ' + montura.categoria + '\n';
-                mensaje += '📝 Descripción: ' + montura.nombre + '\n\n';
-                mensaje += '🔗 Ver detalles: ' + montura.enlace + '\n\n';
-                mensaje += '👁️ Vea mejor, viva mejor ✨';
-                
-                window.open('https://wa.me/?text=' + encodeURIComponent(mensaje), '_blank');
-                showAlert('✅ Compartiendo por WhatsApp', 'success');
-            }
-        }
-
-        function clearForm() {
-            document.getElementById('productCode').value = '';
-            document.getElementById('productPrice').value = '';
-            document.getElementById('productName').value = '';
-            document.getElementById('productCategory').value = 'hombre';
-            document.getElementById('photoPreview').style.display = 'none';
-            document.getElementById('shareButtons').style.display = 'none';
-            currentPhoto = null;
-            currentProductCode = null;
-            document.getElementById('photoInput').value = '';
-        }
-
-        function deleteProduct(codigo) {
-            if (confirm('⚠️ ¿Está seguro de eliminar el producto ' + codigo + '?')) {
-                try {
-                    var monturas = safeGetStorage('nvision_monturas');
-                    delete monturas[codigo];
-                    
-                    if (safeSetStorage('nvision_monturas', monturas)) {
-                        showAlert('✅ Producto eliminado: ' + codigo, 'success');
-                        updateStats();
-                        loadProductsList();
-                    } else {
-                        showAlert('❌ Error al eliminar el producto', 'error');
-                    }
-                } catch (e) {
-                    console.error('Error deleting product:', e);
-                    showAlert('❌ Error al eliminar el producto', 'error');
-                }
-            }
-        }
-
-        // CORREGIDO: Estadísticas para Nvisión
-        function updateStats() {
-            try {
-                var monturas = safeGetStorage('nvision_monturas');
-                var views = '0';
-                var clicks = '0';
-                
-                try {
-                    if (typeof(Storage) !== "undefined" && localStorage) {
-                        views = localStorage.getItem('nvision_views') || '0';
-                        clicks = localStorage.getItem('nvision_whatsapp_clicks') || '0';
-                    }
-                } catch (e) {
-                    console.log('Storage not available for stats:', e);
-                }
-                
-                var viewsNum = parseInt(views);
-                var clicksNum = parseInt(clicks);
-                var conversion = viewsNum > 0 ? Math.round((clicksNum / viewsNum) * 100) : 0;
-
-                document.getElementById('totalProducts').innerHTML = Object.keys(monturas).length;
-                document.getElementById('totalViews').innerHTML = views;
-                document.getElementById('whatsappClicks').innerHTML = clicks;
-                document.getElementById('conversionRate').innerHTML = conversion + '%';
-            } catch (e) {
-                console.error('Error updating stats:', e);
-            }
-        }
-
-        function resetStats() {
-            if (confirm('⚠️ ¿Está seguro de resetear todas las estadísticas?')) {
-                try {
-                    if (typeof(Storage) !== "undefined" && localStorage) {
-                        localStorage.setItem('nvision_views', '0');
-                        localStorage.setItem('nvision_whatsapp_clicks', '0');
-                    }
-                    updateStats();
-                    showAlert('✅ Estadísticas reseteadas', 'success');
-                } catch (e) {
-                    showAlert('❌ Error al resetear estadísticas', 'error');
-                }
-            }
-        }
-
-        // CORREGIDO: Lista de productos para Nvisión
-        function loadProductsList() {
-            try {
-                var monturas = safeGetStorage('nvision_monturas');
-                var keys = Object.keys(monturas);
-                var listContainer = document.getElementById('productsList');
-                
-                if (keys.length === 0) {
-                    listContainer.innerHTML = '<div style="text-align: center; padding: 40px; opacity: 0.7;"><span style="font-size: 48px;">📦</span><div style="margin-top: 15px;">No hay productos agregados</div></div>';
-                    return;
-                }
-                
-                var html = '';
-                for (var i = 0; i < keys.length; i++) {
-                    var key = keys[i];
-                    var product = monturas[key];
-                    
-                    html += '<div class="product-item">';
-                    html += '<img src="' + product.foto + '" alt="' + product.codigo + '" class="product-thumb">';
-                    html += '<div class="product-info">';
-                    html += '<div class="product-code">' + product.codigo + '</div>';
-                    html += '<div class="product-price">' + product.precio + '</div>';
-                    html += '<div style="font-size: 12px; opacity: 0.8;">' + product.categoria + '</div>';
-                    html += '</div>';
-                    html += '<button onclick="deleteProduct(\'' + product.codigo + '\')" class="delete-btn">🗑️</button>';
-                    html += '</div>';
-                }
-                
-                listContainer.innerHTML = html;
-            } catch (e) {
-                console.error('Error loading products list:', e);
-            }
-        }
-
-        // CORREGIDO: Exportar datos para Nvisión
-        function exportData() {
-            try {
-                var monturas = safeGetStorage('nvision_monturas');
-                var stats = {
-                    views: '0',
-                    clicks: '0'
-                };
-                
-                try {
-                    if (typeof(Storage) !== "undefined" && localStorage) {
-                        stats.views = localStorage.getItem('nvision_views') || '0';
-                        stats.clicks = localStorage.getItem('nvision_whatsapp_clicks') || '0';
-                    }
-                } catch (e) {
-                    console.log('Storage not available for export:', e);
-                }
-                
-                var data = {
-                    productos: monturas,
-                    estadisticas: stats,
-                    exportado: new Date().toISOString(),
-                    total_productos: Object.keys(monturas).length,
-                    empresa: 'Óptica Nvisión'
-                };
-                
-                var blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
-                var url = URL.createObjectURL(blob);
-                var a = document.createElement('a');
-                a.href = url;
-                a.download = 'nvision_backup_' + new Date().toISOString().split('T')[0] + '.json';
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                URL.revokeObjectURL(url);
-                
-                showAlert('✅ Datos exportados exitosamente', 'success');
-            } catch (e) {
-                console.error('Error exporting data:', e);
-                showAlert('❌ Error al exportar los datos', 'error');
-            }
-        }
-
-        // Navegación
-        function goToMainSite() {
-            window.location.href = BASE_URL;
-        }
-
-        function abrirPOS() {
-            window.location.href = BASE_URL + 'pos.html';
-        }
-
-        // Inicialización
-        function initAdmin() {
-            try {
-                updateStats();
-                loadProductsList();
-                
-                var monturas = safeGetStorage('nvision_monturas');
-                var keys = Object.keys(monturas);
-                var nextNumber = keys.length + 1;
-                var suggestedCode = 'NV' + String(nextNumber).padStart(3, '0');
-                document.getElementById('productCode').placeholder = 'Sugerido: ' + suggestedCode;
-                
-            } catch (e) {
-                console.error('Error initializing admin:', e);
-                showAlert('⚠️ Error al cargar el panel de administración', 'error');
-            }
-        }
-
-        // Inicializar cuando la página carga
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', initAdmin);
-        } else {
-            initAdmin();
-        }
-
-        // Cleanup al cerrar página
-        window.addEventListener('beforeunload', function() {
-            if (stream) {
-                stream.getTracks().forEach(track => track.stop());
-            }
-        });
-    </script>
-</body>
-</html>
+                <div class="stat-label">Click
