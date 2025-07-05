@@ -4,6 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel Admin - Óptica Nvisión</title>
+    
+    <!-- Firebase CDN -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
+    
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { 
@@ -39,6 +45,13 @@
             margin-bottom: 15px;
         }
         
+        .by-line {
+            font-size: 11px;
+            opacity: 0.7;
+            margin-top: 10px;
+            color: #e2e8f0;
+        }
+        
         .header-buttons {
             display: flex;
             gap: 10px;
@@ -54,6 +67,7 @@
             border: 1px solid;
             font-weight: 600;
             transition: all 0.3s ease;
+            touch-action: manipulation;
         }
         
         .btn-home {
@@ -68,45 +82,18 @@
             border-color: rgba(16, 185, 129, 0.3);
         }
 
+        .btn-central {
+            background: rgba(99, 102, 241, 0.2);
+            color: #6366f1;
+            border-color: rgba(99, 102, 241, 0.3);
+        }
+
         .btn-backup {
             background: rgba(99, 102, 241, 0.2);
             color: #6366f1;
             border-color: rgba(99, 102, 241, 0.3);
         }
         
-        /* NUEVO: Cloud Status Badge */
-        .cloud-status {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: rgba(0,0,0,0.8);
-            color: white;
-            padding: 8px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .cloud-status.connected { background: rgba(34, 197, 94, 0.8); }
-        .cloud-status.syncing { background: rgba(251, 146, 60, 0.8); }
-        .cloud-status.error { background: rgba(239, 68, 68, 0.8); }
-        
-        .cloud-indicator {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: currentColor;
-            animation: pulse 2s infinite;
-        }
-        
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -135,44 +122,6 @@
             font-size: 14px;
             font-weight: 600;
             opacity: 0.9;
-        }
-
-        /* NUEVO: Google Drive Backup Section */
-        .backup-section {
-            background: rgba(34, 197, 94, 0.15);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(34, 197, 94, 0.3);
-            border-radius: 25px;
-            padding: 25px;
-            margin-bottom: 30px;
-        }
-
-        .backup-title {
-            font-size: 20px;
-            font-weight: 700;
-            margin-bottom: 20px;
-            text-align: center;
-            color: #22c55e;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .backup-info {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            padding: 15px;
-            margin-bottom: 20px;
-            font-size: 14px;
-            line-height: 1.5;
-        }
-
-        .backup-controls {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-top: 20px;
         }
         
         .form-section {
@@ -235,9 +184,10 @@
             margin-bottom: 20px;
             transition: all 0.3s ease;
             position: relative;
+            touch-action: manipulation;
         }
         
-        .camera-upload:hover {
+        .camera-upload:hover, .camera-upload:active {
             background: rgba(255, 255, 255, 0.15);
             border-color: #22d3ee;
         }
@@ -305,6 +255,7 @@
             font-weight: 700;
             cursor: pointer;
             transition: all 0.3s ease;
+            touch-action: manipulation;
         }
         
         .btn-capture {
@@ -333,6 +284,7 @@
             cursor: pointer;
             transition: all 0.3s ease;
             text-transform: uppercase;
+            touch-action: manipulation;
         }
         
         .btn-primary {
@@ -341,7 +293,7 @@
             box-shadow: 0 4px 15px rgba(34, 211, 238, 0.3);
         }
         
-        .btn-primary:hover {
+        .btn-primary:hover, .btn-primary:active {
             transform: translateY(-2px);
             box-shadow: 0 8px 25px rgba(34, 211, 238, 0.4);
         }
@@ -352,7 +304,7 @@
             border: 1px solid rgba(255, 255, 255, 0.3);
         }
         
-        .btn-secondary:hover {
+        .btn-secondary:hover, .btn-secondary:active {
             background: rgba(255, 255, 255, 0.3);
         }
         
@@ -364,25 +316,6 @@
         .btn-warning {
             background: linear-gradient(45deg, #f59e0b, #d97706);
             color: white;
-        }
-
-        /* NUEVO: Cloud backup buttons */
-        .btn-cloud {
-            background: linear-gradient(45deg, #22c55e, #16a34a);
-            color: white;
-            box-shadow: 0 4px 15px rgba(34, 197, 94, 0.3);
-        }
-
-        .btn-cloud:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(34, 197, 94, 0.4);
-        }
-
-        .btn-cloud:disabled {
-            background: rgba(255, 255, 255, 0.2);
-            transform: none;
-            box-shadow: none;
-            cursor: not-allowed;
         }
         
         .action-buttons {
@@ -450,6 +383,7 @@
             border-radius: 8px;
             cursor: pointer;
             font-size: 12px;
+            touch-action: manipulation;
         }
         
         .alert {
@@ -496,6 +430,7 @@
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
+            touch-action: manipulation;
         }
 
         .btn-whatsapp {
@@ -509,73 +444,61 @@
             border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
-        /* NUEVO: Loading spinner */
-        .loading-spinner {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255,255,255,.3);
-            border-radius: 50%;
-            border-top-color: #fff;
-            animation: spin 1s ease-in-out infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        /* NUEVO: WhatsApp Viral Section */
-        .whatsapp-viral-section {
-            background: linear-gradient(45deg, #25d366, #128c7e);
+        .firebase-section {
+            background: rgba(99, 102, 241, 0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(99, 102, 241, 0.3);
             border-radius: 25px;
             padding: 25px;
             margin-bottom: 30px;
-            text-align: center;
-            border: 3px solid rgba(255, 255, 255, 0.3);
         }
 
-        .viral-title {
-            font-size: 20px;
-            font-weight: 800;
+        .firebase-status {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
             margin-bottom: 15px;
-            color: white;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
         }
 
-        .viral-stats {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
+        .firebase-indicator {
+            display: flex;
+            align-items: center;
             gap: 10px;
-            margin-bottom: 20px;
         }
 
-        .viral-stat {
-            background: rgba(255, 255, 255, 0.2);
-            padding: 10px;
-            border-radius: 10px;
+        .firebase-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #10b981;
+            animation: pulse 2s infinite;
         }
 
-        .viral-number {
-            font-size: 18px;
-            font-weight: 800;
-            color: white;
+        .firebase-dot.offline {
+            background: #ef4444;
         }
 
-        .viral-label {
-            font-size: 12px;
-            opacity: 0.9;
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
         }
 
-        /* Creditos */
-        .credits {
-            position: fixed;
-            bottom: 5px;
-            right: 5px;
-            font-size: 10px;
-            opacity: 0.6;
-            background: rgba(0,0,0,0.5);
-            padding: 5px 10px;
-            border-radius: 10px;
-            z-index: 999;
+        .firebase-controls {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        /* Específico para móviles */
+        @media (max-width: 480px) {
+            .container { padding: 10px; }
+            .header { padding: 20px; }
+            .header h1 { font-size: 24px; }
+            .btn { padding: 15px; font-size: 14px; }
+            .stats-grid { grid-template-columns: 1fr; }
         }
 
         ::-webkit-scrollbar {
@@ -598,93 +521,15 @@
     </style>
 </head>
 <body>
-    <!-- NUEVO: Cloud Status Badge -->
-    <div id="cloudStatus" class="cloud-status">
-        <div class="cloud-indicator"></div>
-        <span id="cloudStatusText">Conectando a Google Drive...</span>
-    </div>
-
-    <!-- Créditos -->
-    <div class="credits">
-        by fbrugal jrubinstein consultores
-    </div>
-
     <div class="container">
         <div class="header">
             <h1>📊 Panel de Administración</h1>
             <p>Gestión completa de Óptica Nvisión</p>
+            <div class="by-line">by fbrugaljrubinstein consultores</div>
             <div class="header-buttons">
                 <button onclick="goToMainSite()" class="header-btn btn-home">
                     🏠 Sitio Principal
                 </button>
                 <button onclick="abrirPOS()" class="header-btn btn-pos">
                     💼 Sistema POS
-                </button>
-                <button onclick="manualBackup()" class="header-btn btn-backup">
-                    ☁️ Backup Manual
-                </button>
-            </div>
-        </div>
-
-        <!-- NUEVO: WhatsApp Viral Section -->
-        <div class="whatsapp-viral-section">
-            <h2 class="viral-title">💬 Sistema Viral WhatsApp</h2>
-            <div class="viral-stats">
-                <div class="viral-stat">
-                    <div class="viral-number" id="viralShares">0</div>
-                    <div class="viral-label">Compartidos</div>
-                </div>
-                <div class="viral-stat">
-                    <div class="viral-number" id="viralClicks">0</div>
-                    <div class="viral-label">Clicks</div>
-                </div>
-                <div class="viral-stat">
-                    <div class="viral-number" id="viralRate">0%</div>
-                    <div class="viral-label">Tasa Viral</div>
-                </div>
-            </div>
-            <button onclick="generarEnlaceViral()" class="btn btn-cloud btn-small" style="width: 100%;">
-                🚀 Generar Enlace Viral
-            </button>
-        </div>
-
-        <!-- NUEVO: Google Drive Backup Section -->
-        <div class="backup-section">
-            <h2 class="backup-title">
-                <span>☁️</span>
-                <span>Backup Automático Google Drive</span>
-            </h2>
-            <div class="backup-info">
-                <strong>📧 Cuenta:</strong> oopticanvision@gmail.com<br>
-                <strong>🔄 Último backup:</strong> <span id="lastBackupTime">Nunca</span><br>
-                <strong>📦 Productos respaldados:</strong> <span id="backedUpProducts">0</span><br>
-                <strong>📊 Estado:</strong> <span id="backupStatus">Esperando...</span>
-            </div>
-            <div class="backup-controls">
-                <button id="manualBackupBtn" onclick="manualBackup()" class="btn btn-cloud">
-                    ☁️ Respaldar Ahora
-                </button>
-                <button id="restoreBackupBtn" onclick="restoreFromCloud()" class="btn btn-cloud">
-                    📥 Restaurar de Cloud
-                </button>
-            </div>
-            <div style="margin-top: 15px; text-align: center;">
-                <label style="display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 14px;">
-                    <input type="checkbox" id="autoBackupEnabled" onchange="toggleAutoBackup()" checked>
-                    <span>🔄 Backup automático cada 5 minutos</span>
-                </label>
-            </div>
-        </div>
-        
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-number" id="totalProducts">0</div>
-                <div class="stat-label">Productos</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number" id="totalViews">0</div>
-                <div class="stat-label">Visitas totales</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number" id="whatsappClicks">0</div>
-                <div class="stat-label">Click
+                </button
