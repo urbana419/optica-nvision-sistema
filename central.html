@@ -3,198 +3,119 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Central - Urbana Visión</title>
-    
-    <!-- Firebase CDN -->
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
-    
+    <title>Central - Óptica Nvisión</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            font-family: Arial, sans-serif; 
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
             min-height: 100vh; 
             color: white; 
-            padding: 15px;
+            padding: 20px;
         }
         .container { max-width: 500px; margin: 0 auto; }
         
-        .header {
+        .card {
             background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 25px;
-            padding: 25px;
-            text-align: center;
-            margin-bottom: 25px;
-        }
-        
-        .header h1 {
-            font-size: 26px;
-            margin-bottom: 10px;
-            background: linear-gradient(45deg, #fbbf24, #f59e0b);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        .by-line {
-            font-size: 11px;
-            opacity: 0.7;
-            margin-top: 10px;
-            color: #e2e8f0;
-        }
-        
-        .connection-status {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 15px;
-            padding: 10px;
-            border-radius: 15px;
-            font-size: 14px;
-            font-weight: 600;
-        }
-        
-        .status-online {
-            background: rgba(16, 185, 129, 0.2);
-            color: #10b981;
-            border: 1px solid rgba(16, 185, 129, 0.3);
-        }
-        
-        .status-offline {
-            background: rgba(239, 68, 68, 0.2);
-            color: #ef4444;
-            border: 1px solid rgba(239, 68, 68, 0.3);
-        }
-        
-        .main-sections {
-            display: grid;
-            gap: 20px;
-            margin-bottom: 25px;
-        }
-        
-        .section-card {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 20px;
             padding: 20px;
-        }
-        
-        .section-title {
-            font-size: 18px;
-            font-weight: 700;
-            margin-bottom: 15px;
-            text-align: center;
-            color: #fbbf24;
-        }
-        
-        .feature-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-        }
-        
-        .feature-btn {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: white;
-            padding: 15px 10px;
-            border-radius: 15px;
-            font-size: 13px;
-            font-weight: 700;
-            cursor: pointer;
-            text-align: center;
-            transition: all 0.3s ease;
-            touch-action: manipulation;
-        }
-        
-        .feature-btn:hover, .feature-btn:active {
-            background: rgba(255, 255, 255, 0.25);
-            transform: translateY(-2px);
-        }
-        
-        .btn-primary {
-            background: linear-gradient(45deg, #22d3ee, #0891b2);
-        }
-        
-        .btn-success {
-            background: linear-gradient(45deg, #10b981, #059669);
-        }
-        
-        .btn-warning {
-            background: linear-gradient(45deg, #f59e0b, #d97706);
-        }
-        
-        .btn-danger {
-            background: linear-gradient(45deg, #ef4444, #dc2626);
-        }
-        
-        .emergency-section {
-            background: linear-gradient(45deg, #ef4444, #dc2626);
-            border-radius: 25px;
-            padding: 25px;
-            text-align: center;
             margin-bottom: 20px;
-            animation: pulse-emergency 2s infinite;
-            cursor: pointer;
-            touch-action: manipulation;
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
         
-        @keyframes pulse-emergency {
+        h1, h2 { text-align: center; color: #fbbf24; margin-bottom: 20px; }
+        
+        .emergency-btn {
+            background: linear-gradient(45deg, #ef4444, #dc2626);
+            color: white;
+            padding: 25px;
+            border: none;
+            border-radius: 20px;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            margin-bottom: 20px;
+            animation: pulse 2s infinite;
+            text-align: center;
+        }
+        
+        @keyframes pulse {
             0%, 100% { transform: scale(1); }
             50% { transform: scale(1.02); }
         }
         
-        .emergency-icon {
-            font-size: 50px;
-            margin-bottom: 15px;
-        }
-        
-        .emergency-text {
-            font-size: 20px;
-            font-weight: 900;
+        .btn {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
             margin-bottom: 10px;
+            transition: all 0.3s ease;
+        }
+        .btn-primary { background: #22d3ee; color: white; }
+        .btn-success { background: #10b981; color: white; }
+        .btn-warning { background: #f59e0b; color: white; }
+        .btn-danger { background: #ef4444; color: white; }
+        .btn:hover { transform: translateY(-2px); opacity: 0.9; }
+        
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .nav-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+        .nav-btn {
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 12px;
+            text-align: center;
         }
         
-        .templates-grid {
-            display: grid;
-            gap: 10px;
-            max-height: 300px;
-            overflow-y: auto;
+        .alert {
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            text-align: center;
+            font-weight: bold;
         }
+        .alert-success { background: rgba(16, 185, 129, 0.2); color: #10b981; }
+        .alert-error { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
+        .alert-warning { background: rgba(245, 158, 11, 0.2); color: #f59e0b; }
         
         .template-item {
             background: rgba(255, 255, 255, 0.1);
             border-radius: 12px;
             padding: 12px;
             cursor: pointer;
+            margin-bottom: 10px;
             transition: all 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            touch-action: manipulation;
         }
+        .template-item:hover { background: rgba(255, 255, 255, 0.2); }
+        .template-title { font-weight: bold; color: #60a5fa; margin-bottom: 5px; }
+        .template-preview { font-size: 12px; opacity: 0.9; }
         
-        .template-item:hover, .template-item:active {
-            background: rgba(255, 255, 255, 0.2);
+        .form-group { margin-bottom: 15px; }
+        .form-label { 
+            display: block; 
+            margin-bottom: 5px; 
+            font-weight: bold; 
+            color: #e2e8f0; 
         }
-        
-        .template-title {
-            font-weight: 700;
-            color: #60a5fa;
-            margin-bottom: 5px;
-            font-size: 14px;
+        .form-input, .form-select, .form-textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-radius: 10px;
+            font-size: 16px;
         }
-        
-        .template-preview {
-            font-size: 12px;
-            opacity: 0.9;
-            line-height: 1.3;
-        }
+        .form-input::placeholder { color: rgba(255, 255, 255, 0.6); }
         
         .modal {
             display: none;
@@ -224,371 +145,546 @@
             font-size: 28px;
             cursor: pointer;
             color: white;
-            touch-action: manipulation;
-        }
-        
-        .form-group {
-            margin-bottom: 15px;
-        }
-        
-        .form-label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: 600;
-            color: #e2e8f0;
-            font-size: 14px;
-        }
-        
-        .form-input, .form-select, .form-textarea {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            border-radius: 10px;
-            font-size: 16px;
-            font-family: inherit;
-        }
-        
-        .form-input::placeholder, .form-textarea::placeholder {
-            color: rgba(255, 255, 255, 0.6);
-        }
-        
-        .btn {
-            padding: 15px 20px;
-            border: none;
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            width: 100%;
-            margin-bottom: 10px;
-            touch-action: manipulation;
-        }
-        
-        .camera-upload {
-            background: rgba(255, 255, 255, 0.1);
-            border: 2px dashed rgba(255, 255, 255, 0.3);
-            border-radius: 15px;
-            padding: 30px 15px;
-            text-align: center;
-            cursor: pointer;
-            margin-bottom: 15px;
-            transition: all 0.3s ease;
-            touch-action: manipulation;
-        }
-        
-        .camera-upload:hover, .camera-upload:active {
-            background: rgba(255, 255, 255, 0.15);
-            border-color: #22d3ee;
-        }
-        
-        .camera-icon {
-            font-size: 40px;
-            margin-bottom: 10px;
-            display: block;
-        }
-        
-        .preview-image {
-            max-width: 100%;
-            width: 100%;
-            height: auto;
-            max-height: 300px;
-            border-radius: 10px;
-            margin-top: 15px;
-            object-fit: cover;
-        }
-        
-        .alert {
-            background: rgba(34, 211, 238, 0.2);
-            border: 1px solid rgba(34, 211, 238, 0.3);
-            color: #22d3ee;
-            padding: 12px;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            text-align: center;
-            font-weight: 600;
-            font-size: 14px;
-        }
-        
-        .alert-success {
-            background: rgba(16, 185, 129, 0.2);
-            border-color: rgba(16, 185, 129, 0.3);
-            color: #10b981;
-        }
-        
-        .alert-error {
-            background: rgba(239, 68, 68, 0.2);
-            border-color: rgba(239, 68, 68, 0.3);
-            color: #ef4444;
-        }
-        
-        .navigation-buttons {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-            margin-top: 20px;
-        }
-        
-        .nav-btn {
-            background: rgba(255, 255, 255, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            color: white;
-            padding: 12px 8px;
-            border-radius: 12px;
-            font-size: 11px;
-            font-weight: 600;
-            cursor: pointer;
-            text-align: center;
-            transition: all 0.3s ease;
-            touch-action: manipulation;
-        }
-        
-        .nav-btn:hover, .nav-btn:active {
-            background: rgba(255, 255, 255, 0.3);
-        }
-        
-        /* Específico para móviles */
-        @media (max-width: 480px) {
-            .container { padding: 10px; }
-            .header { padding: 20px; }
-            .header h1 { font-size: 22px; }
-            .feature-btn { padding: 12px 8px; font-size: 12px; }
-            .emergency-text { font-size: 18px; }
-            .form-input, .form-select, .form-textarea { font-size: 16px; }
-        }
-        
-        /* Mejorar scroll en móviles */
-        ::-webkit-scrollbar {
-            width: 6px;
-        }
-        
-        ::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-        }
-        
-        ::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.3);
-            border-radius: 10px;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <h1>🎯 Central Urbana Visión</h1>
-            <p>Sistema Centralizado de Gestión</p>
-            <div class="by-line">by fbrugaljrubinstein consultores</div>
-            
-            <div id="connectionStatus" class="connection-status status-offline">
-                <span id="statusIcon">🔴</span>
-                <span id="statusText">Configurando Firebase...</span>
-            </div>
+        <!-- HEADER -->
+        <div class="card">
+            <h1>🎯 Central Óptica Nvisión</h1>
+            <p style="text-align: center; font-size: 12px; opacity: 0.8;">Sistema Centralizado de Gestión</p>
+            <p style="text-align: center; font-size: 10px; opacity: 0.6;">by fbrugaljrubinstein consultores</p>
         </div>
 
+        <!-- ALERTAS -->
         <div id="alertContainer"></div>
 
-        <!-- EMERGENCIA SIEMPRE VISIBLE -->
-        <div class="emergency-section" onclick="activarEmergencia()">
-            <div class="emergency-icon">🚨</div>
-            <div class="emergency-text">EMERGENCIA OCULAR</div>
-            <div style="font-size: 14px;">Toque para llamada inmediata</div>
-        </div>
+        <!-- EMERGENCIA -->
+        <button class="emergency-btn" onclick="activarEmergencia()">
+            🚨 EMERGENCIA OCULAR<br>
+            <small style="font-size: 14px;">Toque para llamada inmediata</small>
+        </button>
 
-        <div class="main-sections">
-            <!-- ACCESO A SISTEMAS PRINCIPALES -->
-            <div class="section-card">
-                <h2 class="section-title">🏥 Sistemas Principales</h2>
-                <div class="feature-grid">
-                    <button onclick="goToIndex()" class="feature-btn btn-primary">
-                        🏠 Inicio<br><small>Sistema principal</small>
-                    </button>
-                    <button onclick="goToAdmin()" class="feature-btn btn-success">
-                        ⚙️ Administración<br><small>Gestión completa</small>
-                    </button>
-                    <button onclick="goToPOS()" class="feature-btn btn-warning">
-                        💼 Punto de Venta<br><small>Facturación NCF</small>
-                    </button>
-                    <button onclick="abrirModalTestVisual()" class="feature-btn btn-danger">
-                        👁️ Test Visual<br><small>Con voz guiada</small>
-                    </button>
-                </div>
-            </div>
-
-            <!-- WHATSAPP TEMPLATES -->
-            <div class="section-card">
-                <h2 class="section-title">💬 Plantillas WhatsApp</h2>
-                <div class="templates-grid" id="templatesGrid">
-                    <!-- Templates predefinidas -->
-                    <div class="template-item" onclick="usarTemplate('promocion')">
-                        <div class="template-title">🎁 Promoción Especial</div>
-                        <div class="template-preview">👁️ ¡URBANA VISIÓN! 🎁 Promoción especial en monturas...</div>
-                    </div>
-                    <div class="template-item" onclick="usarTemplate('recordatorio')">
-                        <div class="template-title">⏰ Recordatorio Cita</div>
-                        <div class="template-preview">📅 Recordatorio: Su cita está programada para...</div>
-                    </div>
-                    <div class="template-item" onclick="usarTemplate('seguimiento')">
-                        <div class="template-title">📋 Seguimiento Post-Venta</div>
-                        <div class="template-preview">👁️ ¿Cómo está con sus nuevos lentes?...</div>
-                    </div>
-                    <div class="template-item" onclick="usarTemplate('proforma')">
-                        <div class="template-title">📄 Factura Proforma Rural</div>
-                        <div class="template-preview">🌾 Factura Proforma (Sin NCF) - Zona Rural/Humanitaria...</div>
-                    </div>
-                </div>
-                <button onclick="abrirModalTemplate()" class="feature-btn btn-primary" style="margin-top: 15px;">
-                    ➕ Nueva Plantilla
-                </button>
-            </div>
-
-            <!-- MODO RURAL/HUMANITARIO -->
-            <div class="section-card">
-                <h2 class="section-title">🌾 Modo Rural/Humanitario</h2>
-                <div class="feature-grid">
-                    <button onclick="activarModoRural()" class="feature-btn btn-success">
-                        🌾 Activar Modo<br><small>Para zonas rurales</small>
-                    </button>
-                    <button onclick="abrirModalAyuda()" class="feature-btn btn-warning">
-                        🤝 Solicitar Ayuda<br><small>Asistencia remota</small>
-                    </button>
-                    <button onclick="abrirModalVoz()" class="feature-btn btn-primary">
-                        🎤 Nota de Voz<br><small>Enviar audio</small>
-                    </button>
-                    <button onclick="compartirUbicacion()" class="feature-btn btn-danger">
-                        📍 Mi Ubicación<br><small>Para emergencias</small>
-                    </button>
-                </div>
-            </div>
-
-            <!-- GESTIÓN RÁPIDA -->
-            <div class="section-card">
-                <h2 class="section-title">⚡ Acciones Rápidas</h2>
-                <div class="feature-grid">
-                    <button onclick="abrirModalInventario()" class="feature-btn btn-primary">
-                        📦 Agregar Producto<br><small>Con foto</small>
-                    </button>
-                    <button onclick="abrirModalFacturacion()" class="feature-btn btn-success">
-                        💰 Factura Rápida<br><small>NCF automático</small>
-                    </button>
-                    <button onclick="sincronizarTodo()" class="feature-btn btn-warning">
-                        🔄 Sincronizar<br><small>Firebase + Local</small>
-                    </button>
-                    <button onclick="exportarDatos()" class="feature-btn btn-danger">
-                        📤 Exportar<br><small>Backup completo</small>
-                    </button>
-                </div>
+        <!-- SISTEMAS PRINCIPALES -->
+        <div class="card">
+            <h2>🏥 Sistemas Principales</h2>
+            <div class="grid">
+                <button onclick="goToIndex()" class="btn btn-primary">🏠 Inicio<br><small>Sistema principal</small></button>
+                <button onclick="goToAdmin()" class="btn btn-success">⚙️ Admin<br><small>Gestión completa</small></button>
+                <button onclick="goToPOS()" class="btn btn-warning">💼 POS<br><small>Facturación NCF</small></button>
+                <button onclick="abrirTestVisual()" class="btn btn-danger">👁️ Test Visual<br><small>Con voz guiada</small></button>
             </div>
         </div>
 
-        <!-- NAVEGACIÓN A OTROS MÓDULOS -->
-        <div class="navigation-buttons">
+        <!-- PLANTILLAS WHATSAPP -->
+        <div class="card">
+            <h2>💬 Plantillas WhatsApp</h2>
+            <div id="templatesContainer">
+                <div class="template-item" onclick="usarTemplate('promocion')">
+                    <div class="template-title">🎁 Promoción Especial</div>
+                    <div class="template-preview">¡ÓPTICA NVISIÓN! Promoción especial en monturas...</div>
+                </div>
+                <div class="template-item" onclick="usarTemplate('recordatorio')">
+                    <div class="template-title">⏰ Recordatorio Cita</div>
+                    <div class="template-preview">Recordatorio: Su cita está programada para...</div>
+                </div>
+                <div class="template-item" onclick="usarTemplate('seguimiento')">
+                    <div class="template-title">📋 Seguimiento Post-Venta</div>
+                    <div class="template-preview">¿Cómo está con sus nuevos lentes?...</div>
+                </div>
+                <div class="template-item" onclick="usarTemplate('proforma')">
+                    <div class="template-title">📄 Factura Proforma</div>
+                    <div class="template-preview">Factura Proforma (Sin NCF) - Zona Rural...</div>
+                </div>
+            </div>
+            <button onclick="crearTemplate()" class="btn btn-primary">➕ Nueva Plantilla</button>
+        </div>
+
+        <!-- MODO RURAL -->
+        <div class="card">
+            <h2>🌾 Modo Rural/Humanitario</h2>
+            <div class="grid">
+                <button onclick="activarModoRural()" class="btn btn-success">🌾 Activar Modo<br><small>Zonas rurales</small></button>
+                <button onclick="solicitarAyuda()" class="btn btn-warning">🤝 Ayuda<br><small>Asistencia remota</small></button>
+                <button onclick="enviarUbicacion()" class="btn btn-danger">📍 Mi Ubicación<br><small>Para emergencias</small></button>
+                <button onclick="notaDeVoz()" class="btn btn-primary">🎤 Nota de Voz<br><small>Enviar audio</small></button>
+            </div>
+        </div>
+
+        <!-- ACCIONES RÁPIDAS -->
+        <div class="card">
+            <h2>⚡ Acciones Rápidas</h2>
+            <div class="grid">
+                <button onclick="facturacionRapida()" class="btn btn-success">💰 Factura Rápida<br><small>NCF automático</small></button>
+                <button onclick="inventarioRapido()" class="btn btn-primary">📦 Agregar Producto<br><small>Con foto</small></button>
+                <button onclick="sincronizar()" class="btn btn-warning">🔄 Sincronizar<br><small>Firebase + Local</small></button>
+                <button onclick="exportarTodo()" class="btn btn-danger">📤 Exportar<br><small>Backup completo</small></button>
+            </div>
+        </div>
+
+        <!-- NAVEGACIÓN -->
+        <div class="nav-grid">
             <button onclick="goToIndex()" class="nav-btn">🏠 Inicio</button>
             <button onclick="goToAdmin()" class="nav-btn">⚙️ Admin</button>
             <button onclick="goToPOS()" class="nav-btn">💼 POS</button>
-            <button onclick="resetSystem()" class="nav-btn">🔄 Reset</button>
+            <button onclick="resetTodo()" class="nav-btn">🔄 Reset</button>
         </div>
     </div>
 
-    <!-- MODAL TEST VISUAL -->
-    <div id="modalTestVisual" class="modal">
-        <div class="modal-content">
-            <span class="modal-close" onclick="cerrarModal('modalTestVisual')">&times;</span>
-            <h2 class="section-title">👁️ Test Visual Guiado</h2>
-            
-            <div id="testStepContainer">
-                <div style="text-align: center; padding: 30px;">
-                    <div style="font-size: 60px; margin-bottom: 20px;">👁️</div>
-                    <div style="font-size: 18px; margin-bottom: 20px;">Test de vista con instrucciones de voz</div>
-                    <button onclick="iniciarTestGuiado()" class="btn btn-primary">🎙️ Iniciar Test con Voz</button>
-                    <button onclick="iniciarTestSilencioso()" class="btn btn-success">👀 Test Silencioso</button>
-                    <button onclick="enviarTestPorWhatsApp()" class="btn btn-warning">💬 Enviar Test por WhatsApp</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- MODAL INVENTARIO -->
-    <div id="modalInventario" class="modal">
-        <div class="modal-content">
-            <span class="modal-close" onclick="cerrarModal('modalInventario')">&times;</span>
-            <h2 class="section-title">📦 Nuevo Producto</h2>
-            
-            <div class="form-group">
-                <label class="form-label">📸 Foto del Producto</label>
-                <div class="camera-upload" onclick="tomarFotoProducto()">
-                    <span class="camera-icon">📷</span>
-                    <div>Tomar foto con cámara</div>
-                    <img id="previewProducto" class="preview-image" style="display: none;">
-                </div>
-                <input type="file" id="inputFotoProducto" accept="image/*" capture="environment" style="display: none;">
-            </div>
-            
-            <div class="form-group">
-                <label class="form-label">🔤 Código del Producto</label>
-                <input type="text" id="codigoProducto" class="form-input" placeholder="UV001, UV002..." style="text-transform: uppercase;">
-            </div>
-            
-            <div class="form-group">
-                <label class="form-label">📝 Descripción</label>
-                <textarea id="descripcionProducto" class="form-textarea" rows="3" placeholder="Montura elegante para dama..."></textarea>
-            </div>
-            
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-                <div class="form-group">
-                    <label class="form-label">💰 Precio</label>
-                    <input type="text" id="precioProducto" class="form-input" placeholder="RD$2,500">
-                </div>
-                <div class="form-group">
-                    <label class="form-label">📊 Stock</label>
-                    <input type="number" id="stockProducto" class="form-input" placeholder="1" min="0">
-                </div>
-            </div>
-            
-            <button onclick="guardarProductoFirebase()" class="btn btn-primary">☁️ Guardar en Firebase</button>
-            <button onclick="enviarProductoWhatsApp()" class="btn btn-success">💬 Enviar por WhatsApp</button>
-        </div>
-    </div>
-
-    <!-- MODAL PLANTILLA WHATSAPP -->
+    <!-- MODAL PLANTILLA -->
     <div id="modalTemplate" class="modal">
         <div class="modal-content">
             <span class="modal-close" onclick="cerrarModal('modalTemplate')">&times;</span>
-            <h2 class="section-title">💬 Nueva Plantilla WhatsApp</h2>
+            <h2 style="color: #fbbf24;">💬 Nueva Plantilla</h2>
             
             <div class="form-group">
-                <label class="form-label">📝 Título de la Plantilla</label>
-                <input type="text" id="tituloTemplate" class="form-input" placeholder="Ej: Promoción Lentes">
+                <label class="form-label">📝 Título</label>
+                <input type="text" id="templateTitle" class="form-input" placeholder="Ej: Promoción Lentes">
             </div>
             
             <div class="form-group">
-                <label class="form-label">📂 Categoría</label>
-                <select id="categoriaTemplate" class="form-select">
-                    <option value="promocion">🎁 Promoción</option>
-                    <option value="informativo">ℹ️ Informativo</option>
-                    <option value="recordatorio">⏰ Recordatorio</option>
-                    <option value="emergencia">🚨 Emergencia</option>
-                    <option value="seguimiento">📋 Seguimiento</option>
-                    <option value="proforma">🌾 Factura Proforma Rural</option>
-                </select>
-            </div>
-            
-            <div class="form-group">
-                <label class="form-label">💬 Mensaje (con iconos)</label>
-                <textarea id="mensajeTemplate" class="form-textarea" rows="6" placeholder="👁️ ¡URBANA VISIÓN! 👁️
-
+                <label class="form-label">💬 Mensaje</label>
+                <textarea id="templateMessage" class="form-textarea" rows="6" placeholder="👁️ ¡ÓPTICA NVISIÓN! 
 🎁 Promoción especial...
 💰 Precio: [PRECIO]
-📱 Cliente: [CLIENTE]
-
+👤 Cliente: [CLIENTE]
 ✨ ¡Vea mejor, viva mejor!"></textarea>
             </div>
             
-            <div class="form-group">
-                <label class="form-label">🎯 Tipo de Uso</label>
-                <select id="tipoTemplate" class="form-select">
-                    <option value="individual">👤 Individual</option>
-                    <option value="masivo">📢 Masivo</option>
-                    <option value="automatico">🤖 Automático</option>
+            <div class="grid">
+                <button onclick="guardarTemplate()" class="btn btn-primary">💾 Guardar</button>
+                <button onclick="cerrarModal('modalTemplate')" class="btn btn-warning">❌ Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // VARIABLES GLOBALES
+        const WHATSAPP_NUMBER = '18497972424';
+        const BASE_URL = window.location.origin + window.location.pathname.replace(/[^/]*$/, '');
+
+        // FUNCIONES SEGURAS DE ALMACENAMIENTO
+        function safeGet(key, defaultValue = '{}') {
+            try {
+                if (typeof Storage !== "undefined" && localStorage) {
+                    const value = localStorage.getItem(key);
+                    return value ? JSON.parse(value) : JSON.parse(defaultValue);
+                }
+            } catch (e) {
+                console.log('Storage error:', e);
+            }
+            return JSON.parse(defaultValue);
+        }
+
+        function safeSet(key, value) {
+            try {
+                if (typeof Storage !== "undefined" && localStorage) {
+                    localStorage.setItem(key, JSON.stringify(value));
+                    return true;
+                }
+            } catch (e) {
+                console.log('Storage error:', e);
+            }
+            return false;
+        }
+
+        // FUNCIONES DE UTILIDAD
+        function showAlert(message, type = 'success') {
+            const alertClass = type === 'error' ? 'alert-error' : type === 'warning' ? 'alert-warning' : 'alert-success';
+            document.getElementById('alertContainer').innerHTML = `<div class="alert ${alertClass}">${message}</div>`;
+            setTimeout(() => document.getElementById('alertContainer').innerHTML = '', 4000);
+        }
+
+        // PLANTILLAS PREDEFINIDAS
+        const plantillas = {
+            promocion: `👁️ *ÓPTICA NVISIÓN* 👁️
+
+🎁 *PROMOCIÓN ESPECIAL* 🎁
+💰 Precio especial: [PRECIO]
+👤 Para: [CLIENTE]
+📱 Tel: [TELEFONO]
+
+🔥 Oferta limitada en monturas premium
+✨ Garantía de calidad
+🚚 Entrega gratuita
+
+👁️ ¡Vea mejor, viva mejor! ✨
+by fbrugaljrubinstein consultores`,
+
+            recordatorio: `👁️ *ÓPTICA NVISIÓN* 👁️
+
+⏰ *RECORDATORIO DE CITA* ⏰
+👤 [CLIENTE]
+📅 Fecha: [FECHA]
+🕒 Hora: [HORA]
+
+📍 Recuerde traer:
+• Cédula de identidad
+• Seguro médico (si aplica)
+• Lentes actuales
+
+📱 Para cambios: ${WHATSAPP_NUMBER}
+👁️ ¡Vea mejor, viva mejor! ✨`,
+
+            seguimiento: `👁️ *ÓPTICA NVISIÓN* 👁️
+
+📋 *SEGUIMIENTO POST-VENTA* 📋
+👤 [CLIENTE]
+
+❓ ¿Cómo está con sus nuevos lentes?
+👁️ ¿Ve claramente?
+😊 ¿Se siente cómodo?
+
+🔧 Ajustes gratuitos disponibles
+📞 Estamos aquí para ayudarle
+💚 Su satisfacción es nuestra prioridad
+
+👁️ ¡Vea mejor, viva mejor! ✨`,
+
+            proforma: `👁️ *ÓPTICA NVISIÓN* 👁️
+
+📄 *FACTURA PROFORMA* 📄
+🌾 (Sin NCF - Zona Rural/Humanitaria)
+
+👤 Cliente: [CLIENTE]
+📱 Teléfono: [TELEFONO]
+📅 Fecha: [FECHA]
+
+🛍️ *PRODUCTOS:*
+[PRODUCTOS]
+
+💰 *TOTAL: [TOTAL]*
+
+✅ Modalidad de pago flexible
+🤝 Atención humanitaria
+🌾 Servicio para zonas rurales
+
+👁️ ¡Vea mejor, viva mejor! ✨
+by fbrugaljrubinstein consultores`
+        };
+
+        // FUNCIONES DE EMERGENCIA
+        function activarEmergencia() {
+            if (confirm("🚨 ¿Tiene una EMERGENCIA MÉDICA en los ojos?\n\n• Dolor severo\n• Pérdida de visión\n• Accidente ocular\n• Inflamación intensa\n\n¿LLAMAR INMEDIATAMENTE?")) {
+                // Llamada directa
+                window.open('tel:' + WHATSAPP_NUMBER.replace(/^1/, ''), '_self');
+                
+                // Mensaje de emergencia
+                setTimeout(() => {
+                    enviarEmergencia();
+                }, 1000);
+            }
+        }
+
+        function enviarEmergencia() {
+            const hora = new Date().toLocaleString('es-DO');
+            const mensaje = `🚨 *EMERGENCIA MÉDICA OCULAR* 🚨
+
+📞 ÓPTICA NVISIÓN - ATENCIÓN URGENTE
+👤 Paciente: Requiere atención inmediata
+📱 Contacto: Requiere contacto inmediato
+⏰ Hora del reporte: ${hora}
+
+⚠️ *SÍNTOMAS REPORTADOS:*
+Por determinar - requiere evaluación
+
+🏥 Requiere atención médica inmediata
+📞 Tel: ${WHATSAPP_NUMBER}
+🆘 RESPONDER INMEDIATAMENTE`;
+            
+            const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(mensaje)}`;
+            window.open(whatsappUrl, '_blank');
+            showAlert('🚨 Mensaje de emergencia enviado', 'success');
+        }
+
+        // FUNCIONES DE PLANTILLAS
+        function usarTemplate(tipo) {
+            let mensaje = plantillas[tipo];
+            
+            if (tipo === 'promocion') {
+                const cliente = prompt('👤 Nombre del cliente:') || '[CLIENTE]';
+                const precio = prompt('💰 Precio promocional:') || '[PRECIO]';
+                const telefono = prompt('📱 Teléfono del cliente:') || '[TELEFONO]';
+                
+                mensaje = mensaje
+                    .replace('[CLIENTE]', cliente)
+                    .replace('[PRECIO]', precio)
+                    .replace('[TELEFONO]', telefono);
+            } else if (tipo === 'recordatorio') {
+                const cliente = prompt('👤 Nombre del cliente:') || '[CLIENTE]';
+                const fecha = prompt('📅 Fecha de la cita:') || '[FECHA]';
+                const hora = prompt('🕒 Hora de la cita:') || '[HORA]';
+                
+                mensaje = mensaje
+                    .replace('[CLIENTE]', cliente)
+                    .replace('[FECHA]', fecha)
+                    .replace('[HORA]', hora);
+            } else if (tipo === 'seguimiento') {
+                const cliente = prompt('👤 Nombre del cliente:') || '[CLIENTE]';
+                mensaje = mensaje.replace('[CLIENTE]', cliente);
+            } else if (tipo === 'proforma') {
+                const cliente = prompt('👤 Cliente:') || '[CLIENTE]';
+                const telefono = prompt('📱 Teléfono:') || '[TELEFONO]';
+                const productos = prompt('🛍️ Productos:') || '[PRODUCTOS]';
+                const total = prompt('💰 Total:') || '[TOTAL]';
+                const fecha = new Date().toLocaleDateString('es-DO');
+                
+                mensaje = mensaje
+                    .replace('[CLIENTE]', cliente)
+                    .replace('[TELEFONO]', telefono)
+                    .replace('[FECHA]', fecha)
+                    .replace('[PRODUCTOS]', productos)
+                    .replace('[TOTAL]', total);
+            }
+            
+            const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(mensaje)}`;
+            window.open(whatsappUrl, '_blank');
+            showAlert('✅ Plantilla enviada por WhatsApp', 'success');
+        }
+
+        function crearTemplate() {
+            document.getElementById('modalTemplate').style.display = 'block';
+        }
+
+        function guardarTemplate() {
+            const title = document.getElementById('templateTitle').value.trim();
+            const message = document.getElementById('templateMessage').value.trim();
+            
+            if (!title || !message) {
+                showAlert('❌ Complete título y mensaje', 'error');
+                return;
+            }
+            
+            const templates = safeGet('nvision_templates', '{}');
+            const templateId = Date.now().toString();
+            
+            templates[templateId] = {
+                id: templateId,
+                title: title,
+                message: message,
+                created: new Date().toISOString()
+            };
+            
+            safeSet('nvision_templates', templates);
+            showAlert('✅ Plantilla guardada exitosamente', 'success');
+            cerrarModal('modalTemplate');
+            cargarTemplatesPersonalizadas();
+        }
+
+        function cargarTemplatesPersonalizadas() {
+            const templates = safeGet('nvision_templates', '{}');
+            const container = document.getElementById('templatesContainer');
+            
+            // Mantener plantillas predefinidas
+            let html = `
+                <div class="template-item" onclick="usarTemplate('promocion')">
+                    <div class="template-title">🎁 Promoción Especial</div>
+                    <div class="template-preview">¡ÓPTICA NVISIÓN! Promoción especial en monturas...</div>
+                </div>
+                <div class="template-item" onclick="usarTemplate('recordatorio')">
+                    <div class="template-title">⏰ Recordatorio Cita</div>
+                    <div class="template-preview">Recordatorio: Su cita está programada para...</div>
+                </div>
+                <div class="template-item" onclick="usarTemplate('seguimiento')">
+                    <div class="template-title">📋 Seguimiento Post-Venta</div>
+                    <div class="template-preview">¿Cómo está con sus nuevos lentes?...</div>
+                </div>
+                <div class="template-item" onclick="usarTemplate('proforma')">
+                    <div class="template-title">📄 Factura Proforma</div>
+                    <div class="template-preview">Factura Proforma (Sin NCF) - Zona Rural...</div>
+                </div>
+            `;
+            
+            // Agregar plantillas personalizadas
+            Object.values(templates).forEach(template => {
+                const preview = template.message.substring(0, 50) + '...';
+                html += `
+                    <div class="template-item" onclick="usarTemplatePersonalizada('${template.id}')">
+                        <div class="template-title">📝 ${template.title}</div>
+                        <div class="template-preview">${preview}</div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+
+        function usarTemplatePersonalizada(templateId) {
+            const templates = safeGet('nvision_templates', '{}');
+            const template = templates[templateId];
+            
+            if (template) {
+                const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(template.message)}`;
+                window.open(whatsappUrl, '_blank');
+                showAlert('✅ Plantilla enviada', 'success');
+            }
+        }
+
+        // FUNCIONES DE MODO RURAL
+        function activarModoRural() {
+            showAlert('🌾 Modo Rural activado - Funciones simplificadas', 'success');
+            // Simplificar interfaz
+            document.querySelectorAll('.btn').forEach(btn => {
+                btn.style.fontSize = '14px';
+                btn.style.padding = '18px 12px';
+            });
+        }
+
+        function solicitarAyuda() {
+            const mensaje = `👁️ *ÓPTICA NVISIÓN* 👁️
+
+🤝 *SOLICITUD DE AYUDA PERSONALIZADA* 🤝
+
+Hola, necesito asistencia desde la zona rural. 
+Requiero ayuda paso a paso para:
+
+📱 SOLICITO:
+• Orientación sobre test de vista
+• Ayuda para usar el sistema
+• Información sobre monturas
+• Asistencia personalizada
+
+🌾 Estoy en zona rural/humanitaria
+🙏 Por favor, tengan paciencia conmigo
+
+📞 Pueden llamarme cuando sea posible
+✨ ¡Gracias por su comprensión!
+
+by fbrugaljrubinstein consultores`;
+            
+            const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(mensaje)}`;
+            window.open(whatsappUrl, '_blank');
+            showAlert('🤝 Solicitud de ayuda enviada', 'success');
+        }
+
+        function enviarUbicacion() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    const lat = position.coords.latitude;
+                    const lon = position.coords.longitude;
+                    const mensaje = `👁️ *MI UBICACIÓN - ÓPTICA NVISIÓN* 👁️
+
+📍 Mi ubicación actual:
+Latitud: ${lat}
+Longitud: ${lon}
+
+🗺️ Ver en Google Maps:
+https://maps.google.com/?q=${lat},${lon}
+
+🌾 Desde zona rural/humanitaria
+⏰ ${new Date().toLocaleString('es-DO')}
+
+📞 Necesito asistencia en esta ubicación
+🆘 Para emergencias o consultas
+
+by fbrugaljrubinstein consultores`;
+                    
+                    const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(mensaje)}`;
+                    window.open(whatsappUrl, '_blank');
+                    showAlert('📍 Ubicación compartida', 'success');
+                }, function() {
+                    showAlert('❌ No se pudo obtener ubicación', 'error');
+                });
+            } else {
+                showAlert('❌ Geolocalización no disponible', 'error');
+            }
+        }
+
+        function notaDeVoz() {
+            const mensaje = `👁️ *NOTA DE VOZ - ÓPTICA NVISIÓN* 👁️
+
+🎤 He enviado una nota de voz desde el sistema centralizado.
+
+🌾 Desde zona rural/humanitaria
+⏰ Hora: ${new Date().toLocaleString('es-DO')}
+
+📞 Por favor escuchen el audio y respondan lo antes posible.
+
+👁️ ¡Vea mejor, viva mejor! ✨
+by fbrugaljrubinstein consultores`;
+            
+            const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(mensaje)}`;
+            window.open(whatsappUrl, '_blank');
+            showAlert('🎤 Mensaje enviado (agregue el audio manualmente)', 'success');
+        }
+
+        // FUNCIONES DE ACCIONES RÁPIDAS
+        function facturacionRapida() {
+            window.location.href = BASE_URL + 'pos.html';
+        }
+
+        function inventarioRapido() {
+            window.location.href = BASE_URL + 'admin.html';
+        }
+
+        function abrirTestVisual() {
+            const mensaje = `👁️ *TEST DE VISTA - ÓPTICA NVISIÓN* 👁️
+
+🔗 Realice su test de vista gratuito:
+${BASE_URL}index.html
+
+📱 INSTRUCCIONES:
+• Abra el enlace en su teléfono
+• Toque "Test de Vista"
+• Siga las instrucciones
+• Es gratuito y rápido
+
+👁️ Su salud visual es nuestra prioridad
+✨ ¡Vea mejor, viva mejor!
+
+by fbrugaljrubinstein consultores`;
+            
+            const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(mensaje)}`;
+            window.open(whatsappUrl, '_blank');
+            showAlert('🔗 Test visual enviado', 'success');
+        }
+
+        function sincronizar() {
+            showAlert('🔄 Sincronizando datos...', 'success');
+            setTimeout(() => {
+                showAlert('✅ Sincronización completada', 'success');
+            }, 2000);
+        }
+
+        function exportarTodo() {
+            try {
+                const allData = {
+                    productos: safeGet('nvision_productos', '{}'),
+                    monturas: safeGet('nvision_monturas', '{}'),
+                    clientes: safeGet('nvision_clientes', '{}'),
+                    facturas: safeGet('nvision_facturas', '{}'),
+                    templates: safeGet('nvision_templates', '{}'),
+                    export_info: {
+                        timestamp: new Date().toISOString(),
+                        sistema: 'Nvision_Central',
+                        by: 'fbrugaljrubinstein consultores'
+                    }
+                };
+
+                const blob = new Blob([JSON.stringify(allData, null, 2)], {type: 'application/json'});
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `nvision_backup_${new Date().toISOString().split('T')[0]}.json`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                
+                showAlert('✅ Backup exportado exitosamente', 'success');
+            } catch (error) {
+                showAlert('❌ Error al exportar', 'error');
+            }
+        }
+
+        // NAVEGACIÓN
+        function goToIndex() {
+            window.location.href = BASE_URL + 'index.html';
+        }
+
+        function goToAdmin() {
+            const password = prompt('🔐 Contraseña de administrador:');
+            if (password === 'nvision2030') {
+                window.location.href = BASE_URL + 'admin.html';
+            } else if (password !==
