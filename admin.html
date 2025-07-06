@@ -34,16 +34,12 @@
             background-clip: text;
         }
         
-        .header p {
-            opacity: 0.9;
-            margin-bottom: 15px;
-        }
-        
         .header-buttons {
             display: flex;
             gap: 10px;
             justify-content: center;
             flex-wrap: wrap;
+            margin-top: 15px;
         }
         
         .header-btn {
@@ -69,12 +65,6 @@
             border-color: rgba(16, 185, 129, 0.3);
         }
 
-        .btn-backup {
-            background: rgba(99, 102, 241, 0.2);
-            color: #6366f1;
-            border-color: rgba(99, 102, 241, 0.3);
-        }
-        
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -96,7 +86,6 @@
             font-weight: 900;
             color: #22d3ee;
             margin-bottom: 8px;
-            text-shadow: 0 2px 10px rgba(34, 211, 238, 0.3);
         }
         
         .stat-label {
@@ -149,12 +138,6 @@
             color: rgba(255, 255, 255, 0.6);
         }
         
-        .form-input:focus, .form-select:focus, .form-textarea:focus {
-            outline: none;
-            border-color: #22d3ee;
-            box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.1);
-        }
-        
         .camera-upload {
             background: rgba(255, 255, 255, 0.1);
             border: 2px dashed rgba(255, 255, 255, 0.3);
@@ -164,7 +147,6 @@
             cursor: pointer;
             margin-bottom: 20px;
             transition: all 0.3s ease;
-            position: relative;
             touch-action: manipulation;
         }
         
@@ -183,7 +165,7 @@
             max-width: 100%;
             width: 100%;
             height: auto;
-            max-height: 400px;
+            max-height: 300px;
             border-radius: 15px;
             margin-top: 20px;
             border: 3px solid rgba(255, 255, 255, 0.2);
@@ -249,13 +231,6 @@
             color: white;
         }
         
-        .button-group {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-top: 25px;
-        }
-        
         .btn {
             padding: 18px 20px;
             border: none;
@@ -271,22 +246,16 @@
         .btn-primary {
             background: linear-gradient(45deg, #22d3ee, #0891b2);
             color: white;
-            box-shadow: 0 4px 15px rgba(34, 211, 238, 0.3);
-        }
-        
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(34, 211, 238, 0.4);
+            width: 100%;
+            margin-bottom: 10px;
         }
         
         .btn-secondary {
             background: rgba(255, 255, 255, 0.2);
             color: white;
             border: 1px solid rgba(255, 255, 255, 0.3);
-        }
-        
-        .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.3);
+            width: 100%;
+            margin-bottom: 10px;
         }
         
         .btn-success {
@@ -299,18 +268,6 @@
             color: white;
         }
 
-        .btn-danger {
-            background: linear-gradient(45deg, #ef4444, #dc2626);
-            color: white;
-        }
-        
-        .action-buttons {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-            margin-bottom: 30px;
-        }
-        
         .btn-small {
             padding: 12px;
             font-size: 14px;
@@ -395,12 +352,6 @@
             color: #ef4444;
         }
 
-        .alert-warning {
-            background: rgba(245, 158, 11, 0.2);
-            border-color: rgba(245, 158, 11, 0.3);
-            color: #f59e0b;
-        }
-
         .share-buttons {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -430,147 +381,19 @@
             border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
-        .backup-section {
-            background: rgba(99, 102, 241, 0.15);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(99, 102, 241, 0.3);
-            border-radius: 25px;
-            padding: 25px;
-            margin-bottom: 30px;
-        }
-
-        .backup-status {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 15px;
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-        }
-
-        .backup-indicator {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .backup-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: #10b981;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-
-        .backup-controls {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-        }
-
-        .rural-mode-section {
-            background: rgba(16, 185, 129, 0.15);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(16, 185, 129, 0.3);
-            border-radius: 25px;
-            padding: 25px;
-            margin-bottom: 30px;
-        }
-
-        .rural-toggle {
-            background: rgba(16, 185, 129, 0.2);
-            border: 2px solid rgba(16, 185, 129, 0.3);
-            color: #10b981;
-            padding: 15px 20px;
-            border-radius: 15px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-align: center;
-            font-weight: 600;
-            touch-action: manipulation;
-        }
-
-        .rural-toggle.active {
-            background: rgba(16, 185, 129, 0.4);
-            border-color: #10b981;
-        }
-
-        .message-templates {
-            background: rgba(37, 211, 102, 0.15);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(37, 211, 102, 0.3);
-            border-radius: 25px;
-            padding: 25px;
-            margin-bottom: 30px;
-        }
-
-        .template-item {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            padding: 15px;
-            margin-bottom: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            gap: 15px;
-        }
-
-        .template-text {
-            flex: 1;
-            font-size: 14px;
-            line-height: 1.5;
-        }
-
-        .template-actions {
-            display: flex;
-            gap: 8px;
-            flex-shrink: 0;
-        }
-
-        .btn-template {
-            padding: 6px 12px;
-            border: none;
-            border-radius: 8px;
-            font-size: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            touch-action: manipulation;
-        }
-
         .footer-credits {
             position: fixed;
             bottom: 10px;
             right: 25px;
-            color: #8B4513;
             font-size: 10px;
             font-weight: 600;
             opacity: 0.8;
             z-index: 999;
-        }
-
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.3);
-            border-radius: 10px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: rgba(255, 255, 255, 0.5);
+            background: linear-gradient(45deg, #8B4513, #DAA520);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
         }
     </style>
 </head>
@@ -580,82 +403,32 @@
             <h1>📊 Panel de Administración</h1>
             <p>Gestión completa de Óptica nVision</p>
             <div class="header-buttons">
-                <button onclick="goToMainSite()" class="header-btn btn-home">
+                <button onclick="irASitio()" class="header-btn btn-home">
                     🏠 Sitio Principal
                 </button>
-                <button onclick="abrirPOS()" class="header-btn btn-pos">
+                <button onclick="irAPOS()" class="header-btn btn-pos">
                     💼 Sistema POS
                 </button>
-                <button onclick="manualBackup()" class="header-btn btn-backup">
-                    ☁️ Backup Manual
-                </button>
-            </div>
-        </div>
-
-        <div class="backup-section">
-            <h2 class="section-title">☁️ Sistema de Backup a Gmail</h2>
-            <div class="backup-status">
-                <div class="backup-indicator">
-                    <div class="backup-dot"></div>
-                    <div>
-                        <div style="font-weight: 600;">Estado: Activo</div>
-                        <div style="font-size: 12px; opacity: 0.8;" id="lastBackupTime">Último: --:--</div>
-                    </div>
-                </div>
-                <div style="text-align: right;">
-                    <div style="font-size: 12px; opacity: 0.8;">Gmail: opticanvision@gmail.com</div>
-                    <div style="font-size: 12px; color: #10b981;">✅ Configurado</div>
-                </div>
-            </div>
-            <div class="backup-controls">
-                <button onclick="manualBackup()" class="btn btn-warning btn-small">
-                    📤 Backup Ahora
-                </button>
-                <button onclick="downloadBackup()" class="btn btn-secondary btn-small">
-                    💾 Descargar Local
-                </button>
-            </div>
-        </div>
-
-        <div class="rural-mode-section">
-            <h2 class="section-title">🌾 Modo Rural/Humanitario</h2>
-            <div class="rural-toggle" onclick="toggleRuralMode()" id="ruralToggle">
-                🌾 Modo Rural: <span id="ruralStatus">Desactivado</span>
-            </div>
-            <div style="margin-top: 15px; font-size: 14px; opacity: 0.9; text-align: center;">
-                Activa para trabajar sin NCF y generar facturas proforma
             </div>
         </div>
         
         <div class="stats-grid">
             <div class="stat-card">
-                <div class="stat-number" id="totalProducts">0</div>
+                <div class="stat-number" id="totalProductos">0</div>
                 <div class="stat-label">Productos</div>
             </div>
             <div class="stat-card">
-                <div class="stat-number" id="totalViews">0</div>
+                <div class="stat-number" id="totalVistas">0</div>
                 <div class="stat-label">Visitas totales</div>
             </div>
             <div class="stat-card">
-                <div class="stat-number" id="whatsappClicks">0</div>
+                <div class="stat-number" id="clicksWhatsapp">0</div>
                 <div class="stat-label">Clicks WhatsApp</div>
             </div>
             <div class="stat-card">
-                <div class="stat-number" id="conversionRate">0%</div>
+                <div class="stat-number" id="tasaConversion">0%</div>
                 <div class="stat-label">Tasa conversión</div>
             </div>
-        </div>
-
-        <div class="action-buttons">
-            <button onclick="goToMainSite()" class="btn btn-secondary btn-small">
-                🏠 Ir al sitio
-            </button>
-            <button onclick="abrirPOS()" class="btn btn-success btn-small">
-                💼 Sistema POS
-            </button>
-            <button onclick="exportData()" class="btn btn-secondary btn-small">
-                📤 Exportar
-            </button>
         </div>
 
         <div id="alertContainer"></div>
@@ -663,29 +436,22 @@
         <div class="form-section">
             <h2 class="section-title">➕ Agregar Nuevo Producto</h2>
             
-            <form id="productForm">
+            <form id="productoForm">
                 <div class="form-group">
                     <label class="form-label">📸 Foto del Producto</label>
-                    <div class="camera-upload" onclick="openCamera()">
+                    <div class="camera-upload" onclick="abrirCamara()">
                         <span class="camera-icon">📷</span>
                         <div style="font-size: 18px; font-weight: 600; margin-bottom: 8px;">Tomar/Subir Foto</div>
                         <div style="font-size: 14px; opacity: 0.8;">Toque para activar cámara</div>
-                        <img id="photoPreview" class="preview-image" style="display: none;">
+                        <img id="vistaPrevia" class="preview-image" style="display: none;">
                     </div>
-                    <input type="file" id="photoInput" accept="image/*" capture="environment" style="display: none;">
+                    <input type="file" id="inputFoto" accept="image/*" capture="environment" style="display: none;">
                     
-                    <div id="shareButtons" class="share-buttons" style="display: none;">
-                        <button type="button" onclick="copyProductLink()" class="btn-share btn-copy">
+                    <div id="botonesCompartir" class="share-buttons" style="display: none;">
+                        <button type="button" onclick="copiarEnlace()" class="btn-share btn-copy">
                             📋 Copiar Enlace
                         </button>
-                        <button type="button" onclick="shareWhatsApp()" class="btn-share btn-whatsapp">
-                            📱 Compartir WhatsApp
-                        </button>
-                    </div>
-                </div>-share btn-copy">
-                            📋 Copiar Enlace
-                        </button>
-                        <button type="button" onclick="shareWhatsApp()" class="btn-share btn-whatsapp">
+                        <button type="button" onclick="compartirWhatsApp()" class="btn-share btn-whatsapp">
                             📱 Compartir WhatsApp
                         </button>
                     </div>
@@ -693,22 +459,22 @@
                 
                 <div class="form-group">
                     <label class="form-label">🔢 Código del Producto</label>
-                    <input type="text" id="productCode" class="form-input" placeholder="NV001" style="text-transform: uppercase;">
+                    <input type="text" id="codigoProducto" class="form-input" placeholder="NV001" style="text-transform: uppercase;">
                 </div>
                 
                 <div class="form-group">
                     <label class="form-label">👓 Nombre/Descripción</label>
-                    <input type="text" id="productName" class="form-input" placeholder="Monturas deportivas polarizadas">
+                    <input type="text" id="nombreProducto" class="form-input" placeholder="Monturas deportivas polarizadas">
                 </div>
                 
                 <div class="form-group">
                     <label class="form-label">💰 Precio (RD$)</label>
-                    <input type="number" id="productPrice" class="form-input" placeholder="2500.00" step="0.01">
+                    <input type="number" id="precioProducto" class="form-input" placeholder="2500.00" step="0.01">
                 </div>
                 
                 <div class="form-group">
                     <label class="form-label">📂 Categoría</label>
-                    <select id="productCategory" class="form-select">
+                    <select id="categoriaProducto" class="form-select">
                         <option value="hombre">👨 Hombres</option>
                         <option value="mujer">👩 Mujeres</option>
                         <option value="deportivo">🏃 Deportivos</option>
@@ -721,71 +487,21 @@
                 
                 <div class="form-group">
                     <label class="form-label">📝 Comentarios adicionales</label>
-                    <textarea id="productComments" class="form-textarea" rows="3" placeholder="Características especiales, material, garantía, etc."></textarea>
+                    <textarea id="comentariosProducto" class="form-textarea" rows="3" placeholder="Características especiales, material, garantía, etc."></textarea>
                 </div>
                 
-                <div class="button-group">
-                    <button type="button" onclick="saveProduct()" class="btn btn-primary">
-                        💾 Guardar Producto
-                    </button>
-                    <button type="button" onclick="clearForm()" class="btn btn-secondary">
-                        🗑️ Limpiar Formulario
-                    </button>
-                </div>
+                <button type="button" onclick="guardarProducto()" class="btn btn-primary">
+                    💾 Guardar Producto
+                </button>
+                <button type="button" onclick="limpiarFormulario()" class="btn btn-secondary">
+                    🗑️ Limpiar Formulario
+                </button>
             </form>
-        </div>
-
-        <div class="message-templates">
-            <h2 class="section-title">💬 Plantillas de Mensajes WhatsApp</h2>
-            
-            <div class="template-item">
-                <div class="template-text">
-                    <strong>🏥 Bienvenida:</strong><br>
-                    ¡Hola! Bienvenido/a a Óptica nVision 👁️✨ ¿En qué podemos ayudarte hoy? Tenemos exámenes de vista gratuitos y monturas premium.
-                </div>
-                <div class="template-actions">
-                    <button onclick="useTemplate(0)" class="btn-template btn-whatsapp">Usar</button>
-                </div>
-            </div>
-
-            <div class="template-item">
-                <div class="template-text">
-                    <strong>📋 Recordatorio de cita:</strong><br>
-                    Te recordamos tu cita en Óptica nVision para mañana. ¡Tu salud visual es nuestra prioridad! 👁️🏥
-                </div>
-                <div class="template-actions">
-                    <button onclick="useTemplate(1)" class="btn-template btn-whatsapp">Usar</button>
-                </div>
-            </div>
-
-            <div class="template-item">
-                <div class="template-text">
-                    <strong>🎁 Promoción especial:</strong><br>
-                    ¡Oferta especial en Óptica nVision! 20% de descuento en monturas seleccionadas. Válido hasta fin de mes 🎉👓
-                </div>
-                <div class="template-actions">
-                    <button onclick="useTemplate(2)" class="btn-template btn-whatsapp">Usar</button>
-                </div>
-            </div>
-
-            <div class="template-item">
-                <div class="template-text">
-                    <strong>🚨 Emergencia visual:</strong><br>
-                    Entendemos tu urgencia visual. Estamos aquí para ayudarte. ¿Puedes describir qué está pasando? 👁️🆘
-                </div>
-                <div class="template-actions">
-                    <button onclick="useTemplate(3)" class="btn-template btn-whatsapp">Usar</button>
-                </div>
-            </div>
-
-            <button onclick="addCustomTemplate()" class="btn btn-primary btn-small">
-                ➕ Agregar Plantilla Personal
-            </button>
         </div>
 
         <div class="products-list">
             <h2 class="section-title">📦 Productos Registrados</h2>
-            <div id="productsList">
+            <div id="listaProductos">
                 <div style="text-align: center; padding: 40px; opacity: 0.7;">
                     <div style="font-size: 48px; margin-bottom: 15px;">📦</div>
                     <div>No hay productos registrados</div>
@@ -795,15 +511,15 @@
     </div>
 
     <!-- Modal de cámara -->
-    <div id="cameraModal" class="camera-modal">
+    <div id="modalCamara" class="camera-modal">
         <div class="camera-container">
-            <video id="cameraVideo" class="camera-video" autoplay playsinline></video>
-            <canvas id="cameraCanvas" style="display: none;"></canvas>
+            <video id="videoCamara" class="camera-video" autoplay playsinline></video>
+            <canvas id="canvasCamara" style="display: none;"></canvas>
             <div class="camera-controls">
-                <button onclick="capturePhoto()" class="camera-btn btn-capture">
+                <button onclick="capturarFoto()" class="camera-btn btn-capture">
                     📸 Capturar
                 </button>
-                <button onclick="closeCamera()" class="camera-btn btn-close">
+                <button onclick="cerrarCamara()" class="camera-btn btn-close">
                     ❌ Cerrar
                 </button>
             </div>
@@ -815,222 +531,72 @@
     </div>
 
     <script>
-        // Configuración global
+        // Configuración
         const CONFIG = {
-            whatsappNumber: '18097135307',
-            backupEmail: 'opticanvision@gmail.com',
-            backupPassword: 'nivision2530',
-            empresaNombre: 'Óptica nVision',
+            whatsapp: '18097135307',
+            empresa: 'Óptica nVision',
             baseUrl: window.location.origin + window.location.pathname.replace(/[^/]*$/, '')
         };
 
         // Variables globales
-        let currentStream = null;
-        let capturedImageData = null;
-        let editingProductId = null;
-        let modoRuralActivo = false;
-
-        // Plantillas de mensajes predefinidas
-        const TEMPLATES = [
-            "¡Hola! Bienvenido/a a Óptica nVision 👁️✨ ¿En qué podemos ayudarte hoy? Tenemos exámenes de vista gratuitos y monturas premium.",
-            "Te recordamos tu cita en Óptica nVision para mañana. ¡Tu salud visual es nuestra prioridad! 👁️🏥",
-            "¡Oferta especial en Óptica nVision! 20% de descuento en monturas seleccionadas. Válido hasta fin de mes 🎉👓",
-            "Entendemos tu urgencia visual. Estamos aquí para ayudarte. ¿Puedes describir qué está pasando? 👁️🆘"
-        ];
+        let streamActual = null;
+        let imagenCapturada = null;
+        let productos = {};
 
         // Inicialización
-        document.addEventListener('DOMContentLoaded', function() {
-            initAdmin();
+        window.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 Iniciando Admin Panel...');
+            cargarEstadisticas();
+            cargarProductos();
+            configurarEventos();
+            console.log('✅ Admin Panel listo');
         });
 
-        function initAdmin() {
-            loadStats();
-            loadProducts();
-            loadBackupStatus();
-            checkRuralMode();
-            setupEventListeners();
+        function configurarEventos() {
+            document.getElementById('inputFoto').addEventListener('change', manejarArchivoSeleccionado);
         }
 
-        function setupEventListeners() {
-            // Input de archivo para fotos
-            document.getElementById('photoInput').addEventListener('change', handleFileSelect);
+        // Funciones de estadísticas
+        function cargarEstadisticas() {
+            try {
+                const vistas = localStorage.getItem('nvision_vistas') || '0';
+                const clicks = localStorage.getItem('nvision_clicks') || '0';
+                productos = JSON.parse(localStorage.getItem('nvision_productos') || '{}');
+                
+                const totalProductos = Object.keys(productos).length;
+                const totalVistas = parseInt(vistas);
+                const totalClicks = parseInt(clicks);
+                const conversion = totalVistas > 0 ? ((totalClicks / totalVistas) * 100).toFixed(1) : 0;
+                
+                document.getElementById('totalProductos').textContent = totalProductos;
+                document.getElementById('totalVistas').textContent = totalVistas;
+                document.getElementById('clicksWhatsapp').textContent = totalClicks;
+                document.getElementById('tasaConversion').textContent = conversion + '%';
+            } catch (error) {
+                console.log('Error cargando estadísticas:', error);
+            }
         }
 
         // Funciones de navegación
-        function goToMainSite() {
-            window.location.href = 'index.html';
-        }
-
-        function abrirPOS() {
-            window.location.href = 'pos.html';
-        }
-
-        // Función para mostrar alertas
-        function showAlert(message, type = 'success') {
-            const alertHtml = `<div class="alert alert-${type}">${message}</div>`;
-            document.getElementById('alertContainer').innerHTML = alertHtml;
-            
+        function irASitio() {
+            mostrarAlerta('🏠 Redirigiendo al sitio principal...', 'success');
             setTimeout(() => {
-                document.getElementById('alertContainer').innerHTML = '';
-            }, 4000);
+                window.location.href = 'index.html';
+            }, 1000);
         }
 
-        // Funciones de almacenamiento seguro
-        function safeGetStorage(key) {
-            try {
-                if (typeof(Storage) !== "undefined" && localStorage) {
-                    const value = localStorage.getItem(key);
-                    if (value && value !== 'null' && value !== 'undefined') {
-                        return JSON.parse(value);
-                    }
-                }
-            } catch (e) {
-                console.log('Storage error:', e);
-            }
-            return {};
+        function irAPOS() {
+            mostrarAlerta('💼 Abriendo sistema POS...', 'success');
+            setTimeout(() => {
+                window.location.href = 'pos.html';
+            }, 1000);
         }
 
-        function safeSetStorage(key, value) {
-            try {
-                if (typeof(Storage) !== "undefined" && localStorage) {
-                    localStorage.setItem(key, JSON.stringify(value));
-                    performAutoBackup();
-                    return true;
-                }
-            } catch (e) {
-                console.log('Storage error:', e);
-                return false;
-            }
-        }
-
-        // Sistema de backup
-        function loadBackupStatus() {
-            const lastBackup = localStorage.getItem('nvision_last_backup_time');
-            if (lastBackup) {
-                const backupTime = new Date(lastBackup).toLocaleString();
-                document.getElementById('lastBackupTime').textContent = `Último: ${backupTime}`;
-            }
-        }
-
-        function manualBackup() {
-            try {
-                const allData = {
-                    monturas: safeGetStorage('nvision_monturas'),
-                    clientes: safeGetStorage('nvision_clientes'),
-                    productos: safeGetStorage('nvision_productos'),
-                    facturas: safeGetStorage('nvision_facturas'),
-                    comprobantes: safeGetStorage('nvision_comprobantes'),
-                    configuracion: safeGetStorage('nvision_config'),
-                    estadisticas: {
-                        views: localStorage.getItem('nvision_views') || '0',
-                        clicks: localStorage.getItem('nvision_whatsapp_clicks') || '0'
-                    },
-                    backup_info: {
-                        timestamp: new Date().toISOString(),
-                        version: '2.0',
-                        sistema: 'Optica_nVision',
-                        email: CONFIG.backupEmail
-                    }
-                };
-
-                const backupString = JSON.stringify(allData, null, 2);
-                localStorage.setItem('nvision_full_backup', backupString);
-                localStorage.setItem('nvision_last_backup_time', new Date().toISOString());
-                
-                showAlert('✅ Backup manual completado correctamente', 'success');
-                loadBackupStatus();
-                
-                // Simular envío a Gmail (en producción usar API real)
-                console.log('Backup enviado a:', CONFIG.backupEmail);
-                
-            } catch (error) {
-                console.error('Error en backup manual:', error);
-                showAlert('❌ Error al realizar backup: ' + error.message, 'error');
-            }
-        }
-
-        function performAutoBackup() {
-            // Backup automático cada 30 minutos
-            manualBackup();
-        }
-
-        function downloadBackup() {
-            try {
-                const backupData = localStorage.getItem('nvision_full_backup');
-                if (!backupData) {
-                    showAlert('❌ No hay backup disponible', 'error');
-                    return;
-                }
-
-                const blob = new Blob([backupData], { type: 'application/json' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `nvision_backup_${new Date().toISOString().split('T')[0]}.json`;
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                URL.revokeObjectURL(url);
-                
-                showAlert('✅ Backup descargado correctamente', 'success');
-            } catch (error) {
-                showAlert('❌ Error al descargar backup', 'error');
-            }
-        }
-
-        // Modo rural
-        function checkRuralMode() {
-            const ruralMode = safeGetStorage('nvision_rural_mode');
-            if (ruralMode && ruralMode.active) {
-                modoRuralActivo = true;
-                document.getElementById('ruralToggle').classList.add('active');
-                document.getElementById('ruralStatus').textContent = 'Activado';
-            }
-        }
-
-        function toggleRuralMode() {
-            modoRuralActivo = !modoRuralActivo;
-            const toggle = document.getElementById('ruralToggle');
-            const status = document.getElementById('ruralStatus');
-            
-            if (modoRuralActivo) {
-                toggle.classList.add('active');
-                status.textContent = 'Activado';
-                safeSetStorage('nvision_rural_mode', { active: true, timestamp: new Date().toISOString() });
-                showAlert('✅ Modo Rural activado - Facturas sin NCF', 'success');
-            } else {
-                toggle.classList.remove('active');
-                status.textContent = 'Desactivado';
-                safeSetStorage('nvision_rural_mode', { active: false, timestamp: new Date().toISOString() });
-                showAlert('ℹ️ Modo Normal activado - Se usarán NCF', 'success');
-            }
-        }
-
-        // Estadísticas
-        function loadStats() {
-            try {
-                const monturas = safeGetStorage('nvision_monturas');
-                const views = localStorage.getItem('nvision_views') || '0';
-                const clicks = localStorage.getItem('nvision_whatsapp_clicks') || '0';
-                
-                const totalProducts = Object.keys(monturas).length;
-                const totalViews = parseInt(views);
-                const totalClicks = parseInt(clicks);
-                const conversionRate = totalViews > 0 ? ((totalClicks / totalViews) * 100).toFixed(1) : 0;
-                
-                document.getElementById('totalProducts').textContent = totalProducts;
-                document.getElementById('totalViews').textContent = totalViews;
-                document.getElementById('whatsappClicks').textContent = totalClicks;
-                document.getElementById('conversionRate').textContent = conversionRate + '%';
-            } catch (error) {
-                console.log('Error loading stats:', error);
-            }
-        }
-
-        // Gestión de cámara
-        function openCamera() {
-            const modal = document.getElementById('cameraModal');
-            const video = document.getElementById('cameraVideo');
+        // Funciones de cámara
+        function abrirCamara() {
+            console.log('📷 Abriendo cámara...');
+            const modal = document.getElementById('modalCamara');
+            const video = document.getElementById('videoCamara');
             
             if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
                 navigator.mediaDevices.getUserMedia({ 
@@ -1041,121 +607,119 @@
                     } 
                 })
                 .then(stream => {
-                    currentStream = stream;
+                    streamActual = stream;
                     video.srcObject = stream;
                     modal.style.display = 'flex';
+                    mostrarAlerta('📷 Cámara activada', 'success');
                 })
                 .catch(error => {
-                    console.log('Camera error:', error);
-                    // Fallback a input de archivo
-                    document.getElementById('photoInput').click();
+                    console.log('Error de cámara:', error);
+                    document.getElementById('inputFoto').click();
                 });
             } else {
-                // Fallback para navegadores sin soporte de cámara
-                document.getElementById('photoInput').click();
+                document.getElementById('inputFoto').click();
             }
         }
 
-        function capturePhoto() {
-            const video = document.getElementById('cameraVideo');
-            const canvas = document.getElementById('cameraCanvas');
+        function capturarFoto() {
+            console.log('📸 Capturando foto...');
+            const video = document.getElementById('videoCamara');
+            const canvas = document.getElementById('canvasCamara');
             const context = canvas.getContext('2d');
             
             canvas.width = video.videoWidth;
             canvas.height = video.videoHeight;
             context.drawImage(video, 0, 0);
             
-            capturedImageData = canvas.toDataURL('image/jpeg', 0.8);
+            imagenCapturada = canvas.toDataURL('image/jpeg', 0.8);
             
-            const preview = document.getElementById('photoPreview');
-            preview.src = capturedImageData;
+            const preview = document.getElementById('vistaPrevia');
+            preview.src = imagenCapturada;
             preview.style.display = 'block';
             
-            document.getElementById('shareButtons').style.display = 'grid';
+            document.getElementById('botonesCompartir').style.display = 'grid';
             
-            closeCamera();
-            showAlert('✅ Foto capturada correctamente', 'success');
+            cerrarCamara();
+            mostrarAlerta('✅ Foto capturada correctamente', 'success');
         }
 
-        function closeCamera() {
-            const modal = document.getElementById('cameraModal');
+        function cerrarCamara() {
+            const modal = document.getElementById('modalCamara');
             modal.style.display = 'none';
             
-            if (currentStream) {
-                currentStream.getTracks().forEach(track => track.stop());
-                currentStream = null;
+            if (streamActual) {
+                streamActual.getTracks().forEach(track => track.stop());
+                streamActual = null;
             }
         }
 
-        function handleFileSelect(event) {
-            const file = event.target.files[0];
-            if (file) {
+        function manejarArchivoSeleccionado(event) {
+            const archivo = event.target.files[0];
+            if (archivo) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    capturedImageData = e.target.result;
-                    const preview = document.getElementById('photoPreview');
-                    preview.src = capturedImageData;
+                    imagenCapturada = e.target.result;
+                    const preview = document.getElementById('vistaPrevia');
+                    preview.src = imagenCapturada;
                     preview.style.display = 'block';
-                    document.getElementById('shareButtons').style.display = 'grid';
-                    showAlert('✅ Imagen cargada correctamente', 'success');
+                    document.getElementById('botonesCompartir').style.display = 'grid';
+                    mostrarAlerta('✅ Imagen cargada correctamente', 'success');
                 };
-                reader.readAsDataURL(file);
+                reader.readAsDataURL(archivo);
             }
         }
 
-        // Gestión de productos
-        function saveProduct() {
-            const code = document.getElementById('productCode').value.trim().toUpperCase();
-            const name = document.getElementById('productName').value.trim();
-            const price = document.getElementById('productPrice').value.trim();
-            const category = document.getElementById('productCategory').value;
-            const comments = document.getElementById('productComments').value.trim();
+        // Funciones de productos
+        function guardarProducto() {
+            console.log('💾 Guardando producto...');
             
-            if (!code || !name || !price) {
-                showAlert('❌ Código, nombre y precio son obligatorios', 'error');
+            const codigo = document.getElementById('codigoProducto').value.trim().toUpperCase();
+            const nombre = document.getElementById('nombreProducto').value.trim();
+            const precio = document.getElementById('precioProducto').value.trim();
+            const categoria = document.getElementById('categoriaProducto').value;
+            const comentarios = document.getElementById('comentariosProducto').value.trim();
+            
+            if (!codigo || !nombre || !precio) {
+                mostrarAlerta('❌ Código, nombre y precio son obligatorios', 'error');
                 return;
             }
             
-            if (!capturedImageData) {
-                showAlert('❌ Debe agregar una foto del producto', 'error');
+            if (!imagenCapturada) {
+                mostrarAlerta('❌ Debe agregar una foto del producto', 'error');
                 return;
             }
 
             const producto = {
-                codigo: code,
-                nombre: name,
-                precio: `RD${parseFloat(price).toFixed(2)}`,
-                categoria: category,
-                imagen: capturedImageData,
-                comentarios: comments,
-                enlace: `${CONFIG.baseUrl}index.html?codigo=${code}`,
-                fechaCreacion: new Date().toISOString(),
-                id: editingProductId || Date.now().toString()
+                codigo: codigo,
+                nombre: nombre,
+                precio: `RD$${parseFloat(precio).toFixed(2)}`,
+                categoria: categoria,
+                imagen: imagenCapturada,
+                comentarios: comentarios,
+                enlace: `${CONFIG.baseUrl}index.html?codigo=${codigo}`,
+                fechaCreacion: new Date().toISOString()
             };
 
-            const monturas = safeGetStorage('nvision_monturas');
-            monturas[code] = producto;
-            safeSetStorage('nvision_monturas', monturas);
+            productos[codigo] = producto;
+            localStorage.setItem('nvision_productos', JSON.stringify(productos));
 
-            showAlert(editingProductId ? '✅ Producto actualizado' : '✅ Producto guardado', 'success');
-            clearForm();
-            loadProducts();
-            loadStats();
+            mostrarAlerta('✅ Producto guardado correctamente', 'success');
+            limpiarFormulario();
+            cargarProductos();
+            cargarEstadisticas();
         }
 
-        function clearForm() {
-            document.getElementById('productForm').reset();
-            document.getElementById('photoPreview').style.display = 'none';
-            document.getElementById('shareButtons').style.display = 'none';
-            capturedImageData = null;
-            editingProductId = null;
+        function limpiarFormulario() {
+            document.getElementById('productoForm').reset();
+            document.getElementById('vistaPrevia').style.display = 'none';
+            document.getElementById('botonesCompartir').style.display = 'none';
+            imagenCapturada = null;
         }
 
-        function loadProducts() {
-            const monturas = safeGetStorage('nvision_monturas');
-            const container = document.getElementById('productsList');
+        function cargarProductos() {
+            const container = document.getElementById('listaProductos');
             
-            if (Object.keys(monturas).length === 0) {
+            if (Object.keys(productos).length === 0) {
                 container.innerHTML = `
                     <div style="text-align: center; padding: 40px; opacity: 0.7;">
                         <div style="font-size: 48px; margin-bottom: 15px;">📦</div>
@@ -1166,7 +730,7 @@
             }
 
             let html = '';
-            Object.values(monturas).forEach(producto => {
+            Object.values(productos).forEach(producto => {
                 html += `
                     <div class="product-item">
                         <img src="${producto.imagen}" alt="${producto.nombre}" class="product-thumb">
@@ -1176,13 +740,10 @@
                             <div class="product-price">${producto.precio}</div>
                         </div>
                         <div style="display: flex; flex-direction: column; gap: 5px;">
-                            <button onclick="editProduct('${producto.codigo}')" class="btn-template btn-secondary" style="padding: 6px 10px; font-size: 11px;">
-                                ✏️ Editar
-                            </button>
-                            <button onclick="shareProduct('${producto.codigo}')" class="btn-template btn-whatsapp" style="padding: 6px 10px; font-size: 11px;">
+                            <button onclick="compartirProducto('${producto.codigo}')" class="btn-share btn-whatsapp" style="padding: 6px 10px; font-size: 11px;">
                                 📱 Compartir
                             </button>
-                            <button onclick="deleteProduct('${producto.codigo}')" class="delete-btn">
+                            <button onclick="eliminarProducto('${producto.codigo}')" class="delete-btn">
                                 🗑️ Eliminar
                             </button>
                         </div>
@@ -1193,61 +754,31 @@
             container.innerHTML = html;
         }
 
-        function editProduct(codigo) {
-            const monturas = safeGetStorage('nvision_monturas');
-            const producto = monturas[codigo];
-            
-            if (producto) {
-                editingProductId = producto.id;
-                document.getElementById('productCode').value = producto.codigo;
-                document.getElementById('productName').value = producto.nombre;
-                document.getElementById('productPrice').value = producto.precio.replace('RD, '');
-                document.getElementById('productCategory').value = producto.categoria;
-                document.getElementById('productComments').value = producto.comentarios || '';
-                
-                if (producto.imagen) {
-                    capturedImageData = producto.imagen;
-                    const preview = document.getElementById('photoPreview');
-                    preview.src = producto.imagen;
-                    preview.style.display = 'block';
-                    document.getElementById('shareButtons').style.display = 'grid';
-                }
-                
-                showAlert('📝 Producto cargado para edición', 'success');
-                // Scroll al formulario
-                document.getElementById('productForm').scrollIntoView({ behavior: 'smooth' });
-            }
-        }
-
-        function deleteProduct(codigo) {
+        function eliminarProducto(codigo) {
             if (confirm(`¿Está seguro de eliminar el producto ${codigo}?`)) {
-                const monturas = safeGetStorage('nvision_monturas');
-                delete monturas[codigo];
-                safeSetStorage('nvision_monturas', monturas);
-                
-                loadProducts();
-                loadStats();
-                showAlert('🗑️ Producto eliminado', 'success');
+                delete productos[codigo];
+                localStorage.setItem('nvision_productos', JSON.stringify(productos));
+                cargarProductos();
+                cargarEstadisticas();
+                mostrarAlerta('🗑️ Producto eliminado', 'success');
             }
         }
 
-        function shareProduct(codigo) {
-            const monturas = safeGetStorage('nvision_monturas');
-            const producto = monturas[codigo];
-            
+        function compartirProducto(codigo) {
+            const producto = productos[codigo];
             if (producto) {
                 const mensaje = `🏥 *ÓPTICA NVISION* 🏥\n\n📸 Te comparto esta montura:\n🔢 Código: ${producto.codigo}\n💰 Precio: ${producto.precio}\n📝 Descripción: ${producto.nombre}\n\n🔗 Ver más detalles: ${producto.enlace}\n\n👁️ ¡Tu visión nítida, nuestra misión! ✨`;
                 
-                const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(mensaje)}`;
-                window.open(whatsappUrl, '_blank');
-                showAlert('✅ Compartiendo por WhatsApp', 'success');
+                const url = `https://wa.me/?text=${encodeURIComponent(mensaje)}`;
+                window.open(url, '_blank');
+                mostrarAlerta('✅ Compartiendo por WhatsApp', 'success');
             }
         }
 
-        function copyProductLink() {
-            const codigo = document.getElementById('productCode').value.trim().toUpperCase();
+        function copiarEnlace() {
+            const codigo = document.getElementById('codigoProducto').value.trim().toUpperCase();
             if (!codigo) {
-                showAlert('❌ Primero ingrese el código del producto', 'error');
+                mostrarAlerta('❌ Primero ingrese el código del producto', 'error');
                 return;
             }
             
@@ -1255,16 +786,16 @@
             
             if (navigator.clipboard && navigator.clipboard.writeText) {
                 navigator.clipboard.writeText(enlace)
-                    .then(() => showAlert('✅ Enlace copiado al portapapeles', 'success'))
-                    .catch(() => fallbackCopyText(enlace));
+                    .then(() => mostrarAlerta('✅ Enlace copiado al portapapeles', 'success'))
+                    .catch(() => copiarTextoFallback(enlace));
             } else {
-                fallbackCopyText(enlace);
+                copiarTextoFallback(enlace);
             }
         }
 
-        function fallbackCopyText(text) {
+        function copiarTextoFallback(texto) {
             const textArea = document.createElement("textarea");
-            textArea.value = text;
+            textArea.value = texto;
             textArea.style.position = "fixed";
             textArea.style.left = "-999999px";
             document.body.appendChild(textArea);
@@ -1272,144 +803,81 @@
             
             try {
                 document.execCommand('copy');
-                showAlert('✅ Enlace copiado', 'success');
+                mostrarAlerta('✅ Enlace copiado', 'success');
             } catch (err) {
-                showAlert('❌ No se pudo copiar', 'error');
+                mostrarAlerta('❌ No se pudo copiar', 'error');
             }
             
             document.body.removeChild(textArea);
         }
 
-        function shareWhatsApp() {
-            const codigo = document.getElementById('productCode').value.trim().toUpperCase();
-            const nombre = document.getElementById('productName').value.trim();
-            const precio = document.getElementById('productPrice').value.trim();
+        function compartirWhatsApp() {
+            const codigo = document.getElementById('codigoProducto').value.trim().toUpperCase();
+            const nombre = document.getElementById('nombreProducto').value.trim();
+            const precio = document.getElementById('precioProducto').value.trim();
             
             if (!codigo || !nombre || !precio) {
-                showAlert('❌ Complete los datos del producto primero', 'error');
+                mostrarAlerta('❌ Complete los datos del producto primero', 'error');
                 return;
             }
             
             const enlace = `${CONFIG.baseUrl}index.html?codigo=${codigo}`;
             const mensaje = `🏥 *ÓPTICA NVISION* 🏥\n\n📸 Te comparto esta montura:\n🔢 Código: ${codigo}\n💰 Precio: RD${parseFloat(precio).toFixed(2)}\n📝 Descripción: ${nombre}\n\n🔗 Ver más detalles: ${enlace}\n\n👁️ ¡Tu visión nítida, nuestra misión! ✨`;
             
-            const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(mensaje)}`;
-            window.open(whatsappUrl, '_blank');
-            showAlert('✅ Compartiendo por WhatsApp', 'success');
+            const url = `https://wa.me/?text=${encodeURIComponent(mensaje)}`;
+            window.open(url, '_blank');
+            mostrarAlerta('✅ Compartiendo por WhatsApp', 'success');
         }
 
-        // Plantillas de mensajes
-        function useTemplate(index) {
-            if (TEMPLATES[index]) {
-                const mensaje = TEMPLATES[index];
-                const whatsappUrl = `https://wa.me/${CONFIG.whatsappNumber}?text=${encodeURIComponent(mensaje)}`;
-                window.open(whatsappUrl, '_blank');
-                showAlert('✅ Plantilla enviada por WhatsApp', 'success');
-            }
+        function mostrarAlerta(mensaje, tipo = 'success') {
+            const alertHtml = `<div class="alert alert-${tipo}">${mensaje}</div>`;
+            document.getElementById('alertContainer').innerHTML = alertHtml;
+            
+            setTimeout(() => {
+                document.getElementById('alertContainer').innerHTML = '';
+            }, 4000);
         }
 
-        function addCustomTemplate() {
-            const mensaje = prompt('Ingrese el texto de la plantilla personalizada:');
-            if (mensaje && mensaje.trim()) {
-                const templates = safeGetStorage('nvision_custom_templates');
-                const customTemplate = {
-                    id: Date.now().toString(),
-                    text: mensaje.trim(),
-                    created: new Date().toISOString()
-                };
-                templates[customTemplate.id] = customTemplate;
-                safeSetStorage('nvision_custom_templates', templates);
-                showAlert('✅ Plantilla personalizada agregada', 'success');
-                // Aquí podrías recargar las plantillas si tuvieras una función para eso
-            }
-        }
-
-        // Exportar datos
-        function exportData() {
-            try {
-                const allData = {
-                    monturas: safeGetStorage('nvision_monturas'),
-                    clientes: safeGetStorage('nvision_clientes'),
-                    productos: safeGetStorage('nvision_productos'),
-                    facturas: safeGetStorage('nvision_facturas'),
-                    comprobantes: safeGetStorage('nvision_comprobantes'),
-                    estadisticas: {
-                        views: localStorage.getItem('nvision_views') || '0',
-                        clicks: localStorage.getItem('nvision_whatsapp_clicks') || '0'
-                    },
-                    export_info: {
-                        timestamp: new Date().toISOString(),
-                        version: '2.0',
-                        sistema: 'Optica_nVision'
-                    }
-                };
-
-                const dataStr = JSON.stringify(allData, null, 2);
-                const dataBlob = new Blob([dataStr], { type: 'application/json' });
-                const url = URL.createObjectURL(dataBlob);
-                const link = document.createElement('a');
-                link.href = url;
-                link.download = `nvision_export_${new Date().toISOString().split('T')[0]}.json`;
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-                URL.revokeObjectURL(url);
-                
-                showAlert('✅ Datos exportados correctamente', 'success');
-            } catch (error) {
-                showAlert('❌ Error al exportar datos', 'error');
-            }
-        }
-
-        // Validación final del sistema
-        function validarSistemaAdmin() {
+        // Funciones de validación
+        function validarFormulario() {
             const errores = [];
             
-            // Verificar localStorage
             if (typeof(Storage) === "undefined") {
                 errores.push('LocalStorage no disponible');
             }
             
-            // Verificar elementos críticos
-            const elementosRequeridos = [
-                'productForm', 'photoPreview', 'cameraModal', 'productsList',
-                'totalProducts', 'totalViews', 'ruralToggle', 'backupStatus'
-            ];
-            
+            const elementosRequeridos = ['codigoProducto', 'nombreProducto', 'precioProducto'];
             elementosRequeridos.forEach(id => {
                 if (!document.getElementById(id)) {
-                    errores.push(`Elemento ${id} no encontrado`);
+                    errores.push(`Campo ${id} no encontrado`);
                 }
             });
             
-            // Verificar configuración
-            if (!CONFIG.whatsappNumber || !CONFIG.backupEmail) {
-                errores.push('Configuración incompleta');
-            }
-            
             if (errores.length > 0) {
-                console.error('Errores del sistema Admin:', errores);
-                showAlert('⚠️ Sistema con errores: ' + errores.join(', '), 'error');
+                console.error('Errores de validación:', errores);
+                mostrarAlerta('⚠️ Errores del sistema: ' + errores.join(', '), 'error');
                 return false;
             }
             
             return true;
         }
 
-        // Auto-validación al cargar
+        // Auto-validación
         window.addEventListener('load', function() {
             setTimeout(() => {
-                if (validarSistemaAdmin()) {
-                    console.log('✅ Sistema Admin validado correctamente');
-                    showAlert('✅ Panel Admin cargado correctamente', 'success');
+                if (validarFormulario()) {
+                    console.log('✅ Admin Panel validado correctamente');
+                    mostrarAlerta('✅ Panel Admin cargado correctamente', 'success');
+                } else {
+                    mostrarAlerta('❌ Error al cargar el panel', 'error');
                 }
             }, 1000);
         });
 
-        // Manejo de errores globales
+        // Manejo de errores
         window.addEventListener('error', function(event) {
-            console.error('Error global capturado:', event.error);
-            showAlert('❌ Error del sistema: ' + event.error.message, 'error');
+            console.error('Error capturado:', event.error);
+            mostrarAlerta('❌ Error del sistema: ' + event.error.message, 'error');
         });
     </script>
 </body>
