@@ -1,9 +1,161 @@
-<!DOCTYPE html>
+  html += '</div>';
+            
+            html += '<div class="vision-chart">';
+            html += '<div class="chart-line" style="font-size: 40px;">E</div>';
+            html += '<div class="chart-line" style="font-size: 32px;">F P</div>';
+            html += '<div class="chart-line" style="font-size: 24px;">T O Z</div>';
+            html += '<div class="chart-line" style="font-size: 18px;">L P E D</div>';
+            html += '<div class="chart-line" style="font-size: 14px;">P E C F D</div>';
+            html += '<div class="chart-line" style="font-size: 12px;">E D F C Z P</div>';
+            html += '</div>';
+            
+            html += '<p style="margin: 20px 0; font-size: 14px; color: #e2e8f0;"><strong>⚠️ Importante:</strong> Este es solo un test referencial. Para un examen completo, visite a un profesional.</p>';
+            
+            html += '<div class="test-buttons">';
+            html += '<button onclick="sendTestResult(true)" class="test-btn test-btn-primary">✅ Veo bien todas</button>';
+            html += '<button onclick="sendTestResult(false)" class="test-btn test-btn-secondary">❌ No veo algunas</button>';
+            html += '</div>';
+            
+            html += '<div style="margin-top: 20px;">';
+            html += '<button onclick="showCatalogView()" class="catalog-button">👓 Ver Monturas Disponibles</button>';
+            html += '</div>';
+            html += '</div>';
+
+            document.getElementById('mainContent').innerHTML = html;
+        }
+
+        function sendTestResult(canSeeWell) {
+            addWhatsAppClick();
+            let message = '';
+            if (canSeeWell) {
+                message = '¡Hola! Hice el test de vista en su página y puedo ver bien. Me gustaría explorar monturas para protección o estilo. ¿Qué opciones tienen disponibles? 👁️✨';
+            } else {
+                message = '¡Hola! Hice el test de vista en su página y tengo dificultades para ver algunas letras. Necesito una evaluación profesional y posiblemente monturas graduadas. ¿Pueden ayudarme? 👁️🔍';
+            }
+            
+            const whatsappUrl = `https://wa.me/${CONFIG.whatsappNumber}?text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, '_blank');
+        }
+
+        function showCatalogView() {
+            addView();
+            currentView = 'catalog';
+            
+            const monturas = safeGetStorage('nvision_monturas');
+            
+            if (Object.keys(monturas).length === 0) {
+                document.getElementById('mainContent').innerHTML = `
+                    <div class="empty-state">
+                        <span class="state-icon">📦</span>
+                        <div class="state-title">Catálogo en construcción</div>
+                        <div>Próximamente tendremos nuestro catálogo completo de monturas disponible.</div>
+                        <br>
+                        <button onclick="contactWhatsApp()" style="padding: 15px 20px; background: linear-gradient(45deg, #25d366, #128c7e); color: white; border: none; border-radius: 15px; cursor: pointer; font-size: 16px; font-weight: 700; width: 100%;">
+                            📱 Contactar por WhatsApp
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = '<div class="catalog-grid">';
+            Object.values(monturas).forEach(montura => {
+                html += `
+                    <div class="catalog-item" onclick="showProduct('${montura.codigo}')">
+                        <img src="${montura.imagen}" alt="${montura.nombre}" class="catalog-item-image">
+                        <div class="catalog-item-code">${montura.codigo}</div>
+                        <div class="catalog-item-price">${montura.precio}</div>
+                    </div>
+                `;
+            });
+            html += '</div>';
+            
+            html += '<button onclick="contactWhatsApp()" class="whatsapp-button">📱 Contactar por WhatsApp</button>';
+            
+            document.getElementById('mainContent').innerHTML = html;
+        }
+
+        function showProduct(codigo) {
+            const monturas = safeGetStorage('nvision_monturas');
+            const montura = monturas[codigo];
+            
+            if (!montura) {
+                showNotification('❌ Producto no encontrado');
+                return;
+            }
+
+            addView();
+            
+            const categories = {
+                'hombre': '👨 Hombres',
+                'mujer': '👩 Mujeres', 
+                'deportivo': '🏃 Deportivos',
+                'niños': '👶 Niños',
+                'lectura': '📖 Lectura',
+                'sol': '🕶️ Sol',
+                'trabajo': '💼 Trabajo'
+            };
+
+            let html = `
+                <div class="product-card">
+                    <img src="${montura.imagen}" alt="${montura.nombre}" class="product-image">
+                    <div class="product-info">
+                        <div class="product-code">${montura.codigo}</div>
+                        <div class="product-category">${categories[montura.categoria] || montura.categoria}</div>
+                        <div class="product-name">${montura.nombre}</div>
+                        <div class="product-price">${montura.precio}</div>
+                        
+                        <button onclick="buyProduct('${montura.codigo}')" class="whatsapp-button">
+                            🛒 Comprar por WhatsApp
+                        </button>
+                        
+                        <div class="share-buttons">
+                            <button onclick="copyProductLink('${montura.codigo}')" class="share-btn btn-copy-link">
+                                📋 Copiar Enlace
+                            </button>
+                            <button onclick="sendProductMessage('${montura.codigo}')" class="share-btn btn-send-message">
+                                📤 Compartir
+                            </button>
+                        </div>
+                        
+                        ${montura.comentarios ? `<div style="margin-top: 15px; padding: 15px; background: rgba(255,255,255,0.1); border-radius: 15px; font-size: 14px;">${montura.comentarios}</div>` : ''}
+                        
+                        <div style="margin-top: 20px;">
+                            <button onclick="showCatalogView()" class="catalog-button">👓 Ver Más Monturas</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('mainContent').innerHTML = html;
+        }
+
+        function buyProduct(codigo) {
+            const monturas = safeGetStorage('nvision_monturas');
+            const montura = monturas[codigo];
+            
+            if (montura) {
+                const mensaje = `🏥 *ÓPTICA NVISION* 🏥\n\n¡Hola! Me interesa comprar esta montura:\n\n🔢 Código: ${montura.codigo}\n📝 Descripción: ${montura.nombre}\n💰 Precio: ${montura.precio}\n\n¿Está disponible? ¿Cuáles son las formas de pago y entrega? 👁️✨`;
+                
+                const whatsappUrl = `https://wa.me/${CONFIG.whatsappNumber}?text=${encodeURIComponent(mensaje)}`;
+                window.open(whatsappUrl, '_blank');
+                addWhatsAppClick();
+                showNotification('✅ Redirigiendo a WhatsApp');
+            }
+        }
+
+        function copyProductLink(codigo) {
+            const enlace = window.location.origin + window.location.pathname + '?codigo=' + codigo;
+            
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(enlace)
+                    .then(() => showNotification('✅ Enlace copiado al portapapeles'))
+                    .<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Óptica Nvisión - Sistema Híbrido</title>
+    <title>Óptica nVision - Sistema Híbrido</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { 
@@ -85,6 +237,7 @@
             transition: all 0.3s ease;
             text-decoration: none;
             display: block;
+            touch-action: manipulation;
         }
         
         .feature-btn:hover {
@@ -125,6 +278,7 @@
             z-index: 1000;
             transition: all 0.3s ease;
             border: 2px solid rgba(255, 255, 255, 0.2);
+            touch-action: manipulation;
         }
         
         .admin-access:hover {
@@ -208,6 +362,7 @@
             text-transform: uppercase;
             transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+            touch-action: manipulation;
         }
 
         .whatsapp-button:hover {
@@ -232,6 +387,7 @@
             cursor: pointer;
             transition: all 0.3s ease;
             text-transform: uppercase;
+            touch-action: manipulation;
         }
 
         .btn-copy-link {
@@ -269,6 +425,7 @@
             text-align: center;
             border: none;
             transition: all 0.3s ease;
+            touch-action: manipulation;
         }
 
         .catalog-button:hover {
@@ -421,6 +578,7 @@
             border-radius: 15px;
             cursor: pointer;
             transition: all 0.3s ease;
+            touch-action: manipulation;
         }
 
         .test-btn-primary {
@@ -436,16 +594,91 @@
         .test-btn:hover {
             transform: translateY(-2px);
         }
+
+        .emergency-button {
+            background: rgba(239, 68, 68, 0.2);
+            border: 2px solid rgba(239, 68, 68, 0.3);
+            color: #ef4444;
+            padding: 15px;
+            border-radius: 15px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+            margin: 10px 0;
+            transition: all 0.3s ease;
+            touch-action: manipulation;
+        }
+
+        .emergency-button:hover {
+            background: #ef4444;
+            color: white;
+        }
+
+        .rural-mode-indicator {
+            position: fixed;
+            top: 25px;
+            left: 25px;
+            background: rgba(16, 185, 129, 0.9);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            z-index: 1000;
+            font-weight: 600;
+            display: none;
+        }
+
+        .rural-mode-indicator.active {
+            display: block;
+        }
+
+        .whatsapp-preview {
+            background: rgba(37, 211, 102, 0.1);
+            border: 1px solid rgba(37, 211, 102, 0.3);
+            border-radius: 15px;
+            padding: 15px;
+            margin: 15px 0;
+            font-size: 12px;
+            color: #e2e8f0;
+        }
+
+        .message-templates {
+            margin: 20px 0;
+        }
+
+        .template-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 12px 15px;
+            border-radius: 12px;
+            font-size: 13px;
+            cursor: pointer;
+            width: 100%;
+            margin-bottom: 8px;
+            text-align: left;
+            transition: all 0.3s ease;
+            touch-action: manipulation;
+        }
+
+        .template-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
     </style>
 </head>
 <body>
+    <div class="rural-mode-indicator" id="ruralModeIndicator">
+        🌾 Modo Rural Activo
+    </div>
+
     <div class="container">
         <div class="header">
             <div class="logo">👁️</div>
-            <h1 class="brand-name">Óptica Nvisión</h1>
-            <p class="tagline">Vea mejor, viva mejor - Especialistas en salud visual</p>
+            <h1 class="brand-name">Óptica nVision</h1>
+            <p class="tagline">Tu visión nítida, nuestra misión - Especialistas en salud visual</p>
             <div class="contact-info">
-                <div class="contact-item"><span>📱</span><span>849-797-2424</span></div>
+                <div class="contact-item"><span>📱</span><span>809-713-5307</span></div>
                 <div class="contact-item"><span>🎁</span><span>Garantía premium</span></div>
                 <div class="contact-item"><span>🚚</span><span>Entrega gratis</span></div>
             </div>
@@ -469,18 +702,22 @@
                 <small>Gestión del sistema</small>
             </button>
         </div>
+
+        <button class="emergency-button" onclick="llamadaEmergencia()">
+            🚨 LLAMADA EMERGENCIA VISUAL
+        </button>
         
         <div id="mainContent">
             <div class="empty-state">
                 <span class="state-icon">🏥</span>
-                <div class="state-title">Bienvenido a Óptica Nvisión</div>
-                <div>Su salud visual es nuestra prioridad. Comience con nuestro test de vista gratuito o explore nuestro catálogo de monturas premium.</div>
+                <div class="state-title">Bienvenido a Óptica nVision</div>
+                <div>Tu salud visual es nuestra prioridad. Comience con nuestro test de vista gratuito o explore nuestro catálogo de monturas premium.</div>
                 <br>
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                    <button onclick="showVisionTest()" style="padding: 15px; background: linear-gradient(45deg, #22d3ee, #0891b2); color: white; border: none; border-radius: 15px; cursor: pointer; font-size: 14px; font-weight: 700;">
+                    <button onclick="showVisionTest()" style="padding: 15px; background: linear-gradient(45deg, #22d3ee, #0891b2); color: white; border: none; border-radius: 15px; cursor: pointer; font-size: 14px; font-weight: 700; touch-action: manipulation;">
                         🔍 Hacer Test
                     </button>
-                    <button onclick="showCatalogView()" style="padding: 15px; background: linear-gradient(45deg, #10b981, #059669); color: white; border: none; border-radius: 15px; cursor: pointer; font-size: 14px; font-weight: 700;">
+                    <button onclick="showCatalogView()" style="padding: 15px; background: linear-gradient(45deg, #10b981, #059669); color: white; border: none; border-radius: 15px; cursor: pointer; font-size: 14px; font-weight: 700; touch-action: manipulation;">
                         👓 Ver Catálogo
                     </button>
                 </div>
@@ -507,39 +744,73 @@
     </div>
 
     <script>
-        var WHATSAPP_NUMBER = '18497972424';
-        var BASE_URL = window.location.origin + window.location.pathname.replace(/[^/]*$/, '');
+        // Configuración global corregida
+        const CONFIG = {
+            whatsappNumber: '18097135307',
+            backupEmail: 'opticanvision@gmail.com',
+            backupPassword: 'nivision2530',
+            empresaNombre: 'Óptica nVision',
+            baseUrl: window.location.origin + window.location.pathname.replace(/[^/]*$/, '')
+        };
 
-        var BACKUP_CONFIG = {
+        // Variables globales
+        let modoRuralActivo = false;
+        let currentView = 'home';
+
+        // Sistema de backup corregido con Gmail
+        const BACKUP_CONFIG = {
             email: 'opticanvision@gmail.com',
-            password: 'nvision2530',
+            password: 'nivision2530',
             enabled: true,
             lastBackup: null,
-            interval: 30 * 60 * 1000
+            interval: 30 * 60 * 1000 // 30 minutos
         };
+
+        // Inicialización
+        document.addEventListener('DOMContentLoaded', function() {
+            initSystem();
+        });
+
+        function initSystem() {
+            addView();
+            loadAnalytics();
+            initBackupSystem();
+            checkForProductCode();
+            checkRuralMode();
+        }
+
+        function checkRuralMode() {
+            const ruralMode = safeGetStorage('nvision_rural_mode');
+            if (ruralMode && ruralMode.active) {
+                modoRuralActivo = true;
+                document.getElementById('ruralModeIndicator').classList.add('active');
+            }
+        }
 
         function initBackupSystem() {
             if (BACKUP_CONFIG.enabled) {
                 showBackupStatus();
                 setInterval(performAutoBackup, BACKUP_CONFIG.interval);
+                // Primer backup después de 30 segundos
                 setTimeout(performAutoBackup, 30000);
             }
         }
 
         function showBackupStatus() {
-            var status = document.getElementById('backupStatus');
+            const status = document.getElementById('backupStatus');
             status.classList.add('show');
             setTimeout(() => status.classList.remove('show'), 3000);
         }
 
         function performAutoBackup() {
             try {
-                var allData = {
+                const allData = {
                     monturas: safeGetStorage('nvision_monturas'),
                     clientes: safeGetStorage('nvision_clientes'),
                     productos: safeGetStorage('nvision_productos'),
                     facturas: safeGetStorage('nvision_facturas'),
                     comprobantes: safeGetStorage('nvision_comprobantes'),
+                    configuracion: safeGetStorage('nvision_config'),
                     estadisticas: {
                         views: localStorage.getItem('nvision_views') || '0',
                         clicks: localStorage.getItem('nvision_whatsapp_clicks') || '0'
@@ -547,18 +818,18 @@
                     backup_info: {
                         timestamp: new Date().toISOString(),
                         version: '2.0',
-                        sistema: 'Nvision_Optica',
+                        sistema: 'Optica_nVision',
                         email: BACKUP_CONFIG.email
                     }
                 };
 
-                var backupString = JSON.stringify(allData, null, 2);
+                const backupString = JSON.stringify(allData, null, 2);
                 localStorage.setItem('nvision_last_backup', backupString);
                 BACKUP_CONFIG.lastBackup = new Date().toISOString();
                 
                 console.log('✅ Backup automático completado:', new Date().toLocaleString());
                 
-                var status = document.getElementById('backupStatus');
+                const status = document.getElementById('backupStatus');
                 status.innerHTML = '✅ Backup realizado';
                 status.style.background = 'rgba(16, 185, 129, 0.9)';
                 showBackupStatus();
@@ -570,23 +841,30 @@
                 
             } catch (error) {
                 console.error('❌ Error en backup automático:', error);
-                var status = document.getElementById('backupStatus');
+                const status = document.getElementById('backupStatus');
                 status.innerHTML = '⚠️ Error backup';
                 status.style.background = 'rgba(239, 68, 68, 0.9)';
                 showBackupStatus();
             }
         }
 
+        function checkForProductCode() {
+            const codigo = getUrlParam('codigo');
+            if (codigo) {
+                showProduct(codigo);
+            }
+        }
+
         function getUrlParam(name) {
             try {
-                var urlParams = new URLSearchParams(window.location.search);
+                const urlParams = new URLSearchParams(window.location.search);
                 return urlParams.get(name);
             } catch (e) {
                 try {
-                    var url = window.location.search.substring(1);
-                    var params = url.split('&');
-                    for (var i = 0; i < params.length; i++) {
-                        var param = params[i].split('=');
+                    const url = window.location.search.substring(1);
+                    const params = url.split('&');
+                    for (let i = 0; i < params.length; i++) {
+                        const param = params[i].split('=');
                         if (param[0] === name) {
                             return decodeURIComponent(param[1]);
                         }
@@ -601,7 +879,7 @@
         function safeGetStorage(key) {
             try {
                 if (typeof(Storage) !== "undefined" && localStorage) {
-                    var value = localStorage.getItem(key);
+                    const value = localStorage.getItem(key);
                     if (value && value !== 'null' && value !== 'undefined') {
                         return JSON.parse(value);
                     }
@@ -612,14 +890,26 @@
             return {};
         }
 
+        function safeSetStorage(key, value) {
+            try {
+                if (typeof(Storage) !== "undefined" && localStorage) {
+                    localStorage.setItem(key, JSON.stringify(value));
+                    return true;
+                }
+            } catch (e) {
+                console.log('Storage error:', e);
+                return false;
+            }
+        }
+
         function addView() {
             try {
                 if (typeof(Storage) !== "undefined" && localStorage) {
-                    var views = localStorage.getItem('nvision_views') || '0';
+                    let views = localStorage.getItem('nvision_views') || '0';
                     views = parseInt(views) + 1;
                     localStorage.setItem('nvision_views', views.toString());
                     
-                    var viewElement = document.getElementById('viewCount');
+                    const viewElement = document.getElementById('viewCount');
                     if (viewElement) {
                         viewElement.innerHTML = views;
                     }
@@ -632,11 +922,11 @@
         function addWhatsAppClick() {
             try {
                 if (typeof(Storage) !== "undefined" && localStorage) {
-                    var clicks = localStorage.getItem('nvision_whatsapp_clicks') || '0';
+                    let clicks = localStorage.getItem('nvision_whatsapp_clicks') || '0';
                     clicks = parseInt(clicks) + 1;
                     localStorage.setItem('nvision_whatsapp_clicks', clicks.toString());
                     
-                    var clickElement = document.getElementById('clickCount');
+                    const clickElement = document.getElementById('clickCount');
                     if (clickElement) {
                         clickElement.innerHTML = clicks;
                     }
@@ -646,8 +936,20 @@
             }
         }
 
+        function loadAnalytics() {
+            try {
+                const views = localStorage.getItem('nvision_views') || '0';
+                const clicks = localStorage.getItem('nvision_whatsapp_clicks') || '0';
+                
+                document.getElementById('viewCount').textContent = views;
+                document.getElementById('clickCount').textContent = clicks;
+            } catch (e) {
+                console.log('Error loading analytics:', e);
+            }
+        }
+
         function showNotification(message) {
-            var notification = document.getElementById('successNotification');
+            const notification = document.getElementById('successNotification');
             notification.textContent = message;
             notification.style.display = 'block';
             
@@ -656,113 +958,16 @@
             }, 3000);
         }
 
-        function copyProductLink(codigo) {
-            var enlace = window.location.origin + window.location.pathname + '?codigo=' + codigo;
-            
-            if (navigator.clipboard && navigator.clipboard.writeText) {
-                navigator.clipboard.writeText(enlace)
-                    .then(() => showNotification('✅ Enlace copiado al portapapeles'))
-                    .catch(() => fallbackCopyText(enlace));
-            } else {
-                fallbackCopyText(enlace);
-            }
-        }
-
-        function fallbackCopyText(text) {
-            var textArea = document.createElement("textarea");
-            textArea.value = text;
-            textArea.style.position = "fixed";
-            textArea.style.left = "-999999px";
-            document.body.appendChild(textArea);
-            textArea.select();
-            
-            try {
-                document.execCommand('copy');
-                showNotification('✅ Enlace copiado');
-            } catch (err) {
-                showNotification('❌ No se pudo copiar');
-            }
-            
-            document.body.removeChild(textArea);
-        }
-
-        function sendProductMessage(codigo) {
-            var monturas = safeGetStorage('nvision_monturas');
-            var montura = monturas[codigo];
-            
-            if (montura) {
-                var mensaje = '🏥 *ÓPTICA NVISIÓN* 🏥\n\n';
-                mensaje += '📸 Te comparto esta montura:\n';
-                mensaje += '🔢 Código: ' + montura.codigo + '\n';
-                mensaje += '💰 Precio: ' + montura.precio + '\n';
-                mensaje += '📝 Descripción: ' + montura.nombre + '\n\n';
-                mensaje += '🔗 Ver más detalles: ' + montura.enlace + '\n\n';
-                mensaje += '👁️ ¡Vea mejor, viva mejor! ✨';
-                
-                window.open('https://wa.me/?text=' + encodeURIComponent(mensaje), '_blank');
-                addWhatsAppClick();
-                showNotification('✅ Compartiendo por WhatsApp');
-            }
-        }
-
+        // Test de vista mejorado
         function showVisionTest() {
             addView();
-            var html = '';
+            currentView = 'vision-test';
+            
+            let html = '';
             html += '<div class="vision-test">';
             html += '<h2 style="font-size: 24px; margin-bottom: 20px; color: #22d3ee;">🔍 Test de Vista Básico</h2>';
             html += '<div class="test-instructions">';
-            html += '<div class="test-step">📏 Extienda su brazo completamente</div>';
+            html += '<div class="test-step">📏 Coloque el dispositivo a 60cm de distancia</div>';
             html += '<div class="test-step">🖐️ Tape su ojo derecho con la mano</div>';
-            html += '<div class="test-step">👁️ Lea las letras con el ojo izquierdo</div>';
-            html += '</div>';
-            
-            html += '<div class="vision-chart">';
-            html += '<div class="chart-line" style="font-size: 40px;">E</div>';
-            html += '<div class="chart-line" style="font-size: 32px;">F P</div>';
-            html += '<div class="chart-line" style="font-size: 24px;">T O Z</div>';
-            html += '<div class="chart-line" style="font-size: 18px;">L P E D</div>';
-            html += '<div class="chart-line" style="font-size: 14px;">P E C F D</div>';
-            html += '<div class="chart-line" style="font-size: 12px;">E D F C Z P</div>';
-            html += '</div>';
-            
-            html += '<p style="margin: 20px 0; font-size: 14px; color: #e2e8f0;"><strong>⚠️ Importante:</strong> Este es solo un test referencial. Para un examen completo, visite a un profesional.</p>';
-            
-            html += '<div class="test-buttons">';
-            html += '<button onclick="sendTestResult(true)" class="test-btn test-btn-primary">✅ Veo bien todas</button>';
-            html += '<button onclick="sendTestResult(false)" class="test-btn test-btn-secondary">❌ No veo algunas</button>';
-            html += '</div>';
-            
-            html += '<div style="margin-top: 20px;">';
-            html += '<button onclick="showCatalogView()" class="catalog-button">👓 Ver Monturas Disponibles</button>';
-            html += '</div>';
-            html += '</div>';
-
-            document.getElementById('mainContent').innerHTML = html;
-        }
-
-        function sendTestResult(canSeeWell) {
-            addWhatsAppClick();
-            var message = '';
-            if (canSeeWell) {
-                message = '¡Hola! Hice el test de vista en su página y puedo ver bien. Me gustaría explorar monturas para protección o estilo. ¿Qué opciones tienen disponibles? 👁️✨';
-            } else {
-                message = '¡Hola! Hice el test de vista en su página y tengo dificultades para ver algunas letras. Necesito una evaluación profesional y posiblemente monturas graduadas. ¿Pueden ayudarme? 👁️🔍';
-            }
-            
-            var whatsappUrl = 'https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(message);
-            window.open(whatsappUrl, '_blank');
-        }
-
-        function showProduct(montura) {
-            var categories = {
-                'hombre': '👨 Hombres',
-                'mujer': '👩 Mujeres', 
-                'deportivo': '🏃 Deportivos',
-                'niños': '👶 Niños',
-                'lectura': '📖 Lectura',
-                'sol': '🕶️ Sol'
-            };
-
-            addView();
-
-            var message = '¡Hola! Me interesa la montura '
+            html += '<div class="test-step">👁️ Lea las letras más pequeñas que pueda ver con el ojo izquierdo</div>';
+            html += '<div class="test-step">🔄 Repita tapando el ojo izquierdo</div>';
