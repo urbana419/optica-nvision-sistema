@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POS PARTE 1 - Óptica nVision</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+            min-height: 100vh; 
+            color: white; 
+            padding: 10px;
+        }
+        .container { max-width: 500px; margin: 0 auto; }
+        
+        .header {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .header h1 {
+            font-size: 24px;
+            margin-bottom: 5px;
+            background: linear-gradient(45deg, #fbbf24, #f59e0b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .modo-rural-toggle {
+            background: rgba(16, 185, 129, 0.2);
+            border: 2px solid rgba(16, 185, 129, 0.3);
+            color: #10b981;
+            padding: 10px 15px;
+            border-radius: 15px;
+            margin-top: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            touch-action: manipulation;
+        }
+
+        .modo-rural-toggle.active {
+            background: rgba(16, 185, 129, 0.4);
+            border-color: #10b981;
+        }
+        
+        .tabs {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .tab-btn {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 15px 10px;
+            border-radius: 15px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s ease;
+            touch-action: manipulation;
+        }
+        
+        .tab-btn.active {
+            background: linear-gradient(45deg, #22d3ee, #0891b2);
+            box-shadow: 0 4px 15px rgba(34, 211, 238, 0.3);
+        }
+        
+        .tab-content {
+            display: none;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .tab-content.active { display: block; }
+        
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #fbbf24;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #e2e8f0;
+            font-size: 13px;
+        }
+        
+        .form-input, .form-select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-radius: 10px;
+            font-size: 14px;
+            font-family: inherit;
+            touch-action: manipulation;
+        }
+        
+        .form-input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-bottom: 10px;
+            touch-action: manipulation;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(45deg, #22d3ee, #0891b2);
+            color: white;
+        }
+        
+        .btn-success {
+            background: linear-gradient(45deg, #10b981, #059669);
+            color: white;
+        }
+        
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .btn-whatsapp {
+            background: linear-gradient(45deg, #25d366, #128c7e);
+            color: white;
+        }
+        
+        .row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .cart-item {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .cart-item-info {
+            flex: 1;
+        }
+        
+        .cart-item-name {
+            font-weight: 600;
+            margin-bottom: 3px;
+            font-size: 13px;
+        }
+        
+        .cart-item-price {
+            color: #22d3ee;
+            font-size: 12px;
+        }
+        
+        .cart-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .qty-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-weight: bold;
+            touch-action: manipulation;
+        }
+        
+        .qty-display {
+            min-width: 30px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .invoice-summary {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        
+        .summary-total {
+            font-weight: 800;
+            font-size: 18px;
+            color: #22d3ee;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            padding-top: 8px;
+        }
+        
+        .alert {
+            background: rgba(34, 211, 238, 0.2);
+            border: 1px solid rgba(34, 211, 238, 0.3);
+            color: #22d3ee;
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 13px;
+        }
+        
+        .alert-success {
+            background: rgba(16, 185, 129, 0.2);
+            border-color: rgba(16, 185, 129, 0.3);
+            color: #10b981;
+        }
+        
+        .alert-error {
+            background: rgba(239, 68, 68, 0.2);
+            border-color: rgba(239, 68, 68, 0.3);
+            color: #ef4444;
+        }
+
+        .footer-credits {
+            position: fixed;
+            bottom: 10px;
+            right: 25px;
+            font-size: 10px;
+            font-weight: 600;
+            opacity: 0.8;
+            z-index: 999;
+            background: linear-gradient(45deg, #8B4513, #DAA520);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            opacity: 0.7;
+        }
+        
+        .empty-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .list-item {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .list-item:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .list-item-title {
+            font-weight: 700;
+            color: #60a5fa;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+        
+        .list-item-info {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>👓 POS PARTE 1 - Óptica nVision</h1>
+            <p>Sistema Punto de Venta - Funciones Básicas</p>
+            
+            <div class="modo-rural-toggle" onclick="toggleModoRural()" id="modoRuralToggle">
+                🌾 Modo Rural: <span id="modoRuralStatus">Desactivado</span>
+            </div>
+        </div>
+        
+        <div class="tabs">
+            <button class="tab-btn active" onclick="mostrarTab('clientes')">👥 Clientes</button>
+            <button class="tab-btn" onclick="mostrarTab('inventario')">📦 Inventario</button>
+            <button class="tab-btn" onclick="mostrarTab('ncf')">📋 NCF</button>
+            <button class="tab-btn" onclick="mostrarTab('facturacion')">💰 Facturar</button>
+        </div>
+
+        <div id="alertContainer"></div>
+
+        <!-- TAB CLIENTES -->
+        <div id="clientes" class="tab-content active">
+            <h2 class="section-title">👥 Gestión de Clientes</h2>
+            
+            <div class="form-group">
+                <label class="form-label">📝 Nombre Completo</label>
+                <input type="text" id="clienteNombre" class="form-input" placeholder="Nombre del cliente">
+            </div>
+            
+            <div class="row">
+                <div class="form-group">
+                    <label class="form-label">📱 Teléfono</label>
+                    <input type="tel" id="clienteTelefono" class="form-input" placeholder="809-000-0000">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">🆔 Cédula/RNC</label>
+                    <input type="text" id="clienteCedula" class="form-input" placeholder="000-0000000-0">
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">📧 Correo Electrónico</label>
+                <input type="email" id="clienteCorreo" class="form-input" placeholder="cliente@email.com">
+            </div>
+            
+            <button type="button" onclick="guardarCliente()" class="btn btn-primary">💾 Guardar Cliente</button>
+            <button type="button" onclick="limpiarCliente()" class="btn btn-secondary">🗑️ Limpiar</button>
+            
+            <h3 style="margin: 20px 0 10px 0; font-size: 16px;">📋 Lista de Clientes</h3>
+            <div id="listaClientes">
+                <div class="empty-state">
+                    <div class="empty-icon">👥</div>
+                    <div>No hay clientes registrados</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB INVENTARIO -->
+        <div id="inventario" class="tab-content">
+            <h2 class="section-title">📦 Gestión de Inventario</h2>
+            
+            <button onclick="sincronizarInventario()" class="btn btn-success">🔄 Sincronizar con Catálogo</button>
+            
+            <div class="form-group" style="margin-top: 15px;">
+                <label class="form-label">🔤 ID Producto</label>
+                <input type="text" id="productoId" class="form-input" placeholder="NV001" style="text-transform: uppercase;">
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">📝 Descripción</label>
+                <input type="text" id="productoDescripcion" class="form-input" placeholder="Descripción del producto">
+            </div>
+            
+            <div class="row">
+                <div class="form-group">
+                    <label class="form-label">💰 Precio Base</label>
+                    <input type="number" id="productoPrecio" class="form-input" placeholder="0.00" step="0.01">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">📊 Stock</label>
+                    <input type="number" id="productoStock" class="form-input" placeholder="0" min="0">
+                </div>
+            </div>
+            
+            <button type="button" onclick="guardarProducto()" class="btn btn-primary">💾 Guardar Producto</button>
+            <button type="button" onclick="limpiarProducto()" class="btn btn-secondary">🗑️ Limpiar</button>
+            
+            <h3 style="margin: 20px 0 10px 0; font-size: 16px;">📋 Lista de Productos</h3>
+            <div id="listaProductos">
+                <div class="empty-state">
+                    <div class="empty-icon">📦</div>
+                    <div>No hay productos en inventario</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB NCF -->
+        <div id="ncf" class="tab-content">
+            <h2 class="section-title">📋 Comprobantes Fiscales (NCF)</h2>
+            <p style="text-align: center; margin-bottom: 20px; font-size: 14px; opacity: 0.8;">Configuración básica - Decremento automático en Parte 2</p>
+            
+            <div style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 15px; text-align: center;">
+                <div style="font-size: 48px; margin-bottom: 15px;">📋</div>
+                <div style="margin-bottom: 10px;">Configuración NCF disponible en Parte 2</div>
+                <div style="font-size: 12px; opacity: 0.8;">Incluirá decremento automático y generación de comprobantes</div>
+            </div>
+        </div>
+
+        <!-- TAB FACTURACIÓN -->
+        <div id="facturacion" class="tab-content">
+            <h2 class="section-title">💰 Facturación</h2>
+            
+            <div class="form-group">
+                <label class="form-label">👤 Seleccionar Cliente</label>
+                <select id="facturaCliente" class="form-select">
+                    <option value="">Seleccione un cliente...</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">📋 Tipo de Comprobante</label>
+                <select id="facturaComprobante" class="form-select">
+                    <option value="sin_ncf">🌾 Sin NCF (Zona Rural/Humanitario)</option>
+                    <option value="consumidor">🧾 Consumidor Final</option>
+                    <option value="empresarial">🏢 Empresarial</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">💳 Forma de Pago</label>
+                <select id="facturaFormaPago" class="form-select">
+                    <option value="efectivo">💵 Efectivo</option>
+                    <option value="tarjeta">💳 Tarjeta</option>
+                    <option value="transferencia">🏦 Transferencia</option>
+                </select>
+            </div>
+            
+            <h3 style="margin: 20px 0 10px 0; font-size: 16px;">🛒 Agregar Productos</h3>
+            <div class="row">
+                <div class="form-group">
+                    <select id="facturaProducto" class="form-select">
+                        <option value="">Seleccione producto...</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <button onclick="agregarProducto()" class="btn btn-primary">➕ Agregar</button>
+                </div>
+            </div>
+            
+            <h3 style="margin: 20px 0 10px 0; font-size: 16px;">🛍️ Productos en Factura</h3>
+            <div id="carritoFactura">
+                <div class="empty-state">
+                    <div class="empty-icon">🛒</div>
+                    <div>No hay productos agregados</div>
+                </div>
+            </div>
+            
+            <div id="resumenFactura" class="invoice-summary" style="display: none;">
+                <div class="summary-row">
+                    <span>Subtotal:</span>
+                    <span id="facturaSubtotal">RD$0.00</span>
+                </div>
+                <div class="summary-row">
+                    <span>ITBIS (18%):</span>
+                    <span id="facturaItbis">RD$0.00</span>
+                </div>
+                <div class="summary-row summary-total">
+                    <span>Total:</span>
+                    <span id="facturaTotal">RD$0.00</span>
+                </div>
+            </div>
+            
+            <button onclick="procesarFactura()" class="btn btn-success" id="btnProcesarFactura" disabled>📄 Procesar Factura (Parte 2)</button>
+            <button onclick="enviarWhatsApp()" class="btn btn-whatsapp" id="btnEnviarWhatsApp" disabled>📱 WhatsApp (Parte 2)</button>
+            <button onclick="limpiarFactura()" class="btn btn-secondary">🗑️ Limpiar Factura</button>
+        </div>
+    </div>
+
+    <div class="footer-credits">
+        by fbrugal jrubinstein consultores
+    </div>
+
+    <script>
+        // Variables globales
+        let currentTab = 'clientes';
+        let carritoActual = [];
+        let modoRuralActivo = false;
+        let clienteEditando = null;
+        let productoEditando = null;
+
+        // Inicialización
+        window.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 Iniciando POS PARTE 1...');
+            cargarDatos();
+            console.log('✅ POS PARTE 1 listo');
+        });
+
+        function cargarDatos() {
+            cargarClientes();
+            cargarProductos();
+            cargarFacturacion();
+        }
+
+        // Funciones de tabs
+        function mostrarTab(tabName) {
+            currentTab = tabName;
+            
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(function(tab) {
+                tab.classList.remove('active');
+            });
+            
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            tabBtns.forEach(function(btn) {
+                btn.classList.remove('active');
+            });
+            
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+            
+            if (tabName === 'clientes') cargarClientes();
+            if (tabName === 'inventario') cargarProductos();
+            if (tabName === 'facturacion') cargarFacturacion();
+        }
+
+        function mostrarAlerta(mensaje, tipo) {
+            if (!tipo) tipo = 'success';
+            const alertHtml = '<div class="alert alert-' + tipo + '">' + mensaje + '</div>';
+            document.getElementById('alertContainer').innerHTML = alertHtml;
+            
+            setTimeout(function() {
+                document.getElementById('alertContainer').innerHTML = '';
+            }, 4000);
+        }
+
+        function toggleModoRural() {
+            modoRuralActivo = !modoRuralActivo;
+            const toggle = document.getElementById('modoRuralToggle');
+            const status = document.getElementById('modoRuralStatus');
+            const comprobanteSelect = document.getElementById('facturaComprobante');
+            
+            if (modoRuralActivo) {
+                toggle.classList.add('active');
+                status.textContent = 'Activado (Sin NCF)';
+                if (comprobanteSelect) {
+                    comprobanteSelect.value = 'sin_ncf';
+                    comprobanteSelect.disabled = true;
+                }
+                mostrarAlerta('✅ Modo Rural activado - Las facturas serán Proforma', 'success');
+            } else {
+                toggle.classList.remove('active');
+                status.textContent = 'Desactivado';
+                if (comprobanteSelect) {
+                    comprobanteSelect.disabled = false;
+                }
+                mostrarAlerta('ℹ️ Modo Normal activado - Se usarán NCF', 'success');
+            }
+        }
+
+        // GESTIÓN DE CLIENTES
+        function guardarCliente() {
+            const nombre = document.getElementById('clienteNombre').value.trim();
+            const telefono = document.getElementById('clienteTelefono').value.trim();
+            const cedula = document.getElementById('clienteCedula').value.trim();
+            const correo = document.getElementById('clienteCorreo').value.trim();
+            
+            if (!nombre || !telefono) {
+                mostrarAlerta('❌ Nombre y teléfono son obligatorios', 'error');
+                return;
+            }
+
+            const cliente = {
+                id: clienteEditando || Date.now().toString(),
+                nombre: nombre,
+                telefono: telefono,
+                cedula: cedula,
+                correo: correo,
+                fechaRegistro: clienteEditando ? undefined : new Date().toISOString()
+            };
+
+            const clientes = JSON.parse(localStorage.getItem('nvision_clientes') || '{}');
+            clientes[cliente.id] = cliente;
+            localStorage.setItem('nvision_clientes', JSON.stringify(clientes));
+
+            mostrarAlerta(clienteEditando ? '✅ Cliente actualizado' : '✅ Cliente guardado', 'success');
+            limpiarCliente();
+            cargarClientes();
+            cargarClientesEnFactura();
+        }
+
+        function limpiarCliente() {
+            document.getElementById('clienteNombre').value = '';
+            document.getElementById('clienteTelefono').value = '';
+            document.getElementById('clienteCedula').value = '';
+            document.getElementById('clienteCorreo').value = '';
+            clienteEditando = null;
+        }
+
+        function cargarClientes() {
+            const clientes = JSON.parse(localStorage.getItem('nvision_clientes') || '{}');
+            const container = document.getElementById('listaClientes');
+            
+            if (Object.keys(clientes).length === 0) {
+                container.innerHTML = '<div class="empty-state"><div class="empty-icon">👥</div><div>No hay clientes registrados</div></div>';
+                return;
+            }
+
+            let html = '';
+            Object.values(clientes).forEach(function(cliente) {
+                html += '<div class="list-item" onclick="editarCliente(\'' + cliente.id + '\')">';
+                html += '<div class="list-item-title">' + cliente.nombre + '</div>';
+                html += '<div class="list-item-info">📱 ' + cliente.telefono + ' | 🆔 ' + (cliente.cedula || 'Sin cédula') + '</div>';
+                html += '</div>';
+            });
+            
+            container.innerHTML = html;
+        }
+
+        function editarCliente(id) {
+            const clientes = JSON.parse(localStorage.getItem('nvision_clientes') || '{}');
+            const cliente = clientes[id];
+            
+            if (cliente) {
+                clienteEditando = id;
+                document.getElementById('clienteNombre').value = cliente.nombre || '';
+                document.getElementById('clienteTelefono').value = cliente.telefono || '';
+                document.getElementById('clienteCedula').value = cliente.cedula || '';
+                document.getElementById('clienteCorreo').value = cliente.correo || '';
+                mostrarAlerta('📝 Cliente cargado para edición', 'success');
+            }
+        }
+
+        // GESTIÓN DE INVENTARIO
+        function sincronizarInventario() {
+            mostrarAlerta('🔄 Sincronizando con catálogo...', 'success');
+            
+            const productos = JSON.parse(localStorage.getItem('nvision_productos_pos') || '{}');
+            const monturas = JSON.parse(localStorage.getItem('nvision_productos') || '{}');
+            
+            // Sincronizar monturas del catálogo
+            Object.values(monturas).forEach(function(montura) {
+                if (!productos[montura.codigo]) {
+                    productos[montura.codigo] = {
+                        id: montura.codigo,
+                        descripcion: montura.nombre,
+                        precio: parseFloat(montura.precio.replace('RD$', '')),
+                        stock: 1
+                    };
+                }
+            });
+
+            // Productos de ejemplo
+            if (Object.keys(productos).length === 0) {
+                productos['NV001'] = {
+                    id: 'NV001',
+                    descripcion: 'Monturas deportivas polarizadas',
+                    precio: 2500.00,
+                    stock: 10
+                };
+                productos['NV002'] = {
+                    id: 'NV002',
+                    descripcion: 'Monturas ejecutivas marco metálico',
+                    precio: 3200.00,
+                    stock: 8
+                };
+            }
+                
+            localStorage.setItem('nvision_productos_pos', JSON.stringify(productos));
+            cargarProductos();
+            cargarProductosEnFactura();
+            mostrarAlerta('✅ Catálogo sincronizado correctamente', 'success');
+        }
+
+        function guardarProducto() {
+            const id = document.getElementById('productoId').value.trim().toUpperCase();
+            const descripcion = document.getElementById('productoDescripcion').value.trim();
+            const precio = parseFloat(document.getElementById('productoPrecio').value);
+            const stock = parseInt(document.getElementById('productoStock').value);
+            
+            if (!id || !descripcion || !precio || precio <= 0) {
+                mostrarAlerta('❌ Todos los campos son obligatorios y el precio debe ser mayor a 0', 'error');
+                return;
+            }
+
+            const producto = {
+                id: id,
+                descripcion: descripcion,
+                precio: precio,
+                stock: isNaN(stock) ? 0 : stock
+            };
+
+            const productos = JSON.parse(localStorage.getItem('nvision_productos_pos') || '{}');
+            productos[id] = producto;
+            localStorage.setItem('nvision_productos_pos', JSON.stringify(productos));
+
+            mostrarAlerta(productoEditando ? '✅ Producto actualizado' : '✅ Producto guardado', 'success');
+            limpiarProducto();
+            cargarProductos();
+            cargarProductosEnFactura();
+        }
+
+        function limpiarProducto() {
+            document.getElementById('productoId').value = '';
+            document.getElementById('productoDescripcion').value = '';
+            document.getElementById('productoPrecio').value = '';
+            document.getElementById('productoStock').value = '';
+            productoEditando = null;
+        }
+
+        function cargarProductos() {
+            const productos = JSON.parse(localStorage.getItem('nvision_productos_pos') || '{}');
+            const container = document.getElementById('listaProductos');
+            
+            if (Object.keys(productos).length === 0) {
+                container.innerHTML = '<div class="empty-state"><div class="empty-icon">📦</div><div>No hay productos en inventario</div></div>';
+                return;
+            }
+
+            let html = '';
+            Object.values(productos).forEach(function(producto) {
+                html += '<div class="list-item" onclick="editarProducto(\'' + producto.id + '\')">';
+                html += '<div class="list-item-title">' + producto.id + ' - ' + producto.descripcion + '</div>';
+                html += '<div class="list-item-info">💰 RD$' + producto.precio.toFixed(2) + ' | 📊 Stock: ' + producto.stock + '
