@@ -7,32 +7,91 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { 
-            font-family: Arial, sans-serif; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
             min-height: 100vh; 
             color: white; 
-            padding: 20px;
+            padding: 10px;
         }
         .container { max-width: 500px; margin: 0 auto; }
         
-        .card {
+        .header {
             background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .header h1 {
+            font-size: 24px;
+            margin-bottom: 5px;
+            background: linear-gradient(45deg, #fbbf24, #f59e0b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .tabs {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .tab-btn {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 15px 10px;
+            border-radius: 15px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .tab-btn.active {
+            background: linear-gradient(45deg, #22d3ee, #0891b2);
+            box-shadow: 0 4px 15px rgba(34, 211, 238, 0.3);
+        }
+        
+        .tab-content {
+            display: none;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 20px;
             padding: 20px;
             margin-bottom: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
         }
         
-        h1, h2 { text-align: center; color: #fbbf24; margin-bottom: 20px; }
+        .tab-content.active { display: block; }
         
-        .form-group { margin-bottom: 15px; }
-        .form-label { 
-            display: block; 
-            margin-bottom: 5px; 
-            font-weight: bold; 
-            color: #e2e8f0; 
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #fbbf24;
         }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #e2e8f0;
+            font-size: 13px;
+        }
+        
         .form-input, .form-select, .form-textarea {
             width: 100%;
             padding: 12px;
@@ -40,513 +99,593 @@
             background: rgba(255, 255, 255, 0.1);
             color: white;
             border-radius: 10px;
-            font-size: 16px;
+            font-size: 14px;
+            font-family: inherit;
         }
-        .form-input::placeholder { color: rgba(255, 255, 255, 0.6); }
+        
+        .form-input::placeholder, .form-textarea::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
         
         .btn {
-            width: 100%;
-            padding: 15px;
+            padding: 12px 20px;
             border: none;
             border-radius: 10px;
-            font-size: 16px;
-            font-weight: bold;
+            font-size: 14px;
+            font-weight: 700;
             cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
             margin-bottom: 10px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(45deg, #22d3ee, #0891b2);
+            color: white;
+        }
+        
+        .btn-success {
+            background: linear-gradient(45deg, #10b981, #059669);
+            color: white;
+        }
+        
+        .btn-danger {
+            background: linear-gradient(45deg, #ef4444, #dc2626);
+            color: white;
+        }
+        
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .list-item {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 10px;
+            cursor: pointer;
             transition: all 0.3s ease;
         }
-        .btn-primary { background: #22d3ee; color: white; }
-        .btn-success { background: #10b981; color: white; }
-        .btn-warning { background: #f59e0b; color: white; }
-        .btn:hover { transform: translateY(-2px); opacity: 0.9; }
         
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .nav-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
-        .nav-btn {
-            padding: 10px;
+        .list-item:hover {
             background: rgba(255, 255, 255, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            color: white;
-            border-radius: 10px;
-            cursor: pointer;
+        }
+        
+        .list-item-title {
+            font-weight: 700;
+            color: #60a5fa;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+        
+        .list-item-info {
             font-size: 12px;
+            opacity: 0.9;
+        }
+        
+        .empty-state {
             text-align: center;
+            padding: 40px 20px;
+            opacity: 0.7;
+        }
+        
+        .empty-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+        
+        .invoice-summary {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        
+        .summary-total {
+            font-weight: 800;
+            font-size: 18px;
+            color: #22d3ee;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            padding-top: 8px;
+        }
+        
+        .cart-item {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .cart-item-info {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .cart-item-name {
+            font-weight: 600;
+            margin-bottom: 3px;
+            font-size: 13px;
+        }
+        
+        .cart-item-price {
+            color: #22d3ee;
+            font-size: 12px;
+        }
+        
+        .cart-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .qty-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        .qty-display {
+            min-width: 30px;
+            text-align: center;
+            font-weight: bold;
         }
         
         .alert {
-            padding: 15px;
+            background: rgba(34, 211, 238, 0.2);
+            border: 1px solid rgba(34, 211, 238, 0.3);
+            color: #22d3ee;
+            padding: 12px;
             border-radius: 10px;
             margin-bottom: 15px;
             text-align: center;
-            font-weight: bold;
+            font-weight: 600;
+            font-size: 13px;
         }
-        .alert-success { background: rgba(16, 185, 129, 0.2); color: #10b981; }
-        .alert-error { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
-        .alert-warning { background: rgba(245, 158, 11, 0.2); color: #f59e0b; }
         
-        .ncf-status {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            margin-bottom: 20px;
+        .alert-success {
+            background: rgba(16, 185, 129, 0.2);
+            border-color: rgba(16, 185, 129, 0.3);
+            color: #10b981;
         }
-        .ncf-card {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 15px;
+        
+        .alert-error {
+            background: rgba(239, 68, 68, 0.2);
+            border-color: rgba(239, 68, 68, 0.3);
+            color: #ef4444;
+        }
+
+        .modo-rural-toggle {
+            background: rgba(16, 185, 129, 0.2);
+            border: 2px solid rgba(16, 185, 129, 0.3);
+            color: #10b981;
+            padding: 10px 15px;
             border-radius: 15px;
+            margin-bottom: 20px;
             text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
         }
-        .ncf-type { font-size: 12px; color: #60a5fa; margin-bottom: 5px; }
-        .ncf-number { font-size: 18px; color: #22d3ee; font-weight: bold; }
-        .ncf-remaining { font-size: 10px; opacity: 0.8; }
+
+        .modo-rural-toggle.active {
+            background: rgba(16, 185, 129, 0.4);
+            border-color: #10b981;
+        }
+
+        .ncf-config {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .ncf-range {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .ncf-item {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 10px;
+        }
+
+        .ncf-title {
+            font-weight: 700;
+            color: #60a5fa;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .ncf-status {
+            font-size: 12px;
+            margin-bottom: 5px;
+        }
+
+        .footer-credits {
+            position: fixed;
+            bottom: 10px;
+            right: 25px;
+            color: #8B4513;
+            font-size: 10px;
+            font-weight: 600;
+            opacity: 0.8;
+            z-index: 999;
+        }
+
+        .product-image-small {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- HEADER -->
-        <div class="card">
-            <h1>💼 Sistema POS - Óptica Nvisión</h1>
-            <p style="text-align: center; font-size: 12px; opacity: 0.8;">by fbrugaljrubinstein consultores</p>
+        <div class="header">
+            <h1>💼 POS Óptica Nvisión</h1>
+            <p>Sistema Punto de Venta Completo</p>
+            
+            <div class="modo-rural-toggle" onclick="toggleModoRural()" id="modoRuralToggle">
+                🌾 Modo Rural/Humanitario: <span id="modoRuralStatus">Desactivado</span>
+            </div>
+        </div>
+        
+        <div class="tabs">
+            <button class="tab-btn active" onclick="showTab('clientes')">👥 Clientes</button>
+            <button class="tab-btn" onclick="showTab('inventario')">📦 Inventario</button>
+            <button class="tab-btn" onclick="showTab('comprobantes')">📋 NCF</button>
+            <button class="tab-btn" onclick="showTab('facturacion')">💰 Facturar</button>
         </div>
 
-        <!-- ALERTAS -->
         <div id="alertContainer"></div>
 
-        <!-- STATUS NCF -->
-        <div class="ncf-status">
-            <div class="ncf-card">
-                <div class="ncf-type">🧾 Consumidor</div>
-                <div class="ncf-number" id="ncfConsumidor">B01-00000001</div>
-                <div class="ncf-remaining" id="remainingConsumidor">99999 disponibles</div>
-            </div>
-            <div class="ncf-card">
-                <div class="ncf-type">🏢 Empresarial</div>
-                <div class="ncf-number" id="ncfEmpresarial">B02-00000001</div>
-                <div class="ncf-remaining" id="remainingEmpresarial">99999 disponibles</div>
-            </div>
-            <div class="ncf-card">
-                <div class="ncf-type">🌾 Sin NCF</div>
-                <div class="ncf-number">PROFORMA</div>
-                <div class="ncf-remaining">Zona Rural</div>
+        <!-- TAB CLIENTES -->
+        <div id="clientes" class="tab-content active">
+            <h2 class="section-title">👥 Gestión de Clientes</h2>
+            
+            <form id="clienteForm">
+                <div class="form-group">
+                    <label class="form-label">📝 Nombre Completo</label>
+                    <input type="text" id="clienteNombre" class="form-input" placeholder="Nombre del cliente">
+                </div>
+                
+                <div class="row">
+                    <div class="form-group">
+                        <label class="form-label">📱 Teléfono</label>
+                        <input type="tel" id="clienteTelefono" class="form-input" placeholder="849-000-0000">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">🆔 Cédula/RNC</label>
+                        <input type="text" id="clienteCedula" class="form-input" placeholder="000-0000000-0">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">📧 Correo Electrónico</label>
+                    <input type="email" id="clienteCorreo" class="form-input" placeholder="cliente@email.com">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">🏠 Dirección</label>
+                    <textarea id="clienteDireccion" class="form-textarea" rows="2" placeholder="Dirección completa"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">📅 Fecha Último Examen</label>
+                    <input type="date" id="clienteFechaExamen" class="form-input">
+                </div>
+                
+                <div class="row">
+                    <div class="form-group">
+                        <label class="form-label">👁️ Ojo Derecho (OD)</label>
+                        <input type="text" id="clienteOjoDerecho" class="form-input" placeholder="+1.25 -0.50 x 90">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">👁️ Ojo Izquierdo (OI)</label>
+                        <input type="text" id="clienteOjoIzquierdo" class="form-input" placeholder="+1.00 -0.75 x 85">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">🩺 Diagnóstico</label>
+                    <textarea id="clienteDiagnostico" class="form-textarea" rows="2" placeholder="Diagnóstico optométrico"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">💬 Comentarios</label>
+                    <textarea id="clienteComentarios" class="form-textarea" rows="2" placeholder="Observaciones adicionales"></textarea>
+                </div>
+                
+                <button type="button" onclick="guardarCliente()" class="btn btn-primary">💾 Guardar Cliente</button>
+                <button type="button" onclick="limpiarFormularioCliente()" class="btn btn-secondary">🗑️ Limpiar</button>
+            </form>
+            
+            <h3 style="margin: 20px 0 10px 0; font-size: 16px;">📋 Lista de Clientes</h3>
+            <div id="listaClientes">
+                <div class="empty-state">
+                    <div class="empty-icon">👥</div>
+                    <div>No hay clientes registrados</div>
+                </div>
             </div>
         </div>
 
-        <!-- FORMULARIO FACTURA -->
-        <div class="card">
-            <h2>📄 Nueva Factura</h2>
+        <!-- TAB INVENTARIO -->
+        <div id="inventario" class="tab-content">
+            <h2 class="section-title">📦 Gestión de Inventario</h2>
+            
+            <button onclick="sincronizarInventario()" class="btn btn-success">🔄 Sincronizar con Catálogo</button>
+            
+            <form id="productoForm" style="margin-top: 15px;">
+                <div class="form-group">
+                    <label class="form-label">🔤 ID Producto</label>
+                    <input type="text" id="productoId" class="form-input" placeholder="NV001" style="text-transform: uppercase;">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">📝 Descripción</label>
+                    <textarea id="productoDescripcion" class="form-textarea" rows="3" placeholder="Descripción detallada del producto"></textarea>
+                </div>
+                
+                <div class="row">
+                    <div class="form-group">
+                        <label class="form-label">💰 Precio Base</label>
+                        <input type="number" id="productoPrecio" class="form-input" placeholder="0.00" step="0.01">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">📊 Stock</label>
+                        <input type="number" id="productoStock" class="form-input" placeholder="0" min="0">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">💬 Comentarios</label>
+                    <textarea id="productoComentarios" class="form-textarea" rows="2" placeholder="Observaciones del producto"></textarea>
+                </div>
+                
+                <button type="button" onclick="guardarProducto()" class="btn btn-primary">💾 Guardar Producto</button>
+                <button type="button" onclick="limpiarFormularioProducto()" class="btn btn-secondary">🗑️ Limpiar</button>
+            </form>
+            
+            <h3 style="margin: 20px 0 10px 0; font-size: 16px;">📋 Lista de Productos</h3>
+            <div id="listaProductos">
+                <div class="empty-state">
+                    <div class="empty-icon">📦</div>
+                    <div>No hay productos en inventario</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB COMPROBANTES NCF -->
+        <div id="comprobantes" class="tab-content">
+            <h2 class="section-title">📋 Comprobantes Fiscales (NCF)</h2>
+            
+            <div class="ncf-config">
+                <h3 style="margin-bottom: 15px; color: #fbbf24;">⚙️ Configuración de Rangos</h3>
+                
+                <!-- CONSUMIDOR FINAL -->
+                <div class="ncf-item">
+                    <div class="ncf-title">🧾 Consumidor Final (B01)</div>
+                    <div class="ncf-range">
+                        <div class="form-group">
+                            <label class="form-label">Desde:</label>
+                            <input type="text" id="consumidorInicio" class="form-input" placeholder="B01000000001" maxlength="13">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Hasta:</label>
+                            <input type="text" id="consumidorFinal" class="form-input" placeholder="B01000100000" maxlength="13">
+                        </div>
+                    </div>
+                    <div class="ncf-status">
+                        Actual: <span id="consumidorActual">No configurado</span> | 
+                        Disponibles: <span id="consumidorDisponibles">0</span>
+                    </div>
+                </div>
+
+                <!-- EMPRESARIAL -->
+                <div class="ncf-item">
+                    <div class="ncf-title">🏢 Empresarial (B02)</div>
+                    <div class="ncf-range">
+                        <div class="form-group">
+                            <label class="form-label">Desde:</label>
+                            <input type="text" id="empresarialInicio" class="form-input" placeholder="B02000000001" maxlength="13">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Hasta:</label>
+                            <input type="text" id="empresarialFinal" class="form-input" placeholder="B02000100000" maxlength="13">
+                        </div>
+                    </div>
+                    <div class="ncf-status">
+                        Actual: <span id="empresarialActual">No configurado</span> | 
+                        Disponibles: <span id="empresarialDisponibles">0</span>
+                    </div>
+                </div>
+
+                <!-- GUBERNAMENTAL -->
+                <div class="ncf-item">
+                    <div class="ncf-title">🏛️ Gubernamental (B03)</div>
+                    <div class="ncf-range">
+                        <div class="form-group">
+                            <label class="form-label">Desde:</label>
+                            <input type="text" id="gubernamentalInicio" class="form-input" placeholder="B03000000001" maxlength="13">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Hasta:</label>
+                            <input type="text" id="gubernamentalFinal" class="form-input" placeholder="B03000100000" maxlength="13">
+                        </div>
+                    </div>
+                    <div class="ncf-status">
+                        Actual: <span id="gubernamentalActual">No configurado</span> | 
+                        Disponibles: <span id="gubernamentalDisponibles">0</span>
+                    </div>
+                </div>
+
+                <!-- ZONA FRANCA -->
+                <div class="ncf-item">
+                    <div class="ncf-title">🆓 Zona Franca (B04)</div>
+                    <div class="ncf-range">
+                        <div class="form-group">
+                            <label class="form-label">Desde:</label>
+                            <input type="text" id="zonafrancaInicio" class="form-input" placeholder="B04000000001" maxlength="13">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Hasta:</label>
+                            <input type="text" id="zonafrancaFinal" class="form-input" placeholder="B04000100000" maxlength="13">
+                        </div>
+                    </div>
+                    <div class="ncf-status">
+                        Actual: <span id="zonafrancaActual">No configurado</span> | 
+                        Disponibles: <span id="zonafrancaDisponibles">0</span>
+                    </div>
+                </div>
+                
+                <button onclick="configurarNCF()" class="btn btn-primary">💾 Guardar Configuración</button>
+                <button onclick="resetearComprobantes()" class="btn btn-danger">🔄 Resetear Todo</button>
+            </div>
+        </div>
+
+        <!-- TAB FACTURACIÓN -->
+        <div id="facturacion" class="tab-content">
+            <h2 class="section-title">💰 Facturación</h2>
             
             <div class="form-group">
-                <label class="form-label">👤 Cliente</label>
-                <input type="text" id="clienteNombre" class="form-input" placeholder="Nombre completo">
+                <label class="form-label">👤 Seleccionar Cliente</label>
+                <select id="facturaCliente" class="form-select">
+                    <option value="">Seleccione un cliente...</option>
+                </select>
             </div>
             
-            <div class="form-group">
-                <label class="form-label">📱 Teléfono</label>
-                <input type="tel" id="clienteTelefono" class="form-input" placeholder="849-000-0000">
-            </div>
-            
-            <div class="form-group">
-                <label class="form-label">🆔 Cédula/RNC</label>
-                <input type="text" id="clienteCedula" class="form-input" placeholder="000-0000000-0">
-            </div>
-            
-            <div class="form-group">
+            <div class="form-group" id="tipoComprobanteGroup">
                 <label class="form-label">📋 Tipo de Comprobante</label>
-                <select id="tipoComprobante" class="form-select">
-                    <option value="sin_ncf">🌾 Sin NCF (Zona Rural)</option>
-                    <option value="consumidor">🧾 Consumidor Final (B01)</option>
-                    <option value="empresarial">🏢 Empresarial (B02)</option>
+                <select id="facturaComprobante" class="form-select">
+                    <option value="sin_ncf">🌾 Sin NCF (Zona Rural/Humanitario)</option>
+                    <option value="consumidor">🧾 Consumidor Final</option>
+                    <option value="empresarial">🏢 Empresarial</option>
+                    <option value="gubernamental">🏛️ Gubernamental</option>
+                    <option value="zona_franca">🆓 Zona Franca</option>
                 </select>
             </div>
             
             <div class="form-group">
-                <label class="form-label">🛍️ Productos/Servicios</label>
-                <textarea id="productosServicios" class="form-textarea" rows="3" placeholder="Detalle los productos o servicios..."></textarea>
+                <label class="form-label">💳 Forma de Pago</label>
+                <select id="facturaFormaPago" class="form-select">
+                    <option value="efectivo">💵 Efectivo</option>
+                    <option value="tarjeta">💳 Tarjeta</option>
+                    <option value="transferencia">🏦 Transferencia</option>
+                    <option value="credito">📄 Crédito</option>
+                </select>
             </div>
-            
-            <div class="grid">
-                <div class="form-group">
-                    <label class="form-label">💰 Subtotal</label>
-                    <input type="number" id="subtotal" class="form-input" placeholder="0.00" onchange="calcularTotal()">
-                </div>
-                <div class="form-group">
-                    <label class="form-label">📊 ITBIS (18%)</label>
-                    <input type="text" id="itbis" class="form-input" readonly>
-                </div>
-            </div>
-            
+
             <div class="form-group">
-                <label class="form-label">🎯 TOTAL</label>
-                <input type="text" id="totalFactura" class="form-input" readonly style="font-weight: bold; font-size: 18px;">
+                <label class="form-label">💬 Comentarios/Notas de la Factura</label>
+                <textarea id="facturaComentarios" class="form-textarea" rows="2" placeholder="Ej: Entrega en 48 horas, Revisión en 30 días, etc."></textarea>
             </div>
             
-            <button onclick="generarFactura()" class="btn btn-primary">📄 Generar Factura</button>
-            <button onclick="previsualizarFactura()" class="btn btn-success">👀 Previsualizar</button>
-        </div>
-
-        <!-- ACCIONES RÁPIDAS -->
-        <div class="card">
-            <h2>⚡ Acciones Rápidas</h2>
-            <div class="grid">
-                <button onclick="buscarCliente()" class="btn btn-warning">🔍 Buscar Cliente</button>
-                <button onclick="configurarNCF()" class="btn btn-warning">🔢 Configurar NCF</button>
+            <h3 style="margin: 20px 0 10px 0; font-size: 16px;">🛒 Agregar Productos</h3>
+            <div class="row">
+                <div class="form-group">
+                    <select id="facturaProducto" class="form-select">
+                        <option value="">Seleccione producto...</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <button onclick="agregarProductoFactura()" class="btn btn-primary">➕ Agregar</button>
+                </div>
             </div>
-            <div class="grid">
-                <button onclick="consultarInventario()" class="btn btn-warning">📦 Inventario</button>
-                <button onclick="generarReporte()" class="btn btn-warning">📊 Reporte Diario</button>
+            
+            <h3 style="margin: 20px 0 10px 0; font-size: 16px;">🛍️ Productos en Factura</h3>
+            <div id="carritoFactura">
+                <div class="empty-state">
+                    <div class="empty-icon">🛒</div>
+                    <div>No hay productos agregados</div>
+                </div>
             </div>
-        </div>
-
-        <!-- NAVEGACIÓN -->
-        <div class="nav-grid">
-            <button onclick="goToIndex()" class="nav-btn">🏠 Inicio</button>
-            <button onclick="goToAdmin()" class="nav-btn">⚙️ Admin</button>
-            <button onclick="goToCentral()" class="nav-btn">🎯 Central</button>
-            <button onclick="cerrarSesion()" class="nav-btn">🚪 Salir</button>
+            
+            <div id="resumenFactura" class="invoice-summary" style="display: none;">
+                <div class="summary-row">
+                    <span>Subtotal:</span>
+                    <span id="facturaSubtotal">RD$0.00</span>
+                </div>
+                <div class="summary-row">
+                    <span>ITBIS (18%):</span>
+                    <span id="facturaItbis">RD$0.00</span>
+                </div>
+                <div class="summary-row summary-total">
+                    <span>Total:</span>
+                    <span id="facturaTotal">RD$0.00</span>
+                </div>
+            </div>
+            
+            <button onclick="procesarFactura()" class="btn btn-success" id="btnProcesarFactura" disabled>📄 Generar Factura PDF</button>
+            <button onclick="limpiarFactura()" class="btn btn-secondary">🗑️ Limpiar Factura</button>
         </div>
     </div>
 
+    <div class="footer-credits">
+        by fbrugal jrubinstein consultores
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    
     <script>
-        // VARIABLES GLOBALES
-        const WHATSAPP_NUMBER = '18497972424';
-        const BASE_URL = window.location.origin + window.location.pathname.replace(/[^/]*$/, '');
+        var WHATSAPP_NUMBER = '18497972424';
+        var BASE_URL = window.location.origin + window.location.pathname.replace(/[^/]*$/, '');
+        var currentTab = 'clientes';
+        var carritoActual = [];
+        var modoRuralActivo = false;
 
-        // FUNCIONES SEGURAS DE ALMACENAMIENTO
-        function safeGet(key, defaultValue = '{}') {
+        var BACKUP_CONFIG = {
+            email: 'oopticanvision@gmail.com',
+            password: 'nvision2530',
+            enabled: true,
+            lastBackup: null,
+            interval: 30 * 60 * 1000
+        };
+
+        function safeGetStorage(key) {
             try {
-                if (typeof Storage !== "undefined" && localStorage) {
-                    const value = localStorage.getItem(key);
-                    return value ? JSON.parse(value) : JSON.parse(defaultValue);
+                if (typeof(Storage) !== "undefined" && localStorage) {
+                    var value = localStorage.getItem(key);
+                    if (value && value !== 'null' && value !== 'undefined') {
+                        return JSON.parse(value);
+                    }
                 }
             } catch (e) {
                 console.log('Storage error:', e);
             }
-            return JSON.parse(defaultValue);
+            return {};
         }
 
-        function safeSet(key, value) {
+        function safeSetStorage(key, value) {
             try {
-                if (typeof Storage !== "undefined" && localStorage) {
-                    localStorage.setItem(key, JSON.stringify(value));
-                    return true;
-                }
-            } catch (e) {
-                console.log('Storage error:', e);
-            }
-            return false;
-        }
-
-        // CLASE NCF SIMPLE PERO FUNCIONAL
-        class NCF {
-            constructor(tipo) {
-                this.tipo = tipo;
-                this.prefijo = tipo === 'consumidor' ? 'B01' : 'B02';
-                this.actual = this.getActual();
-            }
-            
-            getActual() {
-                try {
-                    const ncfData = safeGet('nvision_ncf', '{"consumidor": 1, "empresarial": 1}');
-                    return ncfData[this.tipo] || 1;
-                } catch (e) {
-                    return 1;
-                }
-            }
-            
-            usar() {
-                const numero = this.prefijo + '-' + String(this.actual).padStart(8, '0');
-                this.actual++;
-                
-                try {
-                    const ncfData = safeGet('nvision_ncf', '{"consumidor": 1, "empresarial": 1}');
-                    ncfData[this.tipo] = this.actual;
-                    safeSet('nvision_ncf', ncfData);
-                } catch (e) {
-                    console.log('Error guardando NCF');
-                }
-                
-                this.actualizarDisplay();
-                return numero;
-            }
-            
-            actualizarDisplay() {
-                if (this.tipo === 'consumidor') {
-                    document.getElementById('ncfConsumidor').textContent = this.prefijo + '-' + String(this.actual).padStart(8, '0');
-                    document.getElementById('remainingConsumidor').textContent = (99999 - this.actual) + ' disponibles';
-                } else {
-                    document.getElementById('ncfEmpresarial').textContent = this.prefijo + '-' + String(this.actual).padStart(8, '0');
-                    document.getElementById('remainingEmpresarial').textContent = (99999 - this.actual) + ' disponibles';
-                }
-            }
-        }
-
-        // FUNCIONES DE UTILIDAD
-        function showAlert(message, type = 'success') {
-            const alertClass = type === 'error' ? 'alert-error' : type === 'warning' ? 'alert-warning' : 'alert-success';
-            document.getElementById('alertContainer').innerHTML = `<div class="alert ${alertClass}">${message}</div>`;
-            setTimeout(() => document.getElementById('alertContainer').innerHTML = '', 4000);
-        }
-
-        function formatMoney(amount) {
-            return 'RD$' + parseFloat(amount).toLocaleString('es-DO', {minimumFractionDigits: 2});
-        }
-
-        // CÁLCULOS
-        function calcularTotal() {
-            const subtotal = parseFloat(document.getElementById('subtotal').value) || 0;
-            const itbis = subtotal * 0.18;
-            const total = subtotal + itbis;
-            
-            document.getElementById('itbis').value = formatMoney(itbis);
-            document.getElementById('totalFactura').value = formatMoney(total);
-        }
-
-        // GENERAR FACTURA
-        function generarFactura() {
-            const cliente = document.getElementById('clienteNombre').value.trim();
-            const telefono = document.getElementById('clienteTelefono').value.trim();
-            const cedula = document.getElementById('clienteCedula').value.trim();
-            const tipo = document.getElementById('tipoComprobante').value;
-            const productos = document.getElementById('productosServicios').value.trim();
-            const subtotal = document.getElementById('subtotal').value;
-            const total = document.getElementById('totalFactura').value;
-            
-            if (!cliente || !telefono || !productos || !subtotal) {
-                showAlert('❌ Complete todos los campos obligatorios', 'error');
-                return;
-            }
-            
-            try {
-                let numeroComprobante = null;
-                
-                if (tipo !== 'sin_ncf') {
-                    const ncf = new NCF(tipo);
-                    numeroComprobante = ncf.usar();
-                }
-                
-                const factura = {
-                    id: 'FACT-' + Date.now(),
-                    numero: numeroComprobante,
-                    fecha: new Date().toLocaleDateString('es-DO'),
-                    hora: new Date().toLocaleTimeString('es-DO'),
-                    cliente: cliente,
-                    telefono: telefono,
-                    cedula: cedula,
-                    productos: productos,
-                    subtotal: formatMoney(subtotal),
-                    total: total,
-                    tipo: tipo
-                };
-                
-                // Guardar factura
-                const facturas = safeGet('nvision_facturas', '{}');
-                facturas[factura.id] = factura;
-                safeSet('nvision_facturas', facturas);
-                
-                // Guardar cliente
-                const clientes = safeGet('nvision_clientes', '{}');
-                clientes[telefono] = { nombre: cliente, telefono: telefono, cedula: cedula };
-                safeSet('nvision_clientes', clientes);
-                
-                if (tipo === 'sin_ncf') {
-                    showAlert('✅ Factura Proforma generada exitosamente', 'success');
-                    enviarProforma(factura);
-                } else {
-                    showAlert(`✅ Factura generada: ${numeroComprobante}`, 'success');
-                    enviarFactura(factura);
-                }
-                
-                limpiarFormulario();
-                
-            } catch (error) {
-                showAlert('❌ Error al generar factura: ' + error.message, 'error');
-            }
-        }
-
-        function previsualizarFactura() {
-            const cliente = document.getElementById('clienteNombre').value.trim();
-            const productos = document.getElementById('productosServicios').value.trim();
-            const total = document.getElementById('totalFactura').value;
-            
-            if (!cliente || !productos) {
-                showAlert('❌ Complete al menos cliente y productos', 'error');
-                return;
-            }
-            
-            const preview = `PREVISUALIZACIÓN:
-
-👁️ ÓPTICA NVISIÓN
-Cliente: ${cliente}
-Productos: ${productos}
-Total: ${total}
-
-¿Continuar con la facturación?`;
-            
-            if (confirm(preview)) {
-                generarFactura();
-            }
-        }
-
-        // ENVÍO POR WHATSAPP
-        function enviarFactura(factura) {
-            const mensaje = `👁️ *FACTURA - ÓPTICA NVISIÓN*
-
-📄 NCF: ${factura.numero}
-📅 ${factura.fecha} - ${factura.hora}
-👤 ${factura.cliente}
-
-🛍️ ${factura.productos}
-💰 Total: ${factura.total}
-
-✅ Factura fiscal válida
-🤝 Gracias por su confianza
-
-👁️ ¡Vea mejor, viva mejor!
-by fbrugaljrubinstein consultores`;
-            
-            const whatsappUrl = `https://wa.me/${factura.telefono.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(mensaje)}`;
-            window.open(whatsappUrl, '_blank');
-        }
-
-        function enviarProforma(factura) {
-            const mensaje = `👁️ *FACTURA PROFORMA - ÓPTICA NVISIÓN*
-
-🌾 Sin NCF (Zona Rural/Humanitaria)
-📅 ${factura.fecha} - ${factura.hora}
-👤 ${factura.cliente}
-
-🛍️ ${factura.productos}
-💰 Total: ${factura.total}
-
-✅ Modalidad de pago flexible
-🤝 Atención humanitaria
-
-👁️ ¡Vea mejor, viva mejor!
-by fbrugaljrubinstein consultores`;
-            
-            const whatsappUrl = `https://wa.me/${factura.telefono.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(mensaje)}`;
-            window.open(whatsappUrl, '_blank');
-        }
-
-        // ACCIONES RÁPIDAS
-        function buscarCliente() {
-            const telefono = prompt('📱 Ingrese teléfono del cliente:');
-            if (!telefono) return;
-            
-            const clientes = JSON.parse(localStorage.getItem('nvision_clientes') || '{}');
-            const cliente = clientes[telefono];
-            
-            if (cliente) {
-                document.getElementById('clienteNombre').value = cliente.nombre;
-                document.getElementById('clienteTelefono').value = cliente.telefono;
-                document.getElementById('clienteCedula').value = cliente.cedula || '';
-                showAlert('✅ Cliente encontrado: ' + cliente.nombre, 'success');
-            } else {
-                showAlert('❌ Cliente no encontrado', 'error');
-            }
-        }
-
-        function configurarNCF() {
-            const tipo = prompt('Configurar NCF:\n1. Consumidor\n2. Empresarial\n\nEscriba 1 o 2:');
-            const tipoNombre = tipo === '1' ? 'consumidor' : tipo === '2' ? 'empresarial' : null;
-            
-            if (!tipoNombre) {
-                showAlert('❌ Opción no válida', 'error');
-                return;
-            }
-            
-            const inicial = prompt('Número inicial (ej: 1):');
-            if (inicial) {
-                localStorage.setItem(`ncf_${tipoNombre}`, inicial);
-                const ncf = new NCF(tipoNombre);
-                ncf.actualizarDisplay();
-                showAlert(`✅ NCF ${tipoNombre} configurado desde: ${inicial}`, 'success');
-            }
-        }
-
-        function consultarInventario() {
-            const productos = JSON.parse(localStorage.getItem('nvision_productos') || '{}');
-            const total = Object.keys(productos).length;
-            
-            if (total === 0) {
-                showAlert('📦 No hay productos registrados', 'warning');
-            } else {
-                const lista = Object.values(productos).map(p => `${p.codigo}: ${p.precio || 'Sin precio'}`).join('\n');
-                alert(`📦 INVENTARIO (${total} productos):\n\n${lista}`);
-            }
-        }
-
-        function generarReporte() {
-            const facturas = JSON.parse(localStorage.getItem('nvision_facturas') || '{}');
-            const hoy = new Date().toLocaleDateString('es-DO');
-            const facturasHoy = Object.values(facturas).filter(f => f.fecha === hoy);
-            
-            if (facturasHoy.length === 0) {
-                showAlert('📊 No hay ventas registradas hoy', 'warning');
-                return;
-            }
-            
-            const totalVentas = facturasHoy.reduce((sum, f) => {
-                const monto = parseFloat(f.total.replace(/[^0-9.-]+/g,"")) || 0;
-                return sum + monto;
-            }, 0);
-            
-            const reporte = `📊 REPORTE DEL DÍA
-
-📅 Fecha: ${hoy}
-📄 Total facturas: ${facturasHoy.length}
-💰 Total ventas: ${formatMoney(totalVentas)}
-📈 Promedio: ${formatMoney(totalVentas/facturasHoy.length)}
-
-🏆 ÓPTICA NVISIÓN`;
-            
-            alert(reporte);
-        }
-
-        // NAVEGACIÓN
-        function goToIndex() {
-            window.location.href = BASE_URL + 'index.html';
-        }
-
-        function goToAdmin() {
-            const password = prompt('🔐 Contraseña de administrador:');
-            if (password === 'nvision2030') {
-                window.location.href = BASE_URL + 'admin.html';
-            } else if (password !== null) {
-                showAlert('❌ Contraseña incorrecta', 'error');
-            }
-        }
-
-        function goToCentral() {
-            window.location.href = BASE_URL + 'central.html';
-        }
-
-        function cerrarSesion() {
-            if (confirm('🚪 ¿Cerrar sesión?')) {
-                window.location.href = BASE_URL + 'index.html';
-            }
-        }
-
-        function limpiarFormulario() {
-            document.getElementById('clienteNombre').value = '';
-            document.getElementById('clienteTelefono').value = '';
-            document.getElementById('clienteCedula').value = '';
-            document.getElementById('productosServicios').value = '';
-            document.getElementById('subtotal').value = '';
-            document.getElementById('itbis').value = '';
-            document.getElementById('totalFactura').value = '';
-        }
-
-        // INICIALIZACIÓN
-        document.addEventListener('DOMContentLoaded', function() {
-            // Actualizar display de NCF al cargar
-            const ncfConsumidor = new NCF('consumidor');
-            const ncfEmpresarial = new NCF('empresarial');
-            ncfConsumidor.actualizarDisplay();
-            ncfEmpresarial.actualizarDisplay();
-            
-            showAlert('✅ Sistema POS inicializado correctamente', 'success');
-        });
-    </script>
-</body>
-</html>
+                if (typeof(Storage) !== "undefined" && localStorage) {
+                    localStorage
