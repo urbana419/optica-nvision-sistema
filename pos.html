@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>POS - Óptica Nvisión</title>
+    <title>POS - Urbana Visión Óptica</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { 
@@ -352,7 +352,7 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>💼 POS Óptica Nvisión</h1>
+            <h1>💼 POS Urbana Visión Óptica</h1>
             <p>Sistema Punto de Venta Completo</p>
             
             <div class="modo-rural-toggle" onclick="toggleModoRural()" id="modoRuralToggle">
@@ -382,7 +382,7 @@
                 <div class="row">
                     <div class="form-group">
                         <label class="form-label">📱 Teléfono</label>
-                        <input type="tel" id="clienteTelefono" class="form-input" placeholder="849-000-0000">
+                        <input type="tel" id="clienteTelefono" class="form-input" placeholder="809-000-0000">
                     </div>
                     <div class="form-group">
                         <label class="form-label">🆔 Cédula/RNC</label>
@@ -448,7 +448,7 @@
             <form id="productoForm" style="margin-top: 15px;">
                 <div class="form-group">
                     <label class="form-label">🔤 ID Producto</label>
-                    <input type="text" id="productoId" class="form-input" placeholder="NV001" style="text-transform: uppercase;">
+                    <input type="text" id="productoId" class="form-input" placeholder="UV001" style="text-transform: uppercase;">
                 </div>
                 
                 <div class="form-group">
@@ -657,15 +657,15 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     
     <script>
-        var WHATSAPP_NUMBER = '18497972424';
+        var WHATSAPP_NUMBER = '18097135307';
         var BASE_URL = window.location.origin + window.location.pathname.replace(/[^/]*$/, '');
         var currentTab = 'clientes';
         var carritoActual = [];
         var modoRuralActivo = false;
 
         var BACKUP_CONFIG = {
-            email: 'oopticanvision@gmail.com',
-            password: 'nvision2530',
+            email: 'urbanavisionoficial@gmail.com',
+            password: 'kenia@35',
             enabled: true,
             lastBackup: null,
             interval: 30 * 60 * 1000
@@ -688,4 +688,37 @@
         function safeSetStorage(key, value) {
             try {
                 if (typeof(Storage) !== "undefined" && localStorage) {
-                    localStorage
+                    localStorage.setItem(key, JSON.stringify(value));
+                    return true;
+                }
+            } catch (e) {
+                console.log('Storage error:', e);
+                return false;
+            }
+        }
+
+        function showAlert(message, type = 'success') {
+            var alertHtml = '<div class="alert alert-' + type + '">' + message + '</div>';
+            document.getElementById('alertContainer').innerHTML = alertHtml;
+            
+            setTimeout(function() {
+                document.getElementById('alertContainer').innerHTML = '';
+            }, 4000);
+        }
+
+        function toggleModoRural() {
+            modoRuralActivo = !modoRuralActivo;
+            var toggle = document.getElementById('modoRuralToggle');
+            var status = document.getElementById('modoRuralStatus');
+            var comprobanteSelect = document.getElementById('facturaComprobante');
+            
+            if (modoRuralActivo) {
+                toggle.classList.add('active');
+                status.textContent = 'Activado (Sin NCF)';
+                comprobanteSelect.value = 'sin_ncf';
+                comprobanteSelect.disabled = true;
+                showAlert('✅ Modo Rural activado - Las facturas serán Proforma', 'success');
+            } else {
+                toggle.classList.remove('active');
+                status.textContent = 'Desactivado';
+                comprobanteSelect.disabled =
