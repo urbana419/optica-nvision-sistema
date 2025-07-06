@@ -7,19 +7,20 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { 
-            font-family: Arial, sans-serif; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
             min-height: 100vh; 
             color: white; 
-            padding: 20px;
+            font-size: 16px;
+            overflow-x: hidden;
         }
-        .container { max-width: 430px; margin: 0 auto; }
+        .container { max-width: 430px; margin: 0 auto; padding: 15px; }
         
         .header { 
             background: rgba(255, 255, 255, 0.15); 
             backdrop-filter: blur(10px);
             border-radius: 25px; 
-            padding: 30px; 
+            padding: 30px 25px; 
             text-align: center; 
             margin-bottom: 25px; 
             border: 1px solid rgba(255, 255, 255, 0.2);
@@ -46,12 +47,6 @@
             background-clip: text;
         }
         .tagline { font-size: 15px; opacity: 0.95; margin-bottom: 20px; font-weight: 500; }
-        .by-line {
-            font-size: 11px;
-            opacity: 0.7;
-            margin-top: 10px;
-            color: #e2e8f0;
-        }
         .contact-info { 
             display: flex; 
             justify-content: center; 
@@ -92,10 +87,61 @@
             display: block;
         }
         
-        .feature-btn:hover, .feature-btn:active {
+        .feature-btn:hover {
             background: rgba(255, 255, 255, 0.25);
             transform: translateY(-2px);
         }
+
+        .analytics-badge {
+            position: fixed;
+            top: 25px;
+            right: 25px;
+            background: rgba(0,0,0,0.9);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 25px;
+            font-size: 12px;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            font-weight: 600;
+        }
+
+        .admin-access {
+            position: fixed;
+            bottom: 25px;
+            left: 25px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: rgba(0,0,0,0.9);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: #888;
+            font-size: 24px;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .admin-access:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .empty-state { 
+            text-align: center; 
+            padding: 60px 20px; 
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 25px;
+            backdrop-filter: blur(10px);
+        }
+        .state-icon { font-size: 64px; margin-bottom: 20px; }
+        .state-title { font-size: 22px; font-weight: 700; margin-bottom: 15px; }
 
         .product-card { 
             background: rgba(255, 255, 255, 0.15); 
@@ -164,7 +210,7 @@
             box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
         }
 
-        .whatsapp-button:hover, .whatsapp-button:active {
+        .whatsapp-button:hover {
             background: #128c7e;
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
@@ -194,7 +240,7 @@
             border: 2px solid rgba(99, 102, 241, 0.3);
         }
 
-        .btn-copy-link:hover, .btn-copy-link:active {
+        .btn-copy-link:hover {
             background: #6366f1;
             color: white;
         }
@@ -205,7 +251,7 @@
             border: 2px solid rgba(34, 211, 238, 0.3);
         }
 
-        .btn-send-message:hover, .btn-send-message:active {
+        .btn-send-message:hover {
             background: #22d3ee;
             color: white;
         }
@@ -225,7 +271,7 @@
             transition: all 0.3s ease;
         }
 
-        .catalog-button:hover, .catalog-button:active {
+        .catalog-button:hover {
             background: rgba(99, 102, 241, 0.3);
         }
 
@@ -246,7 +292,7 @@
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
         
-        .catalog-item:hover, .catalog-item:active {
+        .catalog-item:hover {
             background: rgba(255, 255, 255, 0.25);
             transform: translateY(-5px);
             box-shadow: 0 8px 25px rgba(0,0,0,0.3);
@@ -271,82 +317,6 @@
             color: #22d3ee; 
         }
 
-        .empty-state { 
-            text-align: center; 
-            padding: 60px 20px; 
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 25px;
-            backdrop-filter: blur(10px);
-        }
-        .state-icon { font-size: 64px; margin-bottom: 20px; }
-        .state-title { font-size: 22px; font-weight: 700; margin-bottom: 15px; }
-
-        .analytics-badge {
-            position: fixed;
-            top: 25px;
-            right: 25px;
-            background: rgba(0,0,0,0.9);
-            color: white;
-            padding: 10px 15px;
-            border-radius: 25px;
-            font-size: 12px;
-            z-index: 1000;
-            backdrop-filter: blur(10px);
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            font-weight: 600;
-        }
-
-        .admin-access {
-            position: fixed;
-            bottom: 25px;
-            left: 25px;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background: rgba(0,0,0,0.9);
-            backdrop-filter: blur(10px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            color: #888;
-            font-size: 24px;
-            z-index: 1000;
-            transition: all 0.3s ease;
-            border: 2px solid rgba(255, 255, 255, 0.2);
-        }
-        
-        .admin-access:hover, .admin-access:active {
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            transform: scale(1.1);
-        }
-
-        .central-access {
-            position: fixed;
-            bottom: 25px;
-            right: 25px;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background: linear-gradient(45deg, #22d3ee, #0891b2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            color: white;
-            font-size: 24px;
-            z-index: 1000;
-            transition: all 0.3s ease;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 4px 15px rgba(34, 211, 238, 0.3);
-        }
-        
-        .central-access:hover, .central-access:active {
-            transform: scale(1.1);
-            box-shadow: 0 6px 20px rgba(34, 211, 238, 0.4);
-        }
-
         .success-notification {
             position: fixed;
             top: 50%;
@@ -369,15 +339,102 @@
             10%, 90% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
         }
 
-        /* Específico para móviles */
-        @media (max-width: 480px) {
-            .container { padding: 10px; }
-            .header { padding: 20px; }
-            .brand-name { font-size: 24px; }
-            .feature-btn { padding: 15px 10px; font-size: 13px; }
-            .whatsapp-button { padding: 20px 15px; font-size: 18px; }
-            .product-image { height: 280px; }
-            .product-price { font-size: 28px; }
+        .backup-status {
+            position: fixed;
+            top: 80px;
+            right: 25px;
+            background: rgba(16, 185, 129, 0.9);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            z-index: 1000;
+            font-weight: 600;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .backup-status.show {
+            opacity: 1;
+        }
+
+        .footer-credits {
+            position: fixed;
+            bottom: 10px;
+            right: 25px;
+            color: #8B4513;
+            font-size: 10px;
+            font-weight: 600;
+            opacity: 0.8;
+            z-index: 999;
+        }
+
+        .vision-test {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
+            padding: 30px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .test-instructions {
+            margin: 20px 0;
+        }
+
+        .test-step {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 15px;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .vision-chart {
+            background: white;
+            color: black;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .chart-line {
+            margin: 15px 0;
+            letter-spacing: 2px;
+        }
+
+        .test-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .test-btn {
+            padding: 20px;
+            font-size: 16px;
+            font-weight: 700;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .test-btn-primary {
+            background: linear-gradient(45deg, #22c55e, #16a34a);
+            color: white;
+        }
+
+        .test-btn-secondary {
+            background: linear-gradient(45deg, #ef4444, #dc2626);
+            color: white;
+        }
+
+        .test-btn:hover {
+            transform: translateY(-2px);
         }
     </style>
 </head>
@@ -392,7 +449,6 @@
                 <div class="contact-item"><span>🎁</span><span>Garantía premium</span></div>
                 <div class="contact-item"><span>🚚</span><span>Entrega gratis</span></div>
             </div>
-            <div class="by-line">by fbrugaljrubinstein consultores</div>
         </div>
 
         <div class="feature-buttons">
@@ -408,9 +464,9 @@
                 💼 PUNTO DE VENTA<br>
                 <small>Facturación completa</small>
             </button>
-            <button class="feature-btn" onclick="goToCentral()">
-                🎯 SISTEMA CENTRAL<br>
-                <small>Gestión completa</small>
+            <button class="feature-btn" onclick="goToAdmin()">
+                ⚙️ ADMINISTRAR<br>
+                <small>Gestión del sistema</small>
             </button>
         </div>
         
@@ -424,226 +480,289 @@
                     <button onclick="showVisionTest()" style="padding: 15px; background: linear-gradient(45deg, #22d3ee, #0891b2); color: white; border: none; border-radius: 15px; cursor: pointer; font-size: 14px; font-weight: 700;">
                         🔍 Hacer Test
                     </button>
-                    <button onclick="goToCentral()" style="padding: 15px; background: linear-gradient(45deg, #10b981, #059669); color: white; border: none; border-radius: 15px; cursor: pointer; font-size: 14px; font-weight: 700;">
-                        🎯 Sistema Central
+                    <button onclick="showCatalogView()" style="padding: 15px; background: linear-gradient(45deg, #10b981, #059669); color: white; border: none; border-radius: 15px; cursor: pointer; font-size: 14px; font-weight: 700;">
+                        👓 Ver Catálogo
                     </button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Analytics -->
     <div id="analyticsBadge" class="analytics-badge">
         📊 <span id="viewCount">0</span> vistas | 💬 <span id="clickCount">0</span> clicks
     </div>
 
-    <!-- Admin Access -->
     <div class="admin-access" onclick="adminAccess()">⚙️</div>
 
-    <!-- Central Access -->
-    <div class="central-access" onclick="goToCentral()">🎯</div>
-
-    <!-- Success Notification -->
     <div id="successNotification" class="success-notification">
         ✅ ¡Enlace copiado!
     </div>
 
-    <script>
-        // VARIABLES GLOBALES
-        const WHATSAPP_NUMBER = '18497972424';
-        const BASE_URL = window.location.origin + window.location.pathname.replace(/[^/]*$/, '');
+    <div id="backupStatus" class="backup-status">
+        ☁️ Backup automático activo
+    </div>
 
-        // FUNCIONES SEGURAS DE ALMACENAMIENTO
-        function safeGet(key, defaultValue = '{}') {
-            try {
-                if (typeof Storage !== "undefined" && localStorage) {
-                    const value = localStorage.getItem(key);
-                    return value ? JSON.parse(value) : JSON.parse(defaultValue);
-                }
-            } catch (e) {
-                console.log('Storage error:', e);
+    <div class="footer-credits">
+        by fbrugal jrubinstein consultores
+    </div>
+
+    <script>
+        var WHATSAPP_NUMBER = '18497972424';
+        var BASE_URL = window.location.origin + window.location.pathname.replace(/[^/]*$/, '');
+
+        var BACKUP_CONFIG = {
+            email: 'opticanvision@gmail.com',
+            password: 'nvision2530',
+            enabled: true,
+            lastBackup: null,
+            interval: 30 * 60 * 1000
+        };
+
+        function initBackupSystem() {
+            if (BACKUP_CONFIG.enabled) {
+                showBackupStatus();
+                setInterval(performAutoBackup, BACKUP_CONFIG.interval);
+                setTimeout(performAutoBackup, 30000);
             }
-            return JSON.parse(defaultValue);
         }
 
-        function safeSet(key, value) {
+        function showBackupStatus() {
+            var status = document.getElementById('backupStatus');
+            status.classList.add('show');
+            setTimeout(() => status.classList.remove('show'), 3000);
+        }
+
+        function performAutoBackup() {
             try {
-                if (typeof Storage !== "undefined" && localStorage) {
-                    localStorage.setItem(key, JSON.stringify(value));
-                    return true;
-                }
-            } catch (e) {
-                console.log('Storage error:', e);
+                var allData = {
+                    monturas: safeGetStorage('nvision_monturas'),
+                    clientes: safeGetStorage('nvision_clientes'),
+                    productos: safeGetStorage('nvision_productos'),
+                    facturas: safeGetStorage('nvision_facturas'),
+                    comprobantes: safeGetStorage('nvision_comprobantes'),
+                    estadisticas: {
+                        views: localStorage.getItem('nvision_views') || '0',
+                        clicks: localStorage.getItem('nvision_whatsapp_clicks') || '0'
+                    },
+                    backup_info: {
+                        timestamp: new Date().toISOString(),
+                        version: '2.0',
+                        sistema: 'Nvision_Optica',
+                        email: BACKUP_CONFIG.email
+                    }
+                };
+
+                var backupString = JSON.stringify(allData, null, 2);
+                localStorage.setItem('nvision_last_backup', backupString);
+                BACKUP_CONFIG.lastBackup = new Date().toISOString();
+                
+                console.log('✅ Backup automático completado:', new Date().toLocaleString());
+                
+                var status = document.getElementById('backupStatus');
+                status.innerHTML = '✅ Backup realizado';
+                status.style.background = 'rgba(16, 185, 129, 0.9)';
+                showBackupStatus();
+                
+                setTimeout(() => {
+                    status.innerHTML = '☁️ Backup automático activo';
+                    status.style.background = 'rgba(16, 185, 129, 0.9)';
+                }, 3000);
+                
+            } catch (error) {
+                console.error('❌ Error en backup automático:', error);
+                var status = document.getElementById('backupStatus');
+                status.innerHTML = '⚠️ Error backup';
+                status.style.background = 'rgba(239, 68, 68, 0.9)';
+                showBackupStatus();
             }
-            return false;
         }
 
         function getUrlParam(name) {
             try {
-                const urlParams = new URLSearchParams(window.location.search);
+                var urlParams = new URLSearchParams(window.location.search);
                 return urlParams.get(name);
             } catch (e) {
+                try {
+                    var url = window.location.search.substring(1);
+                    var params = url.split('&');
+                    for (var i = 0; i < params.length; i++) {
+                        var param = params[i].split('=');
+                        if (param[0] === name) {
+                            return decodeURIComponent(param[1]);
+                        }
+                    }
+                } catch (e2) {
+                    console.log('URL param error:', e2);
+                }
                 return null;
             }
         }
 
+        function safeGetStorage(key) {
+            try {
+                if (typeof(Storage) !== "undefined" && localStorage) {
+                    var value = localStorage.getItem(key);
+                    if (value && value !== 'null' && value !== 'undefined') {
+                        return JSON.parse(value);
+                    }
+                }
+            } catch (e) {
+                console.log('Storage error:', e);
+            }
+            return {};
+        }
+
         function addView() {
             try {
-                const views = parseInt(localStorage.getItem('nvision_views') || '0') + 1;
-                localStorage.setItem('nvision_views', views.toString());
-                document.getElementById('viewCount').textContent = views;
+                if (typeof(Storage) !== "undefined" && localStorage) {
+                    var views = localStorage.getItem('nvision_views') || '0';
+                    views = parseInt(views) + 1;
+                    localStorage.setItem('nvision_views', views.toString());
+                    
+                    var viewElement = document.getElementById('viewCount');
+                    if (viewElement) {
+                        viewElement.innerHTML = views;
+                    }
+                }
             } catch (e) {
-                console.log('Error updating views');
+                console.log('Error updating views:', e);
             }
         }
 
         function addWhatsAppClick() {
             try {
-                const clicks = parseInt(localStorage.getItem('nvision_whatsapp_clicks') || '0') + 1;
-                localStorage.setItem('nvision_whatsapp_clicks', clicks.toString());
-                document.getElementById('clickCount').textContent = clicks;
+                if (typeof(Storage) !== "undefined" && localStorage) {
+                    var clicks = localStorage.getItem('nvision_whatsapp_clicks') || '0';
+                    clicks = parseInt(clicks) + 1;
+                    localStorage.setItem('nvision_whatsapp_clicks', clicks.toString());
+                    
+                    var clickElement = document.getElementById('clickCount');
+                    if (clickElement) {
+                        clickElement.innerHTML = clicks;
+                    }
+                }
             } catch (e) {
-                console.log('Error updating clicks');
+                console.log('Error updating clicks:', e);
             }
         }
 
         function showNotification(message) {
-            const notification = document.getElementById('successNotification');
+            var notification = document.getElementById('successNotification');
             notification.textContent = message;
             notification.style.display = 'block';
             
-            setTimeout(() => {
+            setTimeout(function() {
                 notification.style.display = 'none';
             }, 3000);
         }
 
-        // FUNCIONES PRINCIPALES
+        function copyProductLink(codigo) {
+            var enlace = window.location.origin + window.location.pathname + '?codigo=' + codigo;
+            
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(enlace)
+                    .then(() => showNotification('✅ Enlace copiado al portapapeles'))
+                    .catch(() => fallbackCopyText(enlace));
+            } else {
+                fallbackCopyText(enlace);
+            }
+        }
+
+        function fallbackCopyText(text) {
+            var textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.style.position = "fixed";
+            textArea.style.left = "-999999px";
+            document.body.appendChild(textArea);
+            textArea.select();
+            
+            try {
+                document.execCommand('copy');
+                showNotification('✅ Enlace copiado');
+            } catch (err) {
+                showNotification('❌ No se pudo copiar');
+            }
+            
+            document.body.removeChild(textArea);
+        }
+
+        function sendProductMessage(codigo) {
+            var monturas = safeGetStorage('nvision_monturas');
+            var montura = monturas[codigo];
+            
+            if (montura) {
+                var mensaje = '🏥 *ÓPTICA NVISIÓN* 🏥\n\n';
+                mensaje += '📸 Te comparto esta montura:\n';
+                mensaje += '🔢 Código: ' + montura.codigo + '\n';
+                mensaje += '💰 Precio: ' + montura.precio + '\n';
+                mensaje += '📝 Descripción: ' + montura.nombre + '\n\n';
+                mensaje += '🔗 Ver más detalles: ' + montura.enlace + '\n\n';
+                mensaje += '👁️ ¡Vea mejor, viva mejor! ✨';
+                
+                window.open('https://wa.me/?text=' + encodeURIComponent(mensaje), '_blank');
+                addWhatsAppClick();
+                showNotification('✅ Compartiendo por WhatsApp');
+            }
+        }
+
         function showVisionTest() {
             addView();
-            const html = `
-                <div class="product-card">
-                    <h2 style="font-size: 24px; margin-bottom: 20px; color: #22d3ee; text-align: center;">🔍 Test de Vista Básico</h2>
-                    <div style="background: rgba(255,255,255,0.1); padding: 15px; border-radius: 15px; margin-bottom: 20px;">
-                        <div style="margin-bottom: 10px;">📏 <strong>Paso 1:</strong> Extienda su brazo completamente</div>
-                        <div style="margin-bottom: 10px;">🖐️ <strong>Paso 2:</strong> Tape su ojo derecho con la mano</div>
-                        <div>👁️ <strong>Paso 3:</strong> Lea las letras con el ojo izquierdo</div>
-                    </div>
-                    
-                    <div style="background: white; color: black; border-radius: 20px; padding: 30px; margin: 20px 0; font-family: monospace; font-weight: bold; text-align: center;">
-                        <div style="font-size: 40px; margin: 15px 0;">E</div>
-                        <div style="font-size: 32px; margin: 15px 0;">F P</div>
-                        <div style="font-size: 24px; margin: 15px 0;">T O Z</div>
-                        <div style="font-size: 18px; margin: 15px 0;">L P E D</div>
-                        <div style="font-size: 14px; margin: 15px 0;">P E C F D</div>
-                        <div style="font-size: 12px; margin: 15px 0;">E D F C Z P</div>
-                    </div>
-                    
-                    <p style="margin: 20px 0; font-size: 14px; color: #e2e8f0; text-align: center;"><strong>⚠️ Importante:</strong> Este es solo un test referencial. Para un examen completo, visite a un profesional.</p>
-                    
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;">
-                        <button onclick="sendTestResult(true)" style="padding: 18px; background: linear-gradient(45deg, #22c55e, #16a34a); color: white; border: none; border-radius: 15px; cursor: pointer; font-weight: 700;">✅ Veo bien todas</button>
-                        <button onclick="sendTestResult(false)" style="padding: 18px; background: linear-gradient(45deg, #ef4444, #dc2626); color: white; border: none; border-radius: 15px; cursor: pointer; font-weight: 700;">❌ Tengo dificultades</button>
-                    </div>
-                    
-                    <button onclick="showCatalogView()" class="catalog-button">👓 Ver nuestras monturas</button>
-                </div>
-            `;
-            document.getElementById('mainContent').innerHTML = html;
-        }
-
-        function sendTestResult(canSee) {
-            const resultado = canSee ? 'puede ver bien' : 'tiene dificultades visuales';
-            const recomendacion = canSee ? 
-                'Sus ojos parecen estar bien, pero recomendamos revisiones anuales.' : 
-                'Le recomendamos una consulta profesional lo antes posible.';
-            
-            const mensaje = `👁️ *RESULTADO TEST DE VISTA - ÓPTICA NVISIÓN* 👁️
-
-📋 *RESULTADO DEL TEST:*
-${resultado.toUpperCase()}
-
-💡 *RECOMENDACIÓN:*
-${recomendacion}
-
-📞 *PRÓXIMO PASO:*
-Agenda tu cita para un examen completo
-
-📱 WhatsApp: 849-797-2424
-📧 oopticanvision@gmail.com
-
-👁️ ¡Vea mejor, viva mejor! ✨
-by fbrugaljrubinstein consultores`;
-            
-            const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(mensaje)}`;
-            window.open(whatsappUrl, '_blank');
-            
-            addWhatsAppClick();
-            showNotification('✅ Resultado enviado por WhatsApp');
-        }
-
-        function showCatalogView() {
-            addView();
-            const monturas = safeGet('nvision_monturas', '{}');
-            const productos = safeGet('nvision_productos', '{}');
-            
-            // Combinar ambos catálogos
-            const allProducts = {...monturas, ...productos};
-            
-            if (Object.keys(allProducts).length === 0) {
-                document.getElementById('mainContent').innerHTML = `
-                    <div class="empty-state">
-                        <span class="state-icon">👓</span>
-                        <div class="state-title">Catálogo en construcción</div>
-                        <div>Estamos actualizando nuestro catálogo. Contáctanos para ver las monturas disponibles.</div>
-                        <br>
-                        <button onclick="contactarWhatsApp()" style="padding: 15px; background: #25d366; color: white; border: none; border-radius: 15px; cursor: pointer; font-size: 16px; font-weight: 700; width: 100%;">
-                            💬 Contactar por WhatsApp
-                        </button>
-                    </div>
-                `;
-                return;
-            }
-            
-            let html = '<div class="catalog-grid">';
-            Object.values(allProducts).forEach(producto => {
-                html += `
-                    <div class="catalog-item" onclick="showProductDetail('${producto.codigo}')">
-                        <img src="${producto.foto || 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjZjNmNGY2Ii8+Cjx0ZXh0IHg9IjEwMCIgeT0iMTAwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM2YjdiODUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7wn5GTIHN1YiBpbWFnZW48L3RleHQ+Cjwvc3ZnPg=='}" alt="${producto.codigo}" class="catalog-item-image">
-                        <div class="catalog-item-code">${producto.codigo}</div>
-                        <div class="catalog-item-price">${producto.precio || 'Consultar precio'}</div>
-                    </div>
-                `;
-            });
+            var html = '';
+            html += '<div class="vision-test">';
+            html += '<h2 style="font-size: 24px; margin-bottom: 20px; color: #22d3ee;">🔍 Test de Vista Básico</h2>';
+            html += '<div class="test-instructions">';
+            html += '<div class="test-step">📏 Extienda su brazo completamente</div>';
+            html += '<div class="test-step">🖐️ Tape su ojo derecho con la mano</div>';
+            html += '<div class="test-step">👁️ Lea las letras con el ojo izquierdo</div>';
             html += '</div>';
             
-            html += '<button onclick="contactarWhatsApp()" class="catalog-button" style="margin-top: 20px;">💬 Consultar disponibilidad por WhatsApp</button>';
+            html += '<div class="vision-chart">';
+            html += '<div class="chart-line" style="font-size: 40px;">E</div>';
+            html += '<div class="chart-line" style="font-size: 32px;">F P</div>';
+            html += '<div class="chart-line" style="font-size: 24px;">T O Z</div>';
+            html += '<div class="chart-line" style="font-size: 18px;">L P E D</div>';
+            html += '<div class="chart-line" style="font-size: 14px;">P E C F D</div>';
+            html += '<div class="chart-line" style="font-size: 12px;">E D F C Z P</div>';
+            html += '</div>';
             
+            html += '<p style="margin: 20px 0; font-size: 14px; color: #e2e8f0;"><strong>⚠️ Importante:</strong> Este es solo un test referencial. Para un examen completo, visite a un profesional.</p>';
+            
+            html += '<div class="test-buttons">';
+            html += '<button onclick="sendTestResult(true)" class="test-btn test-btn-primary">✅ Veo bien todas</button>';
+            html += '<button onclick="sendTestResult(false)" class="test-btn test-btn-secondary">❌ No veo algunas</button>';
+            html += '</div>';
+            
+            html += '<div style="margin-top: 20px;">';
+            html += '<button onclick="showCatalogView()" class="catalog-button">👓 Ver Monturas Disponibles</button>';
+            html += '</div>';
+            html += '</div>';
+
             document.getElementById('mainContent').innerHTML = html;
         }
 
-        function showProductDetail(codigo) {
-            const monturas = safeGet('nvision_monturas', '{}');
-            const productos = safeGet('nvision_productos', '{}');
-            const producto = monturas[codigo] || productos[codigo];
-            
-            if (!producto) {
-                showNotification('❌ Producto no encontrado');
-                return;
+        function sendTestResult(canSeeWell) {
+            addWhatsAppClick();
+            var message = '';
+            if (canSeeWell) {
+                message = '¡Hola! Hice el test de vista en su página y puedo ver bien. Me gustaría explorar monturas para protección o estilo. ¿Qué opciones tienen disponibles? 👁️✨';
+            } else {
+                message = '¡Hola! Hice el test de vista en su página y tengo dificultades para ver algunas letras. Necesito una evaluación profesional y posiblemente monturas graduadas. ¿Pueden ayudarme? 👁️🔍';
             }
             
-            const html = `
-                <div class="product-card">
-                    <img src="${producto.foto}" alt="${producto.codigo}" class="product-image">
-                    <div class="product-info">
-                        <div class="product-code">${producto.codigo}</div>
-                        <div class="product-category">${producto.categoria || 'Monturas'}</div>
-                        <div class="product-name">${producto.nombre || producto.descripcion}</div>
-                        <div class="product-price">${producto.precio}</div>
-                        
-                        <a href="https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent('Hola, me interesa la montura ' + producto.codigo + ' "' + (producto.nombre || producto.descripcion) + '" por ' + producto.precio + '. ¿Está disponible?')}" 
-                           class="whatsapp-button" onclick="addWhatsAppClick()">
-                           💬 Consultar por WhatsApp
-                        </a>
-                        
-                        <div class="share-buttons">
-                            <button onclick="copyProductLink('${producto.codigo}')" class="share-btn
+            var whatsappUrl = 'https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(message);
+            window.open(whatsappUrl, '_blank');
+        }
+
+        function showProduct(montura) {
+            var categories = {
+                'hombre': '👨 Hombres',
+                'mujer': '👩 Mujeres', 
+                'deportivo': '🏃 Deportivos',
+                'niños': '👶 Niños',
+                'lectura': '📖 Lectura',
+                'sol': '🕶️ Sol'
+            };
+
+            addView();
+
+            var message = '¡Hola! Me interesa la montura '
