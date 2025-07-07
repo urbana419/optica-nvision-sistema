@@ -485,499 +485,7 @@
             </div>
         </div>
 
-        <!-- [BORRA ESTO Y PEGA POS PARTE 2 DE 3 DESDE AQUÍ] -->
-
-    </div>
-
-    <div class="footer-credits">
-        by fbrugal jrubinstein consultores
-    </div>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    
-    <script>
-// Configuración global
-        var CONFIG = {
-            whatsappNumber: '18097135307',
-            backupEmail: 'opticanvision@gmail.com',
-            backupPassword: 'nivision2530',
-            empresaNombre: 'Óptica nVision',
-            empresaRnc: '131-12345-6',
-            empresaTelefono: '809-555-0123',
-            empresaDireccion: 'Calle Principal #123, Santiago, RD'
-        };
-
-        // Variables globales
-        var currentTab = 'clientes';
-        var carritoActual = [];
-        var modoRuralActivo = false;
-        var clienteEditando = null;
-        var productoEditando = null;
-        var ultimaFactura = null;
-
-        // Clase para manejar comprobantes fiscales
-        function ComprobanteNCF(tipo, inicio, final) {
-            this.tipo = tipo;
-            this.actual = parseInt(inicio.substring(3));
-            this.final = parseInt(final.substring(3));
-            this.prefijo = inicio.substring(0, 3);
-
-            this.obtenerSiguiente = function() {
-                if (this.actual > this.final) {
-                    throw new Error('No quedan comprobantes ' + this.tipo + ' disponibles');
-                }
-                var ncf = this.prefijo + this.actual.toString().padStart(8, '0');
-                this.actual++;
-                return ncf;
-            };
-
-            this.disponibles = function() {
-                return Math.max(0, this.final - this.actual + 1);
-            };
-
-            this.getActual = function() {
-                return this.prefijo + this.actual.toString().padStart(8, '0');
-            };
-        }
-
-        // Sistema de comprobantes
-        var comprobantesNCF = {
-            consumidor: null,
-            empresarial: null,
-            gubernamental: null,
-            zona_franca: null
-        };
-
-        // Inicialización
-        window.addEventListener('DOMContentLoaded', function() {
-            console.log('🚀 Iniciando POS...');
-            cargarDatos();
-            console.log('✅ POS listo');
-        });
-
-        function cargarDatos() {
-            cargarClientes();
-            cargarProductos();
-            cargarComprobantes();
-            cargarFacturacion();
-            checkModoRural();
-        }
-
-        function checkModoRural() {
-            var ruralMode = JSON.parse(localStorage.getItem('nvision_rural_mode') || '{}');
-            if (ruralMode.active) {
-                modoRuralActivo = true;
-                var toggle = document.getElementById('modoRuralToggle');
-                var status = document.getElementById('modoRuralStatus');
-                if (toggle && status) {
-                    toggle.classList.add('active');
-                    status.textContent = 'Activado (Sin NCF)';
-                }
-            }
-        }
-
-        // Funciones de navegación
-        function mostrarTab(tabName) {
-            currentTab = tabName;
-            
-            var tabContents = document.querySelectorAll('.tab-content');
-            tabContents.forEach(function(tab) {
-                tab.classList.remove('active');
-            });
-            
-            var tabBtns = document.querySelectorAll('.tab-btn');
-            tabBtns.forEach(function(btn) {
-                btn.classList.remove('active');
-            });
-            
-            document.getElementById(tabName).classList.add('active');
-            event.target.classList.add('active');
-            
-            if (tabName === 'clientes') cargarClientes();
-            if (tabName === 'inventario') cargarProductos();
-            if (tabName === 'ncf') cargarComprobantes();
-            if (tabName === 'facturacion') cargarFacturacion();
-        }
-
-        function mostrarAlerta(mensaje, tipo) {
-            if (!tipo) tipo = 'success';
-            var alertHtml = '<div class="alert alert-' + tipo + '">' + mensaje + '</div>';
-            document.getElementById('alertContainer').innerHTML = alertHtml;
-            
-            setTimeout(function() {
-                document.getElementById('alertContainer').innerHTML = '';
-            }, 4000);
-        }
-
-        function toggleModoRural() {
-            modoRuralActivo = !modoRuralActivo;
-            var toggle = document.getElementById('modoRuralToggle');
-            var status = document.getElementById('modoRuralStatus');
-            var comprobanteSelect = document.getElementById('facturaComprobante');
-            
-            if (modoRuralActivo) {
-                toggle.classList.add('active');
-                status.textContent = 'Activado (Sin NCF)';
-                if (comprobanteSelect) {
-                    comprobanteSelect.value = 'sin_ncf';
-                    comprobanteSelect.disabled = true;
-                }
-                localStorage.setItem('nvision_rural_mode', JSON.stringify({ active: true, timestamp: new Date().toISOString() }));
-                mostrarAlerta('✅ Modo Rural activado - Las facturas serán Proforma', 'success');
-            } else {
-                toggle.classList.remove('active');
-                status.textContent = 'Desactivado';
-                if (comprobanteSelect) {
-                    comprobanteSelect.disabled = false;
-                }
-                localStorage.setItem('nvision_rural_mode', JSON.stringify({ active: false, timestamp: new Date().toISOString() }));
-                mostrarAlerta('ℹ️ Modo Normal activado - Se usarán NCF', 'success');
-            }
-        }
-
-        // GESTIÓN DE CLIENTES
-        function guardarCliente() {
-            var nombre = document.getElementById('clienteNombre').value.trim();
-            var telefono = document.getElementById('clienteTelefono').value.trim();
-            var cedula = document.getElementById('clienteCedula').value.trim();
-            
-            if (!nombre || !telefono) {
-                mostrarAlerta('❌ Nombre y teléfono son obligatorios', 'error');
-                return;
-            }
-
-            var cliente = {
-                id: clienteEditando || Date.now().toString(),
-                nombre: nombre,
-                telefono: telefono,
-                cedula: cedula,
-                correo: document.getElementById('clienteCorreo').value.trim(),
-                direccion: document.getElementById('clienteDireccion').value.trim(),
-                fechaExamen: document.getElementById('clienteFechaExamen').value,
-                ojoDerecho: document.getElementById('clienteOjoDerecho').value.trim(),
-                ojoIzquierdo: document.getElementById('clienteOjoIzquierdo').value.trim(),
-                diagnostico: document.getElementById('clienteDiagnostico').value.trim(),
-                comentarios: document.getElementById('clienteComentarios').value.trim(),
-                fechaRegistro: clienteEditando ? undefined : new Date().toISOString()
-            };
-
-            var clientes = JSON.parse(localStorage.getItem('nvision_clientes') || '{}');
-            clientes[cliente.id] = cliente;
-            localStorage.setItem('nvision_clientes', JSON.stringify(clientes));
-
-            mostrarAlerta(clienteEditando ? '✅ Cliente actualizado' : '✅ Cliente guardado', 'success');
-            limpiarFormularioCliente();
-            cargarClientes();
-            cargarClientesEnFactura();
-        }
-
-        function limpiarFormularioCliente() {
-            document.getElementById('clienteNombre').value = '';
-            document.getElementById('clienteTelefono').value = '';
-            document.getElementById('clienteCedula').value = '';
-            document.getElementById('clienteCorreo').value = '';
-            document.getElementById('clienteDireccion').value = '';
-            document.getElementById('clienteFechaExamen').value = '';
-            document.getElementById('clienteOjoDerecho').value = '';
-            document.getElementById('clienteOjoIzquierdo').value = '';
-            document.getElementById('clienteDiagnostico').value = '';
-            document.getElementById('clienteComentarios').value = '';
-            clienteEditando = null;
-        }
-
-        function cargarClientes() {
-            var clientes = JSON.parse(localStorage.getItem('nvision_clientes') || '{}');
-            var container = document.getElementById('listaClientes');
-            
-            if (Object.keys(clientes).length === 0) {
-                container.innerHTML = '<div class="empty-state"><div class="empty-icon">👥</div><div>No hay clientes registrados</div></div>';
-                return;
-            }
-
-            var html = '';
-            Object.values(clientes).forEach(function(cliente) {
-                html += '<div class="list-item" onclick="editarCliente(\'' + cliente.id + '\')">';
-                html += '<div class="list-item-title">' + cliente.nombre + '</div>';
-                html += '<div class="list-item-info">📱 ' + cliente.telefono + ' | 🆔 ' + (cliente.cedula || 'Sin cédula') + '</div>';
-                html += '<div class="list-item-info">👁️ OD: ' + (cliente.ojoDerecho || 'N/A') + ' | OI: ' + (cliente.ojoIzquierdo || 'N/A') + '</div>';
-                html += '</div>';
-            });
-            
-            container.innerHTML = html;
-        }
-
-        function editarCliente(id) {
-            var clientes = JSON.parse(localStorage.getItem('nvision_clientes') || '{}');
-            var cliente = clientes[id];
-            
-            if (cliente) {
-                clienteEditando = id;
-                document.getElementById('clienteNombre').value = cliente.nombre || '';
-                document.getElementById('clienteTelefono').value = cliente.telefono || '';
-                document.getElementById('clienteCedula').value = cliente.cedula || '';
-                document.getElementById('clienteCorreo').value = cliente.correo || '';
-                document.getElementById('clienteDireccion').value = cliente.direccion || '';
-                document.getElementById('clienteFechaExamen').value = cliente.fechaExamen || '';
-                document.getElementById('clienteOjoDerecho').value = cliente.ojoDerecho || '';
-                document.getElementById('clienteOjoIzquierdo').value = cliente.ojoIzquierdo || '';
-                document.getElementById('clienteDiagnostico').value = cliente.diagnostico || '';
-                document.getElementById('clienteComentarios').value = cliente.comentarios || '';
-                
-                mostrarAlerta('📝 Cliente cargado para edición', 'success');
-            }
-        }
-
-        // GESTIÓN DE INVENTARIO
-        function sincronizarInventario() {
-            mostrarAlerta('🔄 Sincronizando con catálogo...', 'success');
-            
-            var productos = JSON.parse(localStorage.getItem('nvision_productos_pos') || '{}');
-            var monturas = JSON.parse(localStorage.getItem('nvision_productos') || '{}');
-            
-            // Sincronizar monturas del catálogo
-            Object.values(monturas).forEach(function(montura) {
-                if (!productos[montura.codigo]) {
-                    productos[montura.codigo] = {
-                        id: montura.codigo,
-                        descripcion: montura.nombre,
-                        precio: parseFloat(montura.precio.replace('RD$', '')),
-                        stock: 1,
-                        comentarios: 'Sincronizado desde catálogo'
-                    };
-                }
-            });
-
-            // Productos de ejemplo si no hay nada
-            if (Object.keys(productos).length === 0) {
-                var productosEjemplo = {
-                    'NV001': {
-                        id: 'NV001',
-                        descripcion: 'Monturas deportivas polarizadas',
-                        precio: 2500.00,
-                        stock: 10,
-                        comentarios: 'Ideal para deportes'
-                    },
-                    'NV002': {
-                        id: 'NV002',
-                        descripcion: 'Monturas ejecutivas marco metálico',
-                        precio: 3200.00,
-                        stock: 8,
-                        comentarios: 'Elegantes para trabajo'
-                    },
-                    'NV003': {
-                        id: 'NV003',
-                        descripcion: 'Monturas juveniles coloridas',
-                        precio: 1800.00,
-                        stock: 15,
-                        comentarios: 'Diseños modernos'
-                    }
-                };
-                
-                Object.assign(productos, productosEjemplo);
-            }
-                
-            localStorage.setItem('nvision_productos_pos', JSON.stringify(productos));
-            cargarProductos();
-            cargarProductosEnFactura();
-            mostrarAlerta('✅ Catálogo sincronizado correctamente', 'success');
-        }
-
-        function guardarProducto() {
-            var id = document.getElementById('productoId').value.trim().toUpperCase();
-            var descripcion = document.getElementById('productoDescripcion').value.trim();
-            var precio = parseFloat(document.getElementById('productoPrecio').value);
-            var stock = parseInt(document.getElementById('productoStock').value);
-            
-            if (!id || !descripcion || !precio || precio <= 0) {
-                mostrarAlerta('❌ Todos los campos son obligatorios y el precio debe ser mayor a 0', 'error');
-                return;
-            }
-
-            var producto = {
-                id: id,
-                descripcion: descripcion,
-                precio: precio,
-                stock: isNaN(stock) ? 0 : stock,
-                comentarios: document.getElementById('productoComentarios').value.trim(),
-                fechaActualizacion: new Date().toISOString()
-            };
-
-            var productos = JSON.parse(localStorage.getItem('nvision_productos_pos') || '{}');
-            productos[id] = producto;
-            localStorage.setItem('nvision_productos_pos', JSON.stringify(productos));
-
-            mostrarAlerta(productoEditando ? '✅ Producto actualizado' : '✅ Producto guardado', 'success');
-            limpiarFormularioProducto();
-            cargarProductos();
-            cargarProductosEnFactura();
-        }
-
-        function limpiarFormularioProducto() {
-            document.getElementById('productoForm').reset();
-            productoEditando = null;
-        }
-
-        function cargarProductos() {
-            var productos = JSON.parse(localStorage.getItem('nvision_productos_pos') || '{}');
-            var container = document.getElementById('listaProductos');
-            
-            if (Object.keys(productos).length === 0) {
-                container.innerHTML = '<div class="empty-state"><div class="empty-icon">📦</div><div>No hay productos en inventario</div></div>';
-                return;
-            }
-
-            var html = '';
-            Object.values(productos).forEach(function(producto) {
-                html += '<div class="list-item" onclick="editarProducto(\'' + producto.id + '\')">';
-                html += '<div class="list-item-title">' + producto.id + ' - ' + producto.descripcion + '</div>';
-                html += '<div class="list-item-info">💰 RD$' + producto.precio.toFixed(2) + ' | 📊 Stock: ' + producto.stock + '</div>';
-                if (producto.comentarios) {
-                    html += '<div class="list-item-info">💬 ' + producto.comentarios + '</div>';
-                }
-                html += '</div>';
-            });
-            
-            container.innerHTML = html;
-        }
-
-        function editarProducto(id) {
-            var productos = JSON.parse(localStorage.getItem('nvision_productos_pos') || '{}');
-            var producto = productos[id];
-            
-            if (producto) {
-                productoEditando = id;
-                document.getElementById('productoId').value = producto.id || '';
-                document.getElementById('productoDescripcion').value = producto.descripcion || '';
-                document.getElementById('productoPrecio').value = producto.precio || '';
-                document.getElementById('productoStock').value = producto.stock || '';
-                document.getElementById('productoComentarios').value = producto.comentarios || '';
-                
-                mostrarAlerta('📝 Producto cargado para edición', 'success');
-            }
-        }
-
-        // GESTIÓN DE COMPROBANTES NCF
-        function configurarNCF() {
-            try {
-                var tipos = ['consumidor', 'empresarial', 'gubernamental', 'zonafranca'];
-                var configuracion = {};
-                
-                tipos.forEach(function(tipo) {
-                    var inicio = document.getElementById(tipo + 'Inicio').value.trim();
-                    var final = document.getElementById(tipo + 'Final').value.trim();
-                    
-                    if (inicio && final) {
-                        configuracion[tipo] = {
-                            inicio: inicio,
-                            final: final,
-                            actual: inicio,
-                            fechaConfiguracion: new Date().toISOString()
-                        };
-                        
-                        comprobantesNCF[tipo] = new ComprobanteNCF(tipo, inicio, final);
-                    }
-                });
-                
-                localStorage.setItem('nvision_comprobantes', JSON.stringify(configuracion));
-                actualizarEstadoNCF();
-                mostrarAlerta('✅ Configuración de NCF guardada', 'success');
-                
-            } catch (error) {
-                mostrarAlerta('❌ Error al configurar NCF: ' + error.message, 'error');
-            }
-        }
-
-        function cargarComprobantes() {
-            var configuracion = JSON.parse(localStorage.getItem('nvision_comprobantes') || '{}');
-            
-            Object.keys(configuracion).forEach(function(tipo) {
-                var config = configuracion[tipo];
-                if (config) {
-                    var inicioInput = document.getElementById(tipo + 'Inicio');
-                    var finalInput = document.getElementById(tipo + 'Final');
-                    
-                    if (inicioInput) inicioInput.value = config.inicio || '';
-                    if (finalInput) finalInput.value = config.final || '';
-                    
-                    if (config.inicio && config.final) {
-                        comprobantesNCF[tipo] = new ComprobanteNCF(tipo, config.actual || config.inicio, config.final);
-                    }
-                }
-            });
-            
-            actualizarEstadoNCF();
-        }
-
-        function actualizarEstadoNCF() {
-            var tipos = ['consumidor', 'empresarial', 'gubernamental', 'zonafranca'];
-            
-            tipos.forEach(function(tipo) {
-                var actualElement = document.getElementById(tipo + 'Actual');
-                var disponiblesElement = document.getElementById(tipo + 'Disponibles');
-                
-                if (actualElement && disponiblesElement) {
-                    if (comprobantesNCF[tipo]) {
-                        actualElement.textContent = comprobantesNCF[tipo].getActual();
-                        disponiblesElement.textContent = comprobantesNCF[tipo].disponibles();
-                    } else {
-                        actualElement.textContent = 'No configurado';
-                        disponiblesElement.textContent = '0';
-                    }
-                }
-            });
-        }
-
-        function resetearComprobantes() {
-            if (confirm('¿Está seguro de resetear toda la configuración de NCF?')) {
-                localStorage.setItem('nvision_comprobantes', '{}');
-                comprobantesNCF = {
-                    consumidor: null,
-                    empresarial: null,
-                    gubernamental: null,
-                    zona_franca: null
-                };
-                
-                var tipos = ['consumidor', 'empresarial', 'gubernamental', 'zonafranca'];
-                tipos.forEach(function(tipo) {
-                    var inicioInput = document.getElementById(tipo + 'Inicio');
-                    var finalInput = document.getElementById(tipo + 'Final');
-                    if (inicioInput) inicioInput.value = '';
-                    if (finalInput) finalInput.value = '';
-                });
-                
-                actualizarEstadoNCF();
-                mostrarAlerta('✅ Configuración de NCF reseteada', 'success');
-            }
-        }
-
-        // FACTURACIÓN
-        function cargarFacturacion() {
-            cargarClientesEnFactura();
-            cargarProductosEnFactura();
-            actualizarResumenFactura();
-        }
-
-        function cargarClientesEnFactura() {
-            var clientes = JSON.parse(localStorage.getItem('nvision_clientes') || '{}');
-            var select = document.getElementById('facturaCliente');
-            
-            if (select) {
-                select.innerHTML = '<option value="">Seleccione un cliente...</option>';
-                
-                Object.values(clientes).forEach(function(cliente) {
-                    var option = document.createElement('option');
-                    option.value = cliente.id;
-                    option.textContent = cliente.nombre + ' - ' + cliente.telefono;
-                    select.appendChild(option);
-                });
-            }
-        }
-
-        function cargarProductosEnFactura() {
-            var productos = JSON.parse(localStorage.getItem('nvision_productos_pos') || '{}');
-            var select = document.getElementById('facturaProducto');
-            
-            if (select) {<!-- TAB COMPROBANTES NCF -->
+        <!-- TAB COMPROBANTES NCF -->
         <div id="ncf" class="tab-content">
             <h2 class="section-title">📋 Comprobantes Fiscales (NCF)</h2>
             
@@ -1142,6 +650,490 @@
             <button onclick="limpiarFactura()" class="btn btn-secondary">🗑️ Limpiar Factura</button>
             
             <div id="whatsappPreview" class="whatsapp-preview" style="display: none;"></div>
-        </div>    </script>
+        </div>
+
+    </div>
+
+    <div class="footer-credits">
+        by fbrugal jrubinstein consultores
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    
+    <script>
+       // Configuración global
+        var CONFIG = {
+            whatsappNumber: '18097135307',
+            backupEmail: 'opticanvision@gmail.com',
+            backupPassword: 'nivision2530',
+            empresaNombre: 'Óptica nVision',
+            empresaRnc: '131-12345-6',
+            empresaTelefono: '809-555-0123',
+            empresaDireccion: 'Calle Principal #123, Santiago, RD'
+        };
+
+        // Variables globales
+        var currentTab = 'clientes';
+        var carritoActual = [];
+        var modoRuralActivo = false;
+        var clienteEditando = null;
+        var productoEditando = null;
+        var ultimaFactura = null;
+
+        // Clase para manejar comprobantes fiscales
+        function ComprobanteNCF(tipo, inicio, final) {
+            this.tipo = tipo;
+            this.actual = parseInt(inicio.substring(3));
+            this.final = parseInt(final.substring(3));
+            this.prefijo = inicio.substring(0, 3);
+
+            this.obtenerSiguiente = function() {
+                if (this.actual > this.final) {
+                    throw new Error('No quedan comprobantes ' + this.tipo + ' disponibles');
+                }
+                var ncf = this.prefijo + this.actual.toString().padStart(8, '0');
+                this.actual++;
+                return ncf;
+            };
+
+            this.disponibles = function() {
+                return Math.max(0, this.final - this.actual + 1);
+            };
+
+            this.getActual = function() {
+                return this.prefijo + this.actual.toString().padStart(8, '0');
+            };
+        }
+
+        // Sistema de comprobantes
+        var comprobantesNCF = {
+            consumidor: null,
+            empresarial: null,
+            gubernamental: null,
+            zona_franca: null
+        };
+
+        // Inicialización
+        window.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 Iniciando POS...');
+            cargarDatos();
+            console.log('✅ POS listo');
+        });
+
+        function cargarDatos() {
+            cargarClientes();
+            cargarProductos();
+            cargarComprobantes();
+            cargarFacturacion();
+            checkModoRural();
+        }
+
+        function checkModoRural() {
+            var ruralMode = JSON.parse(localStorage.getItem('nvision_rural_mode') || '{}');
+            if (ruralMode.active) {
+                modoRuralActivo = true;
+                toggleModoRural();
+            }
+        }
+
+        // Funciones de navegación
+        function mostrarTab(tabName) {
+            currentTab = tabName;
+            
+            var tabContents = document.querySelectorAll('.tab-content');
+            for (var i = 0; i < tabContents.length; i++) {
+                tabContents[i].classList.remove('active');
+            }
+            
+            var tabBtns = document.querySelectorAll('.tab-btn');
+            for (var i = 0; i < tabBtns.length; i++) {
+                tabBtns[i].classList.remove('active');
+            }
+            
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+            
+            if (tabName === 'clientes') cargarClientes();
+            if (tabName === 'inventario') cargarProductos();
+            if (tabName === 'ncf') cargarComprobantes();
+            if (tabName === 'facturacion') cargarFacturacion();
+        }
+
+        function mostrarAlerta(mensaje, tipo) {
+            if (!tipo) tipo = 'success';
+            var alertHtml = '<div class="alert alert-' + tipo + '">' + mensaje + '</div>';
+            document.getElementById('alertContainer').innerHTML = alertHtml;
+            
+            setTimeout(function() {
+                document.getElementById('alertContainer').innerHTML = '';
+            }, 4000);
+        }
+
+        function toggleModoRural() {
+            modoRuralActivo = !modoRuralActivo;
+            var toggle = document.getElementById('modoRuralToggle');
+            var status = document.getElementById('modoRuralStatus');
+            var comprobanteSelect = document.getElementById('facturaComprobante');
+            
+            if (modoRuralActivo) {
+                toggle.classList.add('active');
+                status.textContent = 'Activado (Sin NCF)';
+                if (comprobanteSelect) {
+                    comprobanteSelect.value = 'sin_ncf';
+                    comprobanteSelect.disabled = true;
+                }
+                localStorage.setItem('nvision_rural_mode', JSON.stringify({ active: true, timestamp: new Date().toISOString() }));
+                mostrarAlerta('✅ Modo Rural activado - Las facturas serán Proforma', 'success');
+            } else {
+                toggle.classList.remove('active');
+                status.textContent = 'Desactivado';
+                if (comprobanteSelect) {
+                    comprobanteSelect.disabled = false;
+                }
+                localStorage.setItem('nvision_rural_mode', JSON.stringify({ active: false, timestamp: new Date().toISOString() }));
+                mostrarAlerta('ℹ️ Modo Normal activado - Se usarán NCF', 'success');
+            }
+        }
+
+        // GESTIÓN DE CLIENTES
+        function guardarCliente() {
+            var nombre = document.getElementById('clienteNombre').value.trim();
+            var telefono = document.getElementById('clienteTelefono').value.trim();
+            var cedula = document.getElementById('clienteCedula').value.trim();
+            
+            if (!nombre || !telefono) {
+                mostrarAlerta('❌ Nombre y teléfono son obligatorios', 'error');
+                return;
+            }
+
+            var cliente = {
+                id: clienteEditando || Date.now().toString(),
+                nombre: nombre,
+                telefono: telefono,
+                cedula: cedula,
+                correo: document.getElementById('clienteCorreo').value.trim(),
+                direccion: document.getElementById('clienteDireccion').value.trim(),
+                fechaExamen: document.getElementById('clienteFechaExamen').value,
+                ojoDerecho: document.getElementById('clienteOjoDerecho').value.trim(),
+                ojoIzquierdo: document.getElementById('clienteOjoIzquierdo').value.trim(),
+                diagnostico: document.getElementById('clienteDiagnostico').value.trim(),
+                comentarios: document.getElementById('clienteComentarios').value.trim(),
+                fechaRegistro: clienteEditando ? undefined : new Date().toISOString()
+            };
+
+            var clientes = JSON.parse(localStorage.getItem('nvision_clientes') || '{}');
+            clientes[cliente.id] = cliente;
+            localStorage.setItem('nvision_clientes', JSON.stringify(clientes));
+
+            mostrarAlerta(clienteEditando ? '✅ Cliente actualizado' : '✅ Cliente guardado', 'success');
+            limpiarFormularioCliente();
+            cargarClientes();
+            cargarClientesEnFactura();
+        }
+
+        function limpiarFormularioCliente() {
+            document.getElementById('clienteNombre').value = '';
+            document.getElementById('clienteTelefono').value = '';
+            document.getElementById('clienteCedula').value = '';
+            document.getElementById('clienteCorreo').value = '';
+            document.getElementById('clienteDireccion').value = '';
+            document.getElementById('clienteFechaExamen').value = '';
+            document.getElementById('clienteOjoDerecho').value = '';
+            document.getElementById('clienteOjoIzquierdo').value = '';
+            document.getElementById('clienteDiagnostico').value = '';
+            document.getElementById('clienteComentarios').value = '';
+            clienteEditando = null;
+        }
+
+        function cargarClientes() {
+            var clientes = JSON.parse(localStorage.getItem('nvision_clientes') || '{}');
+            var container = document.getElementById('listaClientes');
+            
+            if (Object.keys(clientes).length === 0) {
+                container.innerHTML = '<div class="empty-state"><div class="empty-icon">👥</div><div>No hay clientes registrados</div></div>';
+                return;
+            }
+
+            var html = '';
+            for (var id in clientes) {
+                var cliente = clientes[id];
+                html += '<div class="list-item" onclick="editarCliente(\'' + cliente.id + '\')">';
+                html += '<div class="list-item-title">' + cliente.nombre + '</div>';
+                html += '<div class="list-item-info">📱 ' + cliente.telefono + ' | 🆔 ' + (cliente.cedula || 'Sin cédula') + '</div>';
+                html += '<div class="list-item-info">👁️ OD: ' + (cliente.ojoDerecho || 'N/A') + ' | OI: ' + (cliente.ojoIzquierdo || 'N/A') + '</div>';
+                html += '</div>';
+            }
+            
+            container.innerHTML = html;
+        }
+
+        function editarCliente(id) {
+            var clientes = JSON.parse(localStorage.getItem('nvision_clientes') || '{}');
+            var cliente = clientes[id];
+            
+            if (cliente) {
+                clienteEditando = id;
+                document.getElementById('clienteNombre').value = cliente.nombre || '';
+                document.getElementById('clienteTelefono').value = cliente.telefono || '';
+                document.getElementById('clienteCedula').value = cliente.cedula || '';
+                document.getElementById('clienteCorreo').value = cliente.correo || '';
+                document.getElementById('clienteDireccion').value = cliente.direccion || '';
+                document.getElementById('clienteFechaExamen').value = cliente.fechaExamen || '';
+                document.getElementById('clienteOjoDerecho').value = cliente.ojoDerecho || '';
+                document.getElementById('clienteOjoIzquierdo').value = cliente.ojoIzquierdo || '';
+                document.getElementById('clienteDiagnostico').value = cliente.diagnostico || '';
+                document.getElementById('clienteComentarios').value = cliente.comentarios || '';
+                
+                mostrarAlerta('📝 Cliente cargado para edición', 'success');
+            }
+        }
+
+        // GESTIÓN DE INVENTARIO
+        function sincronizarInventario() {
+            mostrarAlerta('🔄 Sincronizando con catálogo...', 'success');
+            
+            var productos = JSON.parse(localStorage.getItem('nvision_productos_pos') || '{}');
+            var monturas = JSON.parse(localStorage.getItem('nvision_productos') || '{}');
+            
+            for (var codigo in monturas) {
+                var montura = monturas[codigo];
+                if (!productos[montura.codigo]) {
+                    productos[montura.codigo] = {
+                        id: montura.codigo,
+                        descripcion: montura.nombre,
+                        precio: parseFloat(montura.precio.replace('RD$', '')),
+                        stock: 1,
+                        comentarios: 'Sincronizado desde catálogo'
+                    };
+                }
+            }
+
+            if (Object.keys(productos).length === 0) {
+                productos['NV001'] = {
+                    id: 'NV001',
+                    descripcion: 'Monturas deportivas polarizadas',
+                    precio: 2500.00,
+                    stock: 10,
+                    comentarios: 'Ideal para deportes al aire libre'
+                };
+                productos['NV002'] = {
+                    id: 'NV002',
+                    descripcion: 'Monturas ejecutivas marco metálico',
+                    precio: 3200.00,
+                    stock: 8,
+                    comentarios: 'Elegantes para uso profesional'
+                };
+                productos['NV003'] = {
+                    id: 'NV003',
+                    descripcion: 'Monturas juveniles coloridas',
+                    precio: 1800.00,
+                    stock: 15,
+                    comentarios: 'Diseños modernos y juveniles'
+                };
+            }
+                
+            localStorage.setItem('nvision_productos_pos', JSON.stringify(productos));
+            cargarProductos();
+            cargarProductosEnFactura();
+            mostrarAlerta('✅ Catálogo sincronizado correctamente', 'success');
+        }
+
+        function guardarProducto() {
+            var id = document.getElementById('productoId').value.trim().toUpperCase();
+            var descripcion = document.getElementById('productoDescripcion').value.trim();
+            var precio = parseFloat(document.getElementById('productoPrecio').value);
+            var stock = parseInt(document.getElementById('productoStock').value);
+            
+            if (!id || !descripcion || !precio || precio <= 0) {
+                mostrarAlerta('❌ Todos los campos son obligatorios y el precio debe ser mayor a 0', 'error');
+                return;
+            }
+
+            var producto = {
+                id: id,
+                descripcion: descripcion,
+                precio: precio,
+                stock: isNaN(stock) ? 0 : stock,
+                comentarios: document.getElementById('productoComentarios').value.trim(),
+                fechaActualizacion: new Date().toISOString()
+            };
+
+            var productos = JSON.parse(localStorage.getItem('nvision_productos_pos') || '{}');
+            productos[id] = producto;
+            localStorage.setItem('nvision_productos_pos', JSON.stringify(productos));
+
+            mostrarAlerta(productoEditando ? '✅ Producto actualizado' : '✅ Producto guardado', 'success');
+            limpiarFormularioProducto();
+            cargarProductos();
+            cargarProductosEnFactura();
+        }
+
+        function limpiarFormularioProducto() {
+            document.getElementById('productoId').value = '';
+            document.getElementById('productoDescripcion').value = '';
+            document.getElementById('productoPrecio').value = '';
+            document.getElementById('productoStock').value = '';
+            document.getElementById('productoComentarios').value = '';
+            productoEditando = null;
+        }
+
+        function cargarProductos() {
+            var productos = JSON.parse(localStorage.getItem('nvision_productos_pos') || '{}');
+            var container = document.getElementById('listaProductos');
+            
+            if (Object.keys(productos).length === 0) {
+                container.innerHTML = '<div class="empty-state"><div class="empty-icon">📦</div><div>No hay productos en inventario</div></div>';
+                return;
+            }
+
+            var html = '';
+            for (var id in productos) {
+                var producto = productos[id];
+                html += '<div class="list-item" onclick="editarProducto(\'' + producto.id + '\')">';
+                html += '<div class="list-item-title">' + producto.id + ' - ' + producto.descripcion + '</div>';
+                html += '<div class="list-item-info">💰 RD$' + producto.precio.toFixed(2) + ' | 📊 Stock: ' + producto.stock + '</div>';
+                if (producto.comentarios) {
+                    html += '<div class="list-item-info">💬 ' + producto.comentarios + '</div>';
+                }
+                html += '</div>';
+            }
+            
+            container.innerHTML = html;
+        }
+
+        function editarProducto(id) {
+            var productos = JSON.parse(localStorage.getItem('nvision_productos_pos') || '{}');
+            var producto = productos[id];
+            
+            if (producto) {
+                productoEditando = id;
+                document.getElementById('productoId').value = producto.id || '';
+                document.getElementById('productoDescripcion').value = producto.descripcion || '';
+                document.getElementById('productoPrecio').value = producto.precio || '';
+                document.getElementById('productoStock').value = producto.stock || '';
+                document.getElementById('productoComentarios').value = producto.comentarios || '';
+                
+                mostrarAlerta('📝 Producto cargado para edición', 'success');
+            }
+        }
+
+        // GESTIÓN DE COMPROBANTES NCF
+        function configurarNCF() {
+            console.log('📋 Configurando NCF...');
+            try {
+                var tipos = ['consumidor', 'empresarial', 'gubernamental', 'zonafranca'];
+                var configuracion = {};
+                
+                for (var i = 0; i < tipos.length; i++) {
+                    var tipo = tipos[i];
+                    var inicio = document.getElementById(tipo + 'Inicio').value.trim();
+                    var final = document.getElementById(tipo + 'Final').value.trim();
+                    
+                    if (inicio && final) {
+                        configuracion[tipo] = {
+                            inicio: inicio,
+                            final: final,
+                            actual: inicio,
+                            fechaConfiguracion: new Date().toISOString()
+                        };
+                        
+                        comprobantesNCF[tipo] = new ComprobanteNCF(tipo, inicio, final);
+                    }
+                }
+                
+                localStorage.setItem('nvision_comprobantes', JSON.stringify(configuracion));
+                actualizarEstadoNCF();
+                mostrarAlerta('✅ Configuración de NCF guardada', 'success');
+                
+            } catch (error) {
+                mostrarAlerta('❌ Error al configurar NCF: ' + error.message, 'error');
+            }
+        }
+
+        function cargarComprobantes() {
+            var configuracion = JSON.parse(localStorage.getItem('nvision_comprobantes') || '{}');
+            
+            for (var tipo in configuracion) {
+                var config = configuracion[tipo];
+                if (config) {
+                    var inicioInput = document.getElementById(tipo + 'Inicio');
+                    var finalInput = document.getElementById(tipo + 'Final');
+                    
+                    if (inicioInput) inicioInput.value = config.inicio || '';
+                    if (finalInput) finalInput.value = config.final || '';
+                    
+                    if (config.inicio && config.final) {
+                        comprobantesNCF[tipo] = new ComprobanteNCF(tipo, config.actual || config.inicio, config.final);
+                    }
+                }
+            }
+            
+            actualizarEstadoNCF();
+        }
+
+        function actualizarEstadoNCF() {
+            var tipos = ['consumidor', 'empresarial', 'gubernamental', 'zonafranca'];
+            
+            for (var i = 0; i < tipos.length; i++) {
+                var tipo = tipos[i];
+                var actualElement = document.getElementById(tipo + 'Actual');
+                var disponiblesElement = document.getElementById(tipo + 'Disponibles');
+                
+                if (actualElement && disponiblesElement) {
+                    if (comprobantesNCF[tipo]) {
+                        actualElement.textContent = comprobantesNCF[tipo].getActual();
+                        disponiblesElement.textContent = comprobantesNCF[tipo].disponibles();
+                    } else {
+                        actualElement.textContent = 'No configurado';
+                        disponiblesElement.textContent = '0';
+                    }
+                }
+            }
+        }
+
+        function resetearComprobantes() {
+            if (confirm('¿Está seguro de resetear toda la configuración de NCF?')) {
+                localStorage.setItem('nvision_comprobantes', '{}');
+                comprobantesNCF = {
+                    consumidor: null,
+                    empresarial: null,
+                    gubernamental: null,
+                    zona_franca: null
+                };
+                
+                var tipos = ['consumidor', 'empresarial', 'gubernamental', 'zonafranca'];
+                for (var i = 0; i < tipos.length; i++) {
+                    var tipo = tipos[i];
+                    var inicioInput = document.getElementById(tipo + 'Inicio');
+                    var finalInput = document.getElementById(tipo + 'Final');
+                    if (inicioInput) inicioInput.value = '';
+                    if (finalInput) finalInput.value = '';
+                }
+                
+                actualizarEstadoNCF();
+                mostrarAlerta('✅ Configuración de NCF reseteada', 'success');
+            }
+        }
+
+        // GESTIÓN DE FACTURACIÓN
+        function cargarFacturacion() {
+            cargarClientesEnFactura();
+            cargarProductosEnFactura();
+            actualizarResumenFactura();
+        }
+
+        function cargarClientesEnFactura() {
+            var clientes = JSON.parse(localStorage.getItem('nvision_clientes') || '{}');
+            var select = document.getElementById('facturaCliente');
+            
+            if (select) {
+                select.innerHTML = '<option value="">Seleccione un cliente...</option>';
+                
+                for (var id in clientes) {
+                    var cliente = clientes[id];
+                    var option = document.createElement('option');
+                    option.value = cliente.id;
+                    option.textContent = cliente.nombre + ' - '
+    </script>
 </body>
 </html>
