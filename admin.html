@@ -34,6 +34,14 @@
             background-clip: text;
         }
         
+        .header-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+        
         .header-btn {
             padding: 8px 15px;
             border-radius: 10px;
@@ -43,7 +51,6 @@
             font-weight: 600;
             transition: all 0.3s ease;
             touch-action: manipulation;
-            margin: 5px;
         }
         
         .btn-home {
@@ -56,6 +63,35 @@
             background: rgba(16, 185, 129, 0.2);
             color: #10b981;
             border-color: rgba(16, 185, 129, 0.3);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 25px;
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 32px;
+            font-weight: 900;
+            color: #22d3ee;
+            margin-bottom: 8px;
+        }
+        
+        .stat-label {
+            font-size: 14px;
+            font-weight: 600;
+            opacity: 0.9;
         }
         
         .form-section {
@@ -136,6 +172,65 @@
             object-fit: cover;
         }
         
+        .camera-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .camera-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .camera-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .camera-controls {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+        }
+        
+        .camera-btn {
+            padding: 15px 25px;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            touch-action: manipulation;
+        }
+        
+        .btn-capture {
+            background: #10b981;
+            color: white;
+        }
+        
+        .btn-close {
+            background: #ef4444;
+            color: white;
+        }
+        
         .btn {
             padding: 18px 20px;
             border: none;
@@ -163,35 +258,77 @@
             margin-bottom: 10px;
         }
         
-        .btn-share {
+        .btn-success {
+            background: linear-gradient(45deg, #10b981, #059669);
+            color: white;
+        }
+
+        .btn-warning {
+            background: linear-gradient(45deg, #f59e0b, #d97706);
+            color: white;
+        }
+
+        .btn-small {
             padding: 12px;
-            border: none;
-            border-radius: 10px;
             font-size: 14px;
+            border-radius: 12px;
+        }
+        
+        .products-list {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 25px;
+            padding: 30px;
+            margin-bottom: 30px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .product-item {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .product-thumb {
+            width: 60px;
+            height: 60px;
+            border-radius: 10px;
+            object-fit: cover;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .product-info {
+            flex: 1;
+        }
+        
+        .product-code {
+            font-weight: 700;
+            color: #60a5fa;
+            margin-bottom: 5px;
+        }
+        
+        .product-price {
+            color: #22d3ee;
             font-weight: 600;
+        }
+        
+        .delete-btn {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 8px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            font-size: 12px;
             touch-action: manipulation;
         }
-
-        .btn-whatsapp {
-            background: #25d366;
-            color: white;
-        }
-
-        .btn-copy {
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-        }
-
-        .share-buttons {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-top: 15px;
-        }
-
+        
         .alert {
             background: rgba(34, 211, 238, 0.2);
             border: 1px solid rgba(34, 211, 238, 0.3);
@@ -215,6 +352,35 @@
             color: #ef4444;
         }
 
+        .share-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .btn-share {
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            touch-action: manipulation;
+        }
+
+        .btn-whatsapp {
+            background: #25d366;
+            color: white;
+        }
+
+        .btn-copy {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
         .footer-credits {
             position: fixed;
             bottom: 10px;
@@ -236,7 +402,7 @@
         <div class="header">
             <h1>📊 Panel de Administración</h1>
             <p>Gestión completa de Óptica nVision</p>
-            <div style="margin-top: 15px;">
+            <div class="header-buttons">
                 <button onclick="irASitio()" class="header-btn btn-home">
                     🏠 Sitio Principal
                 </button>
@@ -245,78 +411,117 @@
                 </button>
             </div>
         </div>
+        
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number" id="totalProductos">0</div>
+                <div class="stat-label">Productos</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="totalVistas">0</div>
+                <div class="stat-label">Visitas totales</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="clicksWhatsapp">0</div>
+                <div class="stat-label">Clicks WhatsApp</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="tasaConversion">0%</div>
+                <div class="stat-label">Tasa conversión</div>
+            </div>
+        </div>
 
         <div id="alertContainer"></div>
 
         <div class="form-section">
             <h2 class="section-title">➕ Agregar Nuevo Producto</h2>
             
-            <div class="form-group">
-                <label class="form-label">📸 Foto del Producto</label>
-                <div class="camera-upload" onclick="abrirCamara()">
-                    <span class="camera-icon">📷</span>
-                    <div style="font-size: 18px; font-weight: 600; margin-bottom: 8px;">Tomar/Subir Foto</div>
-                    <div style="font-size: 14px; opacity: 0.8;">Toque para activar cámara</div>
-                    <img id="vistaPrevia" class="preview-image" style="display: none;">
+            <form id="productoForm">
+                <div class="form-group">
+                    <label class="form-label">📸 Foto del Producto</label>
+                    <div class="camera-upload" onclick="abrirCamara()">
+                        <span class="camera-icon">📷</span>
+                        <div style="font-size: 18px; font-weight: 600; margin-bottom: 8px;">Tomar/Subir Foto</div>
+                        <div style="font-size: 14px; opacity: 0.8;">Toque para activar cámara</div>
+                        <img id="vistaPrevia" class="preview-image" style="display: none;">
+                    </div>
+                    <input type="file" id="inputFoto" accept="image/*" capture="environment" style="display: none;">
+                    
+                    <div id="botonesCompartir" class="share-buttons" style="display: none;">
+                        <button type="button" onclick="copiarEnlace()" class="btn-share btn-copy">
+                            📋 Copiar Enlace
+                        </button>
+                        <button type="button" onclick="compartirWhatsApp()" class="btn-share btn-whatsapp">
+                            📱 Compartir WhatsApp
+                        </button>
+                    </div>
                 </div>
-                <input type="file" id="inputFoto" accept="image/*" capture="environment" style="display: none;">
                 
-                <div id="botonesCompartir" class="share-buttons" style="display: none;">
-                    <button type="button" onclick="copiarEnlace()" class="btn-share btn-copy">
-                        📋 Copiar Enlace
-                    </button>
-                    <button type="button" onclick="compartirWhatsApp()" class="btn-share btn-whatsapp">
-                        📱 Compartir WhatsApp
-                    </button>
+                <div class="form-group">
+                    <label class="form-label">🔢 Código del Producto</label>
+                    <input type="text" id="codigoProducto" class="form-input" placeholder="NV001" style="text-transform: uppercase;">
                 </div>
-            </div>
-            
-            <div class="form-group">
-                <label class="form-label">🔢 Código del Producto</label>
-                <input type="text" id="codigoProducto" class="form-input" placeholder="NV001" style="text-transform: uppercase;">
-            </div>
-            
-            <div class="form-group">
-                <label class="form-label">👓 Nombre/Descripción</label>
-                <input type="text" id="nombreProducto" class="form-input" placeholder="Monturas deportivas polarizadas">
-            </div>
-            
-            <div class="form-group">
-                <label class="form-label">💰 Precio (RD$)</label>
-                <input type="number" id="precioProducto" class="form-input" placeholder="2500.00" step="0.01">
-            </div>
-            
-            <div class="form-group">
-                <label class="form-label">📂 Categoría</label>
-                <select id="categoriaProducto" class="form-select">
-                    <option value="hombre">👨 Hombres</option>
-                    <option value="mujer">👩 Mujeres</option>
-                    <option value="deportivo">🏃 Deportivos</option>
-                    <option value="niños">👶 Niños</option>
-                    <option value="lectura">📖 Lectura</option>
-                    <option value="sol">🕶️ Sol</option>
-                    <option value="trabajo">💼 Trabajo</option>
-                </select>
-            </div>
-            
-            <div class="form-group">
-                <label class="form-label">📝 Comentarios adicionales</label>
-                <textarea id="comentariosProducto" class="form-textarea" rows="3" placeholder="Características especiales, material, garantía, etc."></textarea>
-            </div>
-            
-            <button type="button" onclick="guardarProducto()" class="btn btn-primary">
-                💾 Guardar Producto
-            </button>
-            <button type="button" onclick="limpiarFormulario()" class="btn btn-secondary">
-                🗑️ Limpiar Formulario
-            </button>
+                
+                <div class="form-group">
+                    <label class="form-label">👓 Nombre/Descripción</label>
+                    <input type="text" id="nombreProducto" class="form-input" placeholder="Monturas deportivas polarizadas">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">💰 Precio (RD$)</label>
+                    <input type="number" id="precioProducto" class="form-input" placeholder="2500.00" step="0.01">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">📂 Categoría</label>
+                    <select id="categoriaProducto" class="form-select">
+                        <option value="hombre">👨 Hombres</option>
+                        <option value="mujer">👩 Mujeres</option>
+                        <option value="deportivo">🏃 Deportivos</option>
+                        <option value="niños">👶 Niños</option>
+                        <option value="lectura">📖 Lectura</option>
+                        <option value="sol">🕶️ Sol</option>
+                        <option value="trabajo">💼 Trabajo</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">📝 Comentarios adicionales</label>
+                    <textarea id="comentariosProducto" class="form-textarea" rows="3" placeholder="Características especiales, material, garantía, etc."></textarea>
+                </div>
+                
+                <button type="button" onclick="guardarProducto()" class="btn btn-primary">
+                    💾 Guardar Producto
+                </button>
+                <button type="button" onclick="limpiarFormulario()" class="btn btn-secondary">
+                    🗑️ Limpiar Formulario
+                </button>
+            </form>
         </div>
 
-        <div id="listaProductos" style="background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 25px; padding: 30px; margin-bottom: 30px;">
+        <div class="products-list">
             <h2 class="section-title">📦 Productos Registrados</h2>
-            <div style="text-align: center; padding: 40px; opacity: 0.7;">
-                <div style="font-size: 48px; margin-bottom: 15px;">📦</div>
-                <div>No hay productos registrados</div>
+            <div id="listaProductos">
+                <div style="text-align: center; padding: 40px; opacity: 0.7;">
+                    <div style="font-size: 48px; margin-bottom: 15px;">📦</div>
+                    <div>No hay productos registrados</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de cámara -->
+    <div id="modalCamara" class="camera-modal">
+        <div class="camera-container">
+            <video id="videoCamara" class="camera-video" autoplay playsinline></video>
+            <canvas id="canvasCamara" style="display: none;"></canvas>
+            <div class="camera-controls">
+                <button onclick="capturarFoto()" class="camera-btn btn-capture">
+                    📸 Capturar
+                </button>
+                <button onclick="cerrarCamara()" class="camera-btn btn-close">
+                    ❌ Cerrar
+                </button>
             </div>
         </div>
     </div>
@@ -324,290 +529,356 @@
     <div class="footer-credits">
         by fbrugal jrubinstein consultores
     </div>
-<!-- SCRIPT COMPLETO PARA ADMIN -->
-<script>
-    // Configuración global
-    var CONFIG = {
-        whatsapp: '18097135307',
-        empresa: 'Óptica nVision',
-        baseUrl: window.location.origin + window.location.pathname.replace(/[^/]*$/, '')
-    };
 
-    // Variables globales
-    var imagenCapturada = null;
-    var productos = {};
-
-    // Inicialización
-    window.addEventListener('DOMContentLoaded', function() {
-        console.log('🚀 Iniciando Admin Panel...');
-        cargarProductos();
-        configurarEventos();
-        console.log('✅ Admin Panel listo');
-    });
-
-    function configurarEventos() {
-        document.getElementById('inputFoto').addEventListener('change', manejarArchivoSeleccionado);
-    }
-
-    // Funciones de navegación
-    function irASitio() {
-        mostrarAlerta('🏠 Redirigiendo al sitio principal...', 'success');
-        setTimeout(function() {
-            window.location.href = 'index.html';
-        }, 1000);
-    }
-
-    function irAPOS() {
-        mostrarAlerta('💼 Abriendo sistema POS...', 'success');
-        setTimeout(function() {
-            window.location.href = 'pos-parte1.html';
-        }, 1000);
-    }
-
-    // Funciones de cámara
-    function abrirCamara() {
-        console.log('📷 Abriendo cámara...');
-        
-        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-            navigator.mediaDevices.getUserMedia({ 
-                video: { facingMode: 'environment' } 
-            })
-            .then(function(stream) {
-                mostrarAlerta('📷 Cámara activada - Use botón de archivo por ahora', 'success');
-                document.getElementById('inputFoto').click();
-            })
-            .catch(function(error) {
-                console.log('Error de cámara:', error);
-                document.getElementById('inputFoto').click();
-            });
-        } else {
-            document.getElementById('inputFoto').click();
-        }
-    }
-
-    function manejarArchivoSeleccionado(event) {
-        var archivo = event.target.files[0];
-        if (archivo) {
-            var reader = new FileReader();
-            reader.onload = function(e) {
-                imagenCapturada = e.target.result;
-                var preview = document.getElementById('vistaPrevia');
-                preview.src = imagenCapturada;
-                preview.style.display = 'block';
-                document.getElementById('botonesCompartir').style.display = 'grid';
-                mostrarAlerta('✅ Imagen cargada correctamente', 'success');
-            };
-            reader.readAsDataURL(archivo);
-        }
-    }
-
-    // Funciones de productos
-    function guardarProducto() {
-        console.log('💾 Guardando producto...');
-        
-        var codigo = document.getElementById('codigoProducto').value.trim().toUpperCase();
-        var nombre = document.getElementById('nombreProducto').value.trim();
-        var precio = document.getElementById('precioProducto').value.trim();
-        var categoria = document.getElementById('categoriaProducto').value;
-        var comentarios = document.getElementById('comentariosProducto').value.trim();
-        
-        if (!codigo || !nombre || !precio) {
-            mostrarAlerta('❌ Código, nombre y precio son obligatorios', 'error');
-            return;
-        }
-        
-        if (!imagenCapturada) {
-            mostrarAlerta('❌ Debe agregar una foto del producto', 'error');
-            return;
-        }
-
-        var producto = {
-            codigo: codigo,
-            nombre: nombre,
-            precio: 'RD$' + parseFloat(precio).toFixed(2),
-            categoria: categoria,
-            imagen: imagenCapturada,
-            comentarios: comentarios,
-            enlace: CONFIG.baseUrl + 'index.html?codigo=' + codigo,
-            fechaCreacion: new Date().toISOString()
+    <script>
+        // Configuración
+        const CONFIG = {
+            whatsapp: '8497972424',
+            empresa: 'Óptica nVision',
+            baseUrl: window.location.origin + window.location.pathname.replace(/[^/]*$/, '')
         };
 
-        productos[codigo] = producto;
-        localStorage.setItem('nvision_productos', JSON.stringify(productos));
+        // Variables globales
+        let streamActual = null;
+        let imagenCapturada = null;
+        let productos = {};
 
-        mostrarAlerta('✅ Producto guardado correctamente', 'success');
-        limpiarFormulario();
-        cargarProductos();
-    }
-
-    function limpiarFormulario() {
-        document.getElementById('codigoProducto').value = '';
-        document.getElementById('nombreProducto').value = '';
-        document.getElementById('precioProducto').value = '';
-        document.getElementById('categoriaProducto').value = 'hombre';
-        document.getElementById('comentariosProducto').value = '';
-        document.getElementById('vistaPrevia').style.display = 'none';
-        document.getElementById('botonesCompartir').style.display = 'none';
-        imagenCapturada = null;
-    }
-
-    function cargarProductos() {
-        productos = JSON.parse(localStorage.getItem('nvision_productos') || '{}');
-        var container = document.getElementById('listaProductos');
-        
-        if (Object.keys(productos).length === 0) {
-            container.innerHTML = '<h2 class="section-title">📦 Productos Registrados</h2><div style="text-align: center; padding: 40px; opacity: 0.7;"><div style="font-size: 48px; margin-bottom: 15px;">📦</div><div>No hay productos registrados</div></div>';
-            return;
-        }
-
-        var html = '<h2 class="section-title">📦 Productos Registrados</h2>';
-        Object.values(productos).forEach(function(producto) {
-            html += '<div style="background: rgba(255, 255, 255, 0.1); border-radius: 15px; padding: 15px; margin-bottom: 15px; display: flex; align-items: center; gap: 15px;">';
-            html += '<img src="' + producto.imagen + '" alt="' + producto.nombre + '" style="width: 60px; height: 60px; border-radius: 10px; object-fit: cover; border: 2px solid rgba(255, 255, 255, 0.2);">';
-            html += '<div style="flex: 1;">';
-            html += '<div style="font-weight: 700; color: #60a5fa; margin-bottom: 5px;">' + producto.codigo + '</div>';
-            html += '<div style="margin-bottom: 5px;">' + producto.nombre + '</div>';
-            html += '<div style="color: #22d3ee; font-weight: 600;">' + producto.precio + '</div>';
-            html += '</div>';
-            html += '<div style="display: flex; flex-direction: column; gap: 5px;">';
-            html += '<button onclick="compartirProducto(\'' + producto.codigo + '\')" style="background: #25d366; color: white; border: none; padding: 6px 10px; border-radius: 8px; cursor: pointer; font-size: 11px; touch-action: manipulation;">📱 Compartir</button>';
-            html += '<button onclick="eliminarProducto(\'' + producto.codigo + '\')" style="background: #ef4444; color: white; border: none; padding: 6px 10px; border-radius: 8px; cursor: pointer; font-size: 11px; touch-action: manipulation;">🗑️ Eliminar</button>';
-            html += '</div>';
-            html += '</div>';
-        });
-        
-        container.innerHTML = html;
-    }
-
-    function eliminarProducto(codigo) {
-        if (confirm('¿Está seguro de eliminar el producto ' + codigo + '?')) {
-            delete productos[codigo];
-            localStorage.setItem('nvision_productos', JSON.stringify(productos));
+        // Inicialización
+        window.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 Iniciando Admin Panel...');
+            cargarEstadisticas();
             cargarProductos();
-            mostrarAlerta('🗑️ Producto eliminado', 'success');
-        }
-    }
+            configurarEventos();
+            console.log('✅ Admin Panel listo');
+        });
 
-    function compartirProducto(codigo) {
-        var producto = productos[codigo];
-        if (producto) {
-            var mensaje = '🏥 *ÓPTICA NVISION* 🏥\n\n📸 Te comparto esta montura:\n🔢 Código: ' + producto.codigo + '\n💰 Precio: ' + producto.precio + '\n📝 Descripción: ' + producto.nombre + '\n\n🔗 Ver más detalles: ' + producto.enlace + '\n\n👁️ ¡Tu visión nítida, nuestra misión! ✨';
+        function configurarEventos() {
+            document.getElementById('inputFoto').addEventListener('change', manejarArchivoSeleccionado);
+        }
+
+        // Funciones de estadísticas
+        function cargarEstadisticas() {
+            try {
+                const vistas = localStorage.getItem('nvision_vistas') || '0';
+                const clicks = localStorage.getItem('nvision_clicks') || '0';
+                productos = JSON.parse(localStorage.getItem('nvision_productos') || '{}');
+                
+                const totalProductos = Object.keys(productos).length;
+                const totalVistas = parseInt(vistas);
+                const totalClicks = parseInt(clicks);
+                const conversion = totalVistas > 0 ? ((totalClicks / totalVistas) * 100).toFixed(1) : 0;
+                
+                document.getElementById('totalProductos').textContent = totalProductos;
+                document.getElementById('totalVistas').textContent = totalVistas;
+                document.getElementById('clicksWhatsapp').textContent = totalClicks;
+                document.getElementById('tasaConversion').textContent = conversion + '%';
+            } catch (error) {
+                console.log('Error cargando estadísticas:', error);
+            }
+        }
+
+        // Funciones de navegación
+        function irASitio() {
+            mostrarAlerta('🏠 Redirigiendo al sitio principal...', 'success');
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 1000);
+        }
+
+        function irAPOS() {
+            mostrarAlerta('💼 Abriendo sistema POS...', 'success');
+            setTimeout(() => {
+                window.location.href = 'pos.html';
+            }, 1000);
+        }
+
+        // Funciones de cámara
+        function abrirCamara() {
+            console.log('📷 Abriendo cámara...');
+            const modal = document.getElementById('modalCamara');
+            const video = document.getElementById('videoCamara');
             
-            var url = 'https://wa.me/?text=' + encodeURIComponent(mensaje);
+            if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                navigator.mediaDevices.getUserMedia({ 
+                    video: { 
+                        facingMode: 'environment',
+                        width: { ideal: 1280 },
+                        height: { ideal: 720 }
+                    } 
+                })
+                .then(stream => {
+                    streamActual = stream;
+                    video.srcObject = stream;
+                    modal.style.display = 'flex';
+                    mostrarAlerta('📷 Cámara activada', 'success');
+                })
+                .catch(error => {
+                    console.log('Error de cámara:', error);
+                    document.getElementById('inputFoto').click();
+                });
+            } else {
+                document.getElementById('inputFoto').click();
+            }
+        }
+
+        function capturarFoto() {
+            console.log('📸 Capturando foto...');
+            const video = document.getElementById('videoCamara');
+            const canvas = document.getElementById('canvasCamara');
+            const context = canvas.getContext('2d');
+            
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            context.drawImage(video, 0, 0);
+            
+            imagenCapturada = canvas.toDataURL('image/jpeg', 0.8);
+            
+            const preview = document.getElementById('vistaPrevia');
+            preview.src = imagenCapturada;
+            preview.style.display = 'block';
+            
+            document.getElementById('botonesCompartir').style.display = 'grid';
+            
+            cerrarCamara();
+            mostrarAlerta('✅ Foto capturada correctamente', 'success');
+        }
+
+        function cerrarCamara() {
+            const modal = document.getElementById('modalCamara');
+            modal.style.display = 'none';
+            
+            if (streamActual) {
+                streamActual.getTracks().forEach(track => track.stop());
+                streamActual = null;
+            }
+        }
+
+        function manejarArchivoSeleccionado(event) {
+            const archivo = event.target.files[0];
+            if (archivo) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    imagenCapturada = e.target.result;
+                    const preview = document.getElementById('vistaPrevia');
+                    preview.src = imagenCapturada;
+                    preview.style.display = 'block';
+                    document.getElementById('botonesCompartir').style.display = 'grid';
+                    mostrarAlerta('✅ Imagen cargada correctamente', 'success');
+                };
+                reader.readAsDataURL(archivo);
+            }
+        }
+
+        // Funciones de productos
+        function guardarProducto() {
+            console.log('💾 Guardando producto...');
+            
+            const codigo = document.getElementById('codigoProducto').value.trim().toUpperCase();
+            const nombre = document.getElementById('nombreProducto').value.trim();
+            const precio = document.getElementById('precioProducto').value.trim();
+            const categoria = document.getElementById('categoriaProducto').value;
+            const comentarios = document.getElementById('comentariosProducto').value.trim();
+            
+            if (!codigo || !nombre || !precio) {
+                mostrarAlerta('❌ Código, nombre y precio son obligatorios', 'error');
+                return;
+            }
+            
+            if (!imagenCapturada) {
+                mostrarAlerta('❌ Debe agregar una foto del producto', 'error');
+                return;
+            }
+
+            const producto = {
+                codigo: codigo,
+                nombre: nombre,
+                precio: `RD$${parseFloat(precio).toFixed(2)}`,
+                categoria: categoria,
+                imagen: imagenCapturada,
+                comentarios: comentarios,
+                enlace: `${CONFIG.baseUrl}index.html?codigo=${codigo}`,
+                fechaCreacion: new Date().toISOString()
+            };
+
+            productos[codigo] = producto;
+            localStorage.setItem('nvision_productos', JSON.stringify(productos));
+
+            mostrarAlerta('✅ Producto guardado correctamente', 'success');
+            limpiarFormulario();
+            cargarProductos();
+            cargarEstadisticas();
+        }
+
+        function limpiarFormulario() {
+            document.getElementById('productoForm').reset();
+            document.getElementById('vistaPrevia').style.display = 'none';
+            document.getElementById('botonesCompartir').style.display = 'none';
+            imagenCapturada = null;
+        }
+
+        function cargarProductos() {
+            const container = document.getElementById('listaProductos');
+            
+            if (Object.keys(productos).length === 0) {
+                container.innerHTML = `
+                    <div style="text-align: center; padding: 40px; opacity: 0.7;">
+                        <div style="font-size: 48px; margin-bottom: 15px;">📦</div>
+                        <div>No hay productos registrados</div>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = '';
+            Object.values(productos).forEach(producto => {
+                html += `
+                    <div class="product-item">
+                        <img src="${producto.imagen}" alt="${producto.nombre}" class="product-thumb">
+                        <div class="product-info">
+                            <div class="product-code">${producto.codigo}</div>
+                            <div style="margin-bottom: 5px;">${producto.nombre}</div>
+                            <div class="product-price">${producto.precio}</div>
+                        </div>
+                        <div style="display: flex; flex-direction: column; gap: 5px;">
+                            <button onclick="compartirProducto('${producto.codigo}')" class="btn-share btn-whatsapp" style="padding: 6px 10px; font-size: 11px;">
+                                📱 Compartir
+                            </button>
+                            <button onclick="eliminarProducto('${producto.codigo}')" class="delete-btn">
+                                🗑️ Eliminar
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+
+        function eliminarProducto(codigo) {
+            if (confirm(`¿Está seguro de eliminar el producto ${codigo}?`)) {
+                delete productos[codigo];
+                localStorage.setItem('nvision_productos', JSON.stringify(productos));
+                cargarProductos();
+                cargarEstadisticas();
+                mostrarAlerta('🗑️ Producto eliminado', 'success');
+            }
+        }
+
+        function compartirProducto(codigo) {
+            const producto = productos[codigo];
+            if (producto) {
+                const mensaje = `🏥 *ÓPTICA NVISION* 🏥\n\n📸 Te comparto esta montura:\n🔢 Código: ${producto.codigo}\n💰 Precio: ${producto.precio}\n📝 Descripción: ${producto.nombre}\n\n🔗 Ver más detalles: ${producto.enlace}\n\n👁️ ¡Tu visión nítida, nuestra misión! ✨`;
+                
+                const url = `https://wa.me/?text=${encodeURIComponent(mensaje)}`;
+                window.open(url, '_blank');
+                mostrarAlerta('✅ Compartiendo por WhatsApp', 'success');
+            }
+        }
+
+        function copiarEnlace() {
+            const codigo = document.getElementById('codigoProducto').value.trim().toUpperCase();
+            if (!codigo) {
+                mostrarAlerta('❌ Primero ingrese el código del producto', 'error');
+                return;
+            }
+            
+            const enlace = `${CONFIG.baseUrl}index.html?codigo=${codigo}`;
+            
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(enlace)
+                    .then(() => mostrarAlerta('✅ Enlace copiado al portapapeles', 'success'))
+                    .catch(() => copiarTextoFallback(enlace));
+            } else {
+                copiarTextoFallback(enlace);
+            }
+        }
+
+        function copiarTextoFallback(texto) {
+            const textArea = document.createElement("textarea");
+            textArea.value = texto;
+            textArea.style.position = "fixed";
+            textArea.style.left = "-999999px";
+            document.body.appendChild(textArea);
+            textArea.select();
+            
+            try {
+                document.execCommand('copy');
+                mostrarAlerta('✅ Enlace copiado', 'success');
+            } catch (err) {
+                mostrarAlerta('❌ No se pudo copiar', 'error');
+            }
+            
+            document.body.removeChild(textArea);
+        }
+
+        function compartirWhatsApp() {
+            const codigo = document.getElementById('codigoProducto').value.trim().toUpperCase();
+            const nombre = document.getElementById('nombreProducto').value.trim();
+            const precio = document.getElementById('precioProducto').value.trim();
+            
+            if (!codigo || !nombre || !precio) {
+                mostrarAlerta('❌ Complete los datos del producto primero', 'error');
+                return;
+            }
+            
+            const enlace = `${CONFIG.baseUrl}index.html?codigo=${codigo}`;
+            const mensaje = `🏥 *ÓPTICA NVISION* 🏥\n\n📸 Te comparto esta montura:\n🔢 Código: ${codigo}\n💰 Precio: RD${parseFloat(precio).toFixed(2)}\n📝 Descripción: ${nombre}\n\n🔗 Ver más detalles: ${enlace}\n\n👁️ ¡Tu visión nítida, nuestra misión! ✨`;
+            
+            const url = `https://wa.me/?text=${encodeURIComponent(mensaje)}`;
             window.open(url, '_blank');
             mostrarAlerta('✅ Compartiendo por WhatsApp', 'success');
         }
-    }
 
-    function copiarEnlace() {
-        var codigo = document.getElementById('codigoProducto').value.trim().toUpperCase();
-        if (!codigo) {
-            mostrarAlerta('❌ Primero ingrese el código del producto', 'error');
-            return;
+        function mostrarAlerta(mensaje, tipo = 'success') {
+            const alertHtml = `<div class="alert alert-${tipo}">${mensaje}</div>`;
+            document.getElementById('alertContainer').innerHTML = alertHtml;
+            
+            setTimeout(() => {
+                document.getElementById('alertContainer').innerHTML = '';
+            }, 4000);
         }
-        
-        var enlace = CONFIG.baseUrl + 'index.html?codigo=' + codigo;
-        
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-            navigator.clipboard.writeText(enlace)
-                .then(function() {
-                    mostrarAlerta('✅ Enlace copiado al portapapeles', 'success');
-                })
-                .catch(function() {
-                    copiarTextoFallback(enlace);
-                });
-        } else {
-            copiarTextoFallback(enlace);
-        }
-    }
 
-    function copiarTextoFallback(texto) {
-        var textArea = document.createElement("textarea");
-        textArea.value = texto;
-        textArea.style.position = "fixed";
-        textArea.style.left = "-999999px";
-        document.body.appendChild(textArea);
-        textArea.select();
-        
-        try {
-            document.execCommand('copy');
-            mostrarAlerta('✅ Enlace copiado', 'success');
-        } catch (err) {
-            mostrarAlerta('❌ No se pudo copiar', 'error');
-        }
-        
-        document.body.removeChild(textArea);
-    }
-
-    function compartirWhatsApp() {
-        var codigo = document.getElementById('codigoProducto').value.trim().toUpperCase();
-        var nombre = document.getElementById('nombreProducto').value.trim();
-        var precio = document.getElementById('precioProducto').value.trim();
-        
-        if (!codigo || !nombre || !precio) {
-            mostrarAlerta('❌ Complete los datos del producto primero', 'error');
-            return;
-        }
-        
-        var enlace = CONFIG.baseUrl + 'index.html?codigo=' + codigo;
-        var mensaje = '🏥 *ÓPTICA NVISION* 🏥\n\n📸 Te comparto esta montura:\n🔢 Código: ' + codigo + '\n💰 Precio: RD$' + parseFloat(precio).toFixed(2) + '\n📝 Descripción: ' + nombre + '\n\n🔗 Ver más detalles: ' + enlace + '\n\n👁️ ¡Tu visión nítida, nuestra misión! ✨';
-        
-        var url = 'https://wa.me/?text=' + encodeURIComponent(mensaje);
-        window.open(url, '_blank');
-        mostrarAlerta('✅ Compartiendo por WhatsApp', 'success');
-    }
-
-    function mostrarAlerta(mensaje, tipo) {
-        if (!tipo) tipo = 'success';
-        var alertHtml = '<div class="alert alert-' + tipo + '">' + mensaje + '</div>';
-        document.getElementById('alertContainer').innerHTML = alertHtml;
-        
-        setTimeout(function() {
-            document.getElementById('alertContainer').innerHTML = '';
-        }, 4000);
-    }
-
-    // Validación del sistema
-    function validarSistema() {
-        console.log('🔍 Validando Admin...');
-        
-        var errores = [];
-        
-        if (typeof(Storage) === "undefined") {
-            errores.push('LocalStorage no disponible');
-        }
-        
-        var elementosRequeridos = ['codigoProducto', 'nombreProducto', 'precioProducto'];
-        elementosRequeridos.forEach(function(id) {
-            if (!document.getElementById(id)) {
-                errores.push('Elemento ' + id + ' no encontrado');
+        // Funciones de validación
+        function validarFormulario() {
+            const errores = [];
+            
+            if (typeof(Storage) === "undefined") {
+                errores.push('LocalStorage no disponible');
             }
+            
+            const elementosRequeridos = ['codigoProducto', 'nombreProducto', 'precioProducto'];
+            elementosRequeridos.forEach(id => {
+                if (!document.getElementById(id)) {
+                    errores.push(`Campo ${id} no encontrado`);
+                }
+            });
+            
+            if (errores.length > 0) {
+                console.error('Errores de validación:', errores);
+                mostrarAlerta('⚠️ Errores del sistema: ' + errores.join(', '), 'error');
+                return false;
+            }
+            
+            return true;
+        }
+
+        // Auto-validación
+        window.addEventListener('load', function() {
+            setTimeout(() => {
+                if (validarFormulario()) {
+                    console.log('✅ Admin Panel validado correctamente');
+                    mostrarAlerta('✅ Panel Admin cargado correctamente', 'success');
+                } else {
+                    mostrarAlerta('❌ Error al cargar el panel', 'error');
+                }
+            }, 1000);
         });
-        
-        if (errores.length > 0) {
-            console.error('Errores del sistema:', errores);
-            mostrarAlerta('⚠️ Sistema con errores: ' + errores.join(', '), 'error');
-            return false;
-        }
-        
-        return true;
-    }
 
-    // Auto-validación
-    window.addEventListener('load', function() {
-        setTimeout(function() {
-            if (validarSistema()) {
-                console.log('✅ Admin Panel validado correctamente');
-                mostrarAlerta('✅ Panel Admin cargado correctamente', 'success');
-            }
-        }, 1000);
-    });
-
-    // Manejo de errores
-    window.addEventListener('error', function(event) {
-        console.error('Error capturado:', event.error);
-        mostrarAlerta('❌ Error del sistema: ' + event.error.message, 'error');
-    });
-</script>
+        // Manejo de errores
+        window.addEventListener('error', function(event) {
+            console.error('Error capturado:', event.error);
+            mostrarAlerta('❌ Error del sistema: ' + event.error.message, 'error');
+        });
+    </script>
 </body>
 </html>
